@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "com.toadstoolstudios.sprout.Sprout"
+    ],
+    "client": [
+      "com.toadstoolstudios.sprout.SproutClient"
     ]
   },
   "depends": {
