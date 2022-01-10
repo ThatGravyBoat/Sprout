@@ -1,3 +1,5 @@
 {
-  "item.sprout.watering_can": "Watering Can"
+  "item.sprout.watering_can": "Watering Can",
+  "item.sprout.peanut": "Peanut",
+  "block.sprout.peanut_plant": "Peanut Plant"
 }

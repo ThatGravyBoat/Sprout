@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "sprout:block/peanut_plant_stage2"
+  }
+}

@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
+import static com.toadstoolstudios.sprout.registry.SproutBlocks.registerBlocks;
 import static com.toadstoolstudios.sprout.registry.SproutEntities.registerEntities;
 import static com.toadstoolstudios.sprout.registry.SproutItems.registerItems;
 
@@ -23,6 +24,7 @@ public class Sprout implements ModInitializer {
 	public void onInitialize() {
 		registerEntities();
 		registerItems();
+		registerBlocks();
 		FabricDefaultAttributeRegistry.register(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntity.createMobAttributes());
 	}
 }
