@@ -52,12 +52,19 @@ public class WateringCanItem extends Item {
         Box blockBox = new Box(block).expand(1, 1, 1);
         World world = context.getWorld();
         ItemStack stack = context.getStack();
+        if(context.getPlayer() != null) {
+            BlockHitResult blockHitResult = raycast(world, context.getPlayer(), RaycastContext.FluidHandling.SOURCE_ONLY);
+            if(blockHitResult.getType() == HitResult.Type.BLOCK) {
+                BlockState blockState = world.getBlockState(blockHitResult.getBlockPos());
+                if (blockState.getBlock() instanceof FluidDrainable && blockState.isOf(Blocks.WATER)) return super.useOnBlock(context);
+            }
+        }
         int water = getWater(stack);
         System.out.println(water);
         if (water > 0) {
             if (world instanceof ServerWorld serverWorld) {
                 setWater(stack, water - 1);
-                BlockPos.stream(blockBox.shrink(0, 1, 0)).forEach(blockPos -> serverWorld.spawnParticles(ParticleTypes.SPLASH, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1, 0, 0, 0, 1.4));
+                serverWorld.spawnParticles(ParticleTypes.SPLASH, block.getX(), block.getY(), block.getZ(), 1, 0, 0, 0, 1.4);
                 BlockPos.stream(blockBox).filter(blockPos -> world.getBlockState(blockPos).getBlock() instanceof Fertilizable).forEach(blockPos -> {
                     if (world.getRandom().nextInt(25) == 0) {
                         BlockState crop = world.getBlockState(blockPos);
@@ -72,6 +79,7 @@ public class WateringCanItem extends Item {
                         world.setBlockState(blockPos, blockState.with(Properties.MOISTURE, 7));
                     }
                 });
+                return ActionResult.FAIL;
             }
         }
         return super.useOnBlock(context);
