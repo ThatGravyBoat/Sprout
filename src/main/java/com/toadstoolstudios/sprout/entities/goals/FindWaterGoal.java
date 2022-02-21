@@ -1,24 +1,23 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
-import net.minecraft.block.Block;
+import com.toadstoolstudios.sprout.utils.EntityPathingUtils;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.dynamic.GlobalPos;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 public class FindWaterGoal extends Goal {
+    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(12);
 
     private final ElephantEntity elephant;
+    @Nullable
     private BlockPos targetPosition;
 
     public FindWaterGoal(ElephantEntity elephant) {
@@ -29,7 +28,7 @@ public class FindWaterGoal extends Goal {
     @Override
     public boolean canStart() {
         findWaterSource();
-        return targetPosition != null;
+        return !elephant.hasWater() && targetPosition != null && !elephant.isDrinking() && targetPosition.getSquaredDistance(elephant.getPos(), true) > 1;
     }
 
     @Override
@@ -49,29 +48,20 @@ public class FindWaterGoal extends Goal {
     @Override
     public void stop() {
         super.stop();
+        elephant.setWaterPos(targetPosition);
         targetPosition = null;
     }
 
-    private static int sign(int value) {
-        return value % 2 == 1 ? value / -2 : value / 2;
-    }
-
-
     public void findWaterSource() {
-        if(targetPosition == null) {
-            for (int xOffset = 0; xOffset <= 48; ++xOffset) {
-                for (int zOffset = 0; zOffset <= 48; ++zOffset) {
-                    int x = sign(xOffset);
-                    int z = sign(zOffset);
-                    int y = elephant.world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z);
-                    BlockPos position = new BlockPos(x, y - 1, z);
-                    if (elephant.world.isWater(position)) {
-                        Path path = elephant.getNavigation().findPathTo(position, 1);
-                        if (path != null && path.reachesTarget()) {
-                            this.targetPosition = path.getTarget();
-                            return;
-                        }
-                    }
+        if(targetPosition != null) return;
+        BlockPos.Mutable waterPos = elephant.getBlockPos().mutableCopy();
+        for (BlockPos blockPos : POSITIONAL_OFFSETS){
+            waterPos.set(elephant.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
+            if (this.elephant.world.isWater(waterPos)){
+                Path path = elephant.getNavigation().findPathTo(waterPos, 1);
+                if (path != null && path.reachesTarget()) {
+                    this.targetPosition = path.getTarget();
+                    return;
                 }
             }
         }

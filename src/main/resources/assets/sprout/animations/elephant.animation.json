@@ -118,7 +118,7 @@
 				}
 			}
 		},
-		"animation.elephant.drink": {
+		"animation.elephant.drinking": {
 			"animation_length": 2.84,
 			"bones": {
 				"body": {
@@ -1272,7 +1272,7 @@
 				}
 			}
 		},
-		"animation.elephant.water": {
+		"animation.elephant.watering": {
 			"animation_length": 3.76,
 			"bones": {
 				"head": {

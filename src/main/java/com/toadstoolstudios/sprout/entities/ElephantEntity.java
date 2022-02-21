@@ -1,6 +1,10 @@
 package com.toadstoolstudios.sprout.entities;
 
+import com.ibm.icu.util.DateRule;
+import com.toadstoolstudios.sprout.entities.goals.DrinkWaterGoal;
+import com.toadstoolstudios.sprout.entities.goals.FindPlantGoal;
 import com.toadstoolstudios.sprout.entities.goals.FindWaterGoal;
+import com.toadstoolstudios.sprout.entities.goals.SprayWaterGoal;
 import com.toadstoolstudios.sprout.registry.SproutItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
@@ -17,6 +21,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -31,8 +36,12 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class ElephantEntity extends TameableEntity implements IAnimatable {
     protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
+    protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     public static final Ingredient PEANUT_TEMPT_ITEM = Ingredient.ofItems(SproutItems.PEANUT);
+
+    @Nullable
+    private BlockPos waterPos;
+    private BlockPos plantPos;
 
     private final AnimationFactory factory = new AnimationFactory(this);
 
@@ -45,6 +54,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         super.initDataTracker();
         this.dataTracker.startTracking(DRINKING, false);
         this.dataTracker.startTracking(WATERING, false);
+        this.dataTracker.startTracking(HAS_WATER, false);
     }
 
     //Getting drinking and water states
@@ -60,18 +70,22 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("Drinking", dataTracker.get(DRINKING));
         nbt.putBoolean("Watering", dataTracker.get(WATERING));
+        nbt.putBoolean("HasWater", dataTracker.get(HAS_WATER));
     }
 
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new EscapeDangerGoal(this, speed + .3));
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new FindWaterGoal(this));
-        this.goalSelector.add(3, new SitGoal(this));
-        this.goalSelector.add(4, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.3));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.add(7, new LookAroundGoal(this));
+        this.goalSelector.add(2, new SitGoal(this));
+        this.goalSelector.add(3, new FindWaterGoal(this));
+        this.goalSelector.add(3, new DrinkWaterGoal(this, 3));
+        this.goalSelector.add(3, new FindPlantGoal(this));
+        this.goalSelector.add(3, new SprayWaterGoal(this, 6));
+        this.goalSelector.add(7, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
+        this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.3));
+        this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.add(10, new LookAroundGoal(this));
     }
 
     @Nullable
@@ -116,6 +130,39 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         return dataTracker.get(WATERING);
     }
 
+    public boolean hasWater() {
+        return dataTracker.get(HAS_WATER);
+    }
+
+    @Nullable
+    public BlockPos getWaterPos() {
+        return waterPos;
+    }
+
+    public void setWaterPos(@Nullable BlockPos waterPos) {
+        this.waterPos = waterPos;
+    }
+
+    public boolean isNearWater() {
+        return isNearBlock(waterPos, 1);
+    }
+
+    public BlockPos getPlantPos() {
+        return plantPos;
+    }
+
+    public void setPlantPos(BlockPos plantPos) {
+        this.plantPos = plantPos;
+    }
+
+    public boolean isNearBlock(BlockPos pos, int range) {
+        return pos != null && pos.getSquaredDistance(this.getPos(), true) < range * range;
+    }
+
+    public boolean isNearPlant() {
+        return isNearBlock(plantPos, 3);
+    }
+
     public void setDrinking(boolean bool) {
         dataTracker.set(DRINKING, bool);
     }
@@ -124,15 +171,18 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         dataTracker.set(WATERING, bool);
     }
 
+    public void setIfHasWater(boolean bool) {
+        dataTracker.set(HAS_WATER, bool);
+    }
 
     //region Animation
 
     private <E extends IAnimatable>PlayState actions(AnimationEvent<E> event) {
         if(!event.isMoving() && !isInSittingPose()) {
             if (this.isDrinking()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.drinking", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.drinking", false));
             } else if (this.isWatering()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.watering", false));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.watering", true));
             }
             return PlayState.CONTINUE;
         }
