@@ -7,12 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +20,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class WateringCanItem extends Item {
     public WateringCanItem(Settings settings) {
@@ -28,6 +29,7 @@ public class WateringCanItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+
         BlockHitResult blockHitResult = raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
         BlockPos blockPos = blockHitResult.getBlockPos();
         ItemStack itemStack = user.getStackInHand(hand);
@@ -44,6 +46,16 @@ public class WateringCanItem extends Item {
             return TypedActionResult.pass(itemStack);
         }
         return super.use(world, user, hand);
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return super.getUseAction(stack);
+    }
+
+    @Override
+    public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
+        return false;
     }
 
     @Override

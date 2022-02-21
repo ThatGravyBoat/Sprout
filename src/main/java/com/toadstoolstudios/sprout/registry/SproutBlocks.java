@@ -3,7 +3,6 @@ package com.toadstoolstudios.sprout.registry;
 import com.toadstoolstudios.sprout.blocks.PeanutCrop;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

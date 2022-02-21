@@ -11,6 +11,7 @@ import static com.toadstoolstudios.sprout.Sprout.MOD_ID;
 
 public class SproutItems {
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(SproutEntities.ELEPHANT_ENTITY_TYPE, 0x8198a0,0x52556c, genericSettings());
+    public static final Item GLOWFLY_SPAWN_EGG = new SpawnEggItem(SproutEntities.GLOWFLY_ENTITY_TYPE, 0xFCE784,0x52556c, genericSettings());
     public static final Item PEANUT = new AliasedBlockItem(SproutBlocks.PEANUT_PLANT_BLOCK, genericSettings().food(new FoodComponent.Builder().hunger(4).saturationModifier(0.1f).build()));
     public static final Item WATERING_CAN = new WateringCanItem(genericSettings().maxCount(1));
     private static FabricItemSettings genericSettings() {
@@ -19,6 +20,7 @@ public class SproutItems {
 
     public static void registerItems() {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "elephant_spawn_egg"), ELEPHANT_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "glowfly_spawn_egg"), GLOWFLY_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "peanut"), PEANUT);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "watering_can"), WATERING_CAN);
     }

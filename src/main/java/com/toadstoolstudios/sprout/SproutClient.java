@@ -1,6 +1,7 @@
 package com.toadstoolstudios.sprout;
 
 import com.toadstoolstudios.sprout.entities.ElephantEntityRenderer;
+import com.toadstoolstudios.sprout.entities.GlowflyEntityRenderer;
 import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,5 +15,6 @@ public class SproutClient implements ClientModInitializer {
     public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(SproutBlocks.PEANUT_PLANT_BLOCK, RenderLayer.getCutout());
         EntityRendererRegistry.register(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntityRenderer::new);
+        EntityRendererRegistry.register(SproutEntities.GLOWFLY_ENTITY_TYPE, GlowflyEntityRenderer::new);
     }
 }
