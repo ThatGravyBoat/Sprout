@@ -53,8 +53,9 @@ public class SprayWaterGoal extends Goal {
 
     @Override
     public void tick() {
-        Box blockBox = new Box(plantPos).expand(1, 1, 1);
         super.tick();
+        elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getPlantPos()));
+        Box blockBox = new Box(plantPos).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;
         sWorld.spawnParticles(ParticleTypes.SPLASH, plantPos.getX(), plantPos.getY(), plantPos.getZ(), 10, 1, 1, 1, 1.4);
         BlockPos.stream(blockBox).filter(blockPos -> elephant.world.getBlockState(blockPos).getBlock() instanceof Fertilizable).forEach(blockPos -> {
@@ -79,16 +80,5 @@ public class SprayWaterGoal extends Goal {
         elephant.setWatering(false);
         elephant.setPlantPos(null);
         elephant.setIfHasWater(false);
-    }
-
-    public boolean checkIfNearPlant() {
-        BlockPos.Mutable plantPos = elephant.getBlockPos().mutableCopy();
-        for (BlockPos blockPos : POSITIONAL_OFFSETS){
-            plantPos.set(elephant.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
-            if (elephant.world.getBlockState(plantPos).getBlock() instanceof Fertilizable){
-                return true;
-            }
-        }
-        return false;
     }
 }

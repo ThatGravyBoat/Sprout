@@ -7,7 +7,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static com.toadstoolstudios.sprout.Sprout.MOD_ID;
+import static com.toadstoolstudios.sprout.Sprout.MODID;
 
 public class SproutItems {
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(SproutEntities.ELEPHANT_ENTITY_TYPE, 0x8198a0,0x52556c, genericSettings());
@@ -19,9 +19,9 @@ public class SproutItems {
     }
 
     public static void registerItems() {
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "elephant_spawn_egg"), ELEPHANT_SPAWN_EGG);
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "glowfly_spawn_egg"), GLOWFLY_SPAWN_EGG);
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "peanut"), PEANUT);
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "watering_can"), WATERING_CAN);
+        Registry.register(Registry.ITEM, new Identifier(MODID, "elephant_spawn_egg"), ELEPHANT_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MODID, "glowfly_spawn_egg"), GLOWFLY_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MODID, "peanut"), PEANUT);
+        Registry.register(Registry.ITEM, new Identifier(MODID, "watering_can"), WATERING_CAN);
     }
 }

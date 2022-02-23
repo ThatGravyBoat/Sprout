@@ -7,12 +7,12 @@ import net.minecraft.block.Material;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static com.toadstoolstudios.sprout.Sprout.MOD_ID;
+import static com.toadstoolstudios.sprout.Sprout.MODID;
 
 public class SproutBlocks {
     public static final Block PEANUT_PLANT_BLOCK = new PeanutCrop(FabricBlockSettings.of(Material.PLANT).ticksRandomly().noCollision());
 
     public static void registerBlocks() {
-        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "peanut_plant"), PEANUT_PLANT_BLOCK);
+        Registry.register(Registry.BLOCK, new Identifier(MODID, "peanut_plant"), PEANUT_PLANT_BLOCK);
     }
 }

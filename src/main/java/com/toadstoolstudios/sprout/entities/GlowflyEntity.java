@@ -1,18 +1,24 @@
 package com.toadstoolstudios.sprout.entities;
 
+import com.toadstoolstudios.sprout.registry.SproutSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Flutterer;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
+import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -29,63 +35,44 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class GlowflyEntity extends AmbientEntity implements IAnimatable {
+public class GlowflyEntity extends PathAwareEntity implements Flutterer, IAnimatable {
+    public float flapProgress;
+    public float maxWingDeviation;
+    public float prevMaxWingDeviation;
+    public float prevFlapProgress;
+    private float flapSpeed = 1.0f;
+    private float field_28640 = 1.0f;
     @Nullable
     private BlockPos targetPosition;
     private final AnimationFactory factory = new AnimationFactory(this);
 
-    public GlowflyEntity(EntityType<? extends AmbientEntity> entityType, World world) {
+    public GlowflyEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        this.setNoGravity(true);
+        this.moveControl = new FlightMoveControl(this, 10, false);
+        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1);
     }
 
     public static DefaultAttributeContainer.Builder createGlowflyAttributes() {
-        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.2f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.1f);
+        return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 6.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.4f).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, .2f);
     }
 
     @Override
-    protected void mobTick() {
-        super.mobTick();
-        if (!(this.targetPosition == null || this.world.isAir(this.targetPosition) && this.targetPosition.getY() > this.world.getBottomY())) {
-            this.targetPosition = null;
-        }
-        if (this.targetPosition == null || this.random.nextInt(30) == 0 || this.targetPosition.isWithinDistance(this.getPos(), 2.0)) {
-            this.targetPosition = new BlockPos(this.getX() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7), this.getY() + (double)this.random.nextInt(6) - 2.0, this.getZ() + (double)this.random.nextInt(7) - (double)this.random.nextInt(7));
-        }
-        double x = this.targetPosition.getX() + 0.5 - this.getX();
-        double y = this.targetPosition.getY() + 0.1 - this.getY();
-        double z = this.targetPosition.getZ() + 0.5 - this.getZ();
-        Vec3d vec3d = this.getVelocity();
-        Vec3d vec3d2 = vec3d.add((Math.signum(x) * 0.05 - vec3d.x) * (double)0.05f, (Math.signum(y) * (double)0.7f - vec3d.y) * (double)0.1f, (Math.signum(z) * 0.5 - vec3d.z) * (double)0.05f);
-        float f = (float)(MathHelper.atan2(vec3d2.z, vec3d2.x) * MathConstants.DEGREES_PER_RADIAN) - 90.0f;
-        float g = MathHelper.wrapDegrees(f - this.getYaw());
-        this.forwardSpeed = 0.1f;
-        this.setYaw(this.getYaw() + g);
-        this.setVelocity(vec3d2);
+    protected void initGoals() {
+        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.25));
+        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new FlyGoal(this, 1));
+        this.goalSelector.add(2, new FollowMobGoal(this, 1, 3, 10));
     }
 
-    @Override
-    protected ActionResult interactMob(PlayerEntity player, Hand hand) {
-        return super.interactMob(player, hand);
-        //ItemStack stack =
-    }
-
-/*
     @Override
     protected EntityNavigation createNavigation(World world) {
-        BirdNavigation flyingNavigation = new BirdNavigation(this, world) {
-            @Override
-            public boolean isValidPosition(BlockPos pos) {
-                return !this.world.getBlockState(pos.down()).isAir();
-            }
-        };
-
+        BirdNavigation flyingNavigation = new BirdNavigation(this, world);
         flyingNavigation.setCanSwim(true);
         flyingNavigation.setCanPathThroughDoors(true);
         flyingNavigation.setCanEnterOpenDoors(false);
         return flyingNavigation;
     }
-*/
+
     @Override
     public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
         return false;
@@ -96,6 +83,21 @@ public class GlowflyEntity extends AmbientEntity implements IAnimatable {
     }
 
 
+    @Override
+    protected boolean hasWings() {
+        return this.speed > this.field_28640;
+    }
+
+    @Override
+    protected void addFlapEffects() {
+        this.field_28640 = this.speed + this.maxWingDeviation / 2.0f;
+        this.playSound(SproutSounds.GLOWFLY_SOUND, 0.15F, 1.0F);
+    }
+
+    @Override
+    public SoundCategory getSoundCategory() {
+        return SoundCategory.NEUTRAL;
+    }
 
     //region Animation
     private <E extends IAnimatable> PlayState walkCycle(AnimationEvent<E> event) {
@@ -108,13 +110,40 @@ public class GlowflyEntity extends AmbientEntity implements IAnimatable {
     }
 
     @Override
+    public void tickMovement() {
+        super.tickMovement();
+        this.flapWings();
+    }
+
+    private void flapWings() {
+        this.prevFlapProgress = this.flapProgress;
+        this.prevMaxWingDeviation = this.maxWingDeviation;
+        this.maxWingDeviation = (float)((double)this.maxWingDeviation + (double)(this.onGround || this.hasVehicle() ? -1 : 4) * 0.3);
+        this.maxWingDeviation = MathHelper.clamp(this.maxWingDeviation, 0.0f, 1.0f);
+        if (!this.onGround && this.flapSpeed < 1.0f) {
+            this.flapSpeed = 1.0f;
+        }
+        this.flapSpeed = (float)((double)this.flapSpeed * 0.9);
+        Vec3d vec3d = this.getVelocity();
+        if (!this.onGround && vec3d.y < 0.0) {
+            this.setVelocity(vec3d.multiply(1.0, 0.6, 1.0));
+        }
+        this.flapProgress += this.flapSpeed * 2.0f;
+    }
+
+    @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
+        animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 20, this::walkCycle));
     }
 
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
+    }
+
+    @Override
+    public boolean isInAir() {
+        return !this.onGround;
     }
 
     //endregion

@@ -1,6 +1,5 @@
 package com.toadstoolstudios.sprout.entities;
 
-import com.ibm.icu.util.DateRule;
 import com.toadstoolstudios.sprout.entities.goals.DrinkWaterGoal;
 import com.toadstoolstudios.sprout.entities.goals.FindPlantGoal;
 import com.toadstoolstudios.sprout.entities.goals.FindWaterGoal;
@@ -25,16 +24,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.Animation;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ElephantEntity extends TameableEntity implements IAnimatable {
-    protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+public class MammothEntity extends TameableEntity implements IAnimatable {
+    protected static final TrackedData<Boolean> SWINGING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     public static final Ingredient PEANUT_TEMPT_ITEM = Ingredient.ofItems(SproutItems.PEANUT);
@@ -45,14 +39,14 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
 
     private final AnimationFactory factory = new AnimationFactory(this);
 
-    public ElephantEntity(EntityType<? extends TameableEntity> entityType, World world) {
+    public MammothEntity(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(DRINKING, false);
+        this.dataTracker.startTracking(SWINGING, false);
         this.dataTracker.startTracking(WATERING, false);
         this.dataTracker.startTracking(HAS_WATER, false);
     }
@@ -61,21 +55,22 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        dataTracker.set(DRINKING, nbt.getBoolean("Drinking"));
+        dataTracker.set(SWINGING, nbt.getBoolean("Drinking"));
         dataTracker.set(WATERING, nbt.getBoolean("Watering"));
     }
     //Setting drinking and water states
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.putBoolean("Drinking", dataTracker.get(DRINKING));
+        nbt.putBoolean("Drinking", dataTracker.get(SWINGING));
         nbt.putBoolean("Watering", dataTracker.get(WATERING));
         nbt.putBoolean("HasWater", dataTracker.get(HAS_WATER));
     }
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.25));
+        /*
+        this.goalSelector.add(0, new EscapeDangerGoal(this, speed + .3));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new SitGoal(this));
         this.goalSelector.add(3, new FindWaterGoal(this));
@@ -86,6 +81,8 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.3));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(10, new LookAroundGoal(this));
+
+         */
     }
 
     @Nullable
@@ -122,112 +119,13 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         return super.interactMob(player, hand);
     }
 
-    public boolean isDrinking() {
-        return dataTracker.get(DRINKING);
-    }
-
-    public boolean isWatering() {
-        return dataTracker.get(WATERING);
-    }
-
-    public boolean hasWater() {
-        return dataTracker.get(HAS_WATER);
-    }
-
-    @Nullable
-    public BlockPos getWaterPos() {
-        return waterPos;
-    }
-
-    public void setWaterPos(@Nullable BlockPos waterPos) {
-        this.waterPos = waterPos;
-    }
-
-    public boolean isNearWater() {
-        return isNearBlock(waterPos, 1);
-    }
-
-    public BlockPos getPlantPos() {
-        return plantPos;
-    }
-
-    public void setPlantPos(BlockPos plantPos) {
-        this.plantPos = plantPos;
-    }
-
-    public boolean isNearBlock(BlockPos pos, int range) {
-        return pos != null && pos.getSquaredDistance(this.getPos(), true) < range * range;
-    }
-
-    public boolean isNearPlant() {
-        return isNearBlock(plantPos, 3);
-    }
-
-    public void setDrinking(boolean bool) {
-        dataTracker.set(DRINKING, bool);
-    }
-
-    public void setWatering(boolean bool) {
-        dataTracker.set(WATERING, bool);
-    }
-
-    public void setIfHasWater(boolean bool) {
-        dataTracker.set(HAS_WATER, bool);
-    }
-
-    //region Animation
-
-    private <E extends IAnimatable>PlayState actions(AnimationEvent<E> event) {
-        if(!event.isMoving() && !isInSittingPose()) {
-            if (this.isDrinking()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.drinking", false));
-                return PlayState.CONTINUE;
-            } else if (this.isWatering()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.watering", true));
-                return PlayState.CONTINUE;
-            }
-        }
-        event.getController().markNeedsReload();
-        return PlayState.STOP;
-    }
-
-    private <E extends IAnimatable>PlayState walkCycle(AnimationEvent<E> event) {
-        if(!isInSittingPose()) {
-            if(event.isMoving()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.walk", true));
-            } else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.idle", true));
-            }
-            return PlayState.CONTINUE;
-        }
-        event.getController().markNeedsReload();
-        return PlayState.STOP;
-    }
-
-    private <E extends IAnimatable>PlayState sitStand(AnimationEvent<E> event) {
-        Animation animation = event.getController().getCurrentAnimation();
-        if(isInSittingPose()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.sit", false).addAnimation("animation.elephant.sitting", true));
-            return PlayState.CONTINUE;
-        } else if(animation != null && animation.animationName.equals("animation.elephant.sitting")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.stand", false));
-            return PlayState.CONTINUE;
-        }
-        event.getController().markNeedsReload();
-        return PlayState.STOP;
-    }
-
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "action_controller", 10, this::actions));
-        animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
-        animationData.addAnimationController(new AnimationController<>(this, "sit_controller", 10, this::sitStand));
+
     }
 
     @Override
     public AnimationFactory getFactory() {
-        return this.factory;
+        return null;
     }
-
-    //endregion
 }

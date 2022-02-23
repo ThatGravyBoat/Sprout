@@ -41,6 +41,12 @@ public class DrinkWaterGoal extends Goal {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+        elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getWaterPos()));
+    }
+
+    @Override
     public boolean shouldContinue() {
         return checkForWater() && drinkTimer++ <= timerCap && elephant.isNearWater();
     }

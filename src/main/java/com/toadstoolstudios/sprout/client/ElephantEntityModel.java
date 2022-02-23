@@ -1,6 +1,7 @@
-package com.toadstoolstudios.sprout.entities;
+package com.toadstoolstudios.sprout.client;
 
 import com.toadstoolstudios.sprout.Sprout;
+import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -11,17 +12,17 @@ import java.util.List;
 public class ElephantEntityModel extends AnimatedGeoModel<ElephantEntity> {
     @Override
     public Identifier getModelLocation(ElephantEntity object) {
-        return new Identifier(Sprout.MOD_ID, "geo/elephant.geo.json");
+        return new Identifier(Sprout.MODID, "geo/elephant.geo.json");
     }
 
     @Override
     public Identifier getTextureLocation(ElephantEntity object) {
-        return new Identifier(Sprout.MOD_ID, "textures/entity/elephant.png");
+        return new Identifier(Sprout.MODID, "textures/entity/elephant.png");
     }
 
     @Override
     public Identifier getAnimationFileLocation(ElephantEntity animatable) {
-        return new Identifier(Sprout.MOD_ID, "animations/elephant.animation.json");
+        return new Identifier(Sprout.MODID, "animations/elephant.animation.json");
     }
 
     @Override
