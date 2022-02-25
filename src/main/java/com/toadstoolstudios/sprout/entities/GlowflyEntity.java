@@ -1,5 +1,7 @@
 package com.toadstoolstudios.sprout.entities;
 
+import com.toadstoolstudios.sprout.registry.SproutBlocks;
+import com.toadstoolstudios.sprout.registry.SproutItems;
 import com.toadstoolstudios.sprout.registry.SproutSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
@@ -17,6 +19,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
@@ -129,6 +132,15 @@ public class GlowflyEntity extends PathAwareEntity implements Flutterer, IAnimat
             this.setVelocity(vec3d.multiply(1.0, 0.6, 1.0));
         }
         this.flapProgress += this.flapSpeed * 2.0f;
+    }
+
+    @Override
+    protected ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getStackInHand(hand);
+        if(!stack.isOf(SproutItems.GLASS_JAR_ITEM)) return super.interactMob(player, hand);
+        stack.decrement(1);
+        player.giveItemStack(new ItemStack(SproutItems.GLOWFLY_JAR_ITEM));
+        return ActionResult.PASS;
     }
 
     @Override
