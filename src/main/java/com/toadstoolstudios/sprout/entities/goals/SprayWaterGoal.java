@@ -55,6 +55,8 @@ public class SprayWaterGoal extends Goal {
     public void tick() {
         super.tick();
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getPlantPos()));
+        if((this.sprayTimer % 40) < 20) return;
+        System.out.println(sprayTimer);
         Box blockBox = new Box(plantPos).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;
         sWorld.spawnParticles(ParticleTypes.SPLASH, plantPos.getX(), plantPos.getY(), plantPos.getZ(), 10, 1, 1, 1, 1.4);

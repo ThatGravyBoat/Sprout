@@ -24,7 +24,7 @@ public class ElephantEntityModel extends AnimatedGeoModel<ElephantEntity> {
     public Identifier getAnimationFileLocation(ElephantEntity animatable) {
         return new Identifier(Sprout.MODID, "animations/elephant.animation.json");
     }
-
+/*
     @Override
     public void setLivingAnimations(ElephantEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
         super.setLivingAnimations(entity, uniqueID, customPredicate);
@@ -37,4 +37,5 @@ public class ElephantEntityModel extends AnimatedGeoModel<ElephantEntity> {
         head.setRotationX(entityDataStuffandThings.get(0).headPitch * ((float)Math.PI / 180F) + adjustedPitch);
         head.setRotationY(entityDataStuffandThings.get(0).netHeadYaw * ((float)Math.PI / 180F));
     }
+    */
 }

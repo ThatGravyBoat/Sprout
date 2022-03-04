@@ -140,6 +140,7 @@ public class GlowflyEntity extends PathAwareEntity implements Flutterer, IAnimat
         if(!stack.isOf(SproutItems.GLASS_JAR_ITEM)) return super.interactMob(player, hand);
         stack.decrement(1);
         player.giveItemStack(new ItemStack(SproutItems.GLOWFLY_JAR_ITEM));
+        this.discard();
         return ActionResult.PASS;
     }
 

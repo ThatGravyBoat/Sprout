@@ -75,14 +75,14 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.25));
+        this.goalSelector.add(0, new EscapeDangerGoal(this, 0.5));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new SitGoal(this));
+        this.goalSelector.add(2, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
         this.goalSelector.add(3, new FindWaterGoal(this));
         this.goalSelector.add(3, new DrinkWaterGoal(this, 3));
         this.goalSelector.add(3, new FindPlantGoal(this));
         this.goalSelector.add(3, new SprayWaterGoal(this, 6));
-        this.goalSelector.add(7, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.3));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(10, new LookAroundGoal(this));

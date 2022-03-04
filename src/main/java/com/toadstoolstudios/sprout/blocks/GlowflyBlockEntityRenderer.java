@@ -7,9 +7,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
-import net.minecraft.world.MobSpawnerLogic;
 
 public class GlowflyBlockEntityRenderer implements BlockEntityRenderer<GlowflyJarBlockEntity> {
     @Override

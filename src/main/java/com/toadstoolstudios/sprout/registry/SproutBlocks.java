@@ -19,8 +19,8 @@ import static com.toadstoolstudios.sprout.Sprout.MODID;
 
 public class SproutBlocks {
     public static final Block PEANUT_PLANT_BLOCK = new PeanutCrop(FabricBlockSettings.of(Material.PLANT).ticksRandomly().noCollision());
-    public static final Block GLASS_JAR = new GlassJar(FabricBlockSettings.of(Material.GLASS));
-    public static final Block GLOWFLY_JAR = new GlowflyJar(FabricBlockSettings.of(Material.GLASS).luminance(15));
+    public static final Block GLASS_JAR = new GlassJar(FabricBlockSettings.of(Material.GLASS).solidBlock((state, world, pos) -> false));
+    public static final Block GLOWFLY_JAR = new GlowflyJar(FabricBlockSettings.of(Material.GLASS).luminance(15).solidBlock((state, world, pos) -> false));
     public static BlockEntityType<GlowflyJarBlockEntity> GLOWFLY_JAR_BLOCK_ENTITY_BLOCK_ENTITY_TYPE;
 
 
