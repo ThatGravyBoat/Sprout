@@ -26,9 +26,9 @@ public class FindPlantGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        if (elephant.hasWater()) {
+        if (elephant.hasWater() && elephant.getOwner() != null) {
             findNearbyPlant();
-            return targetPosition != null && !elephant.isDrinking() && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos(), true)) - 1 >= 1;
+            return targetPosition != null && !elephant.isDrinking() && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 >= 1;
         } else {
             return false;
         }
@@ -36,7 +36,7 @@ public class FindPlantGoal extends Goal {
 
     @Override
     public boolean shouldContinue() {
-        return targetPosition != null && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos(), true)) - 1 >= 1;
+        return targetPosition != null && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 >= 1;
     }
 
     @Override

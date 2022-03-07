@@ -1,6 +1,6 @@
 package com.toadstoolstudios.sprout;
 
-import com.toadstoolstudios.sprout.blocks.GlowflyBlockEntityRenderer;
+import com.toadstoolstudios.sprout.client.GlowflyBlockEntityRenderer;
 import com.toadstoolstudios.sprout.client.ElephantEntityRenderer;
 import com.toadstoolstudios.sprout.client.GlowflyEntityRenderer;
 import com.toadstoolstudios.sprout.registry.SproutBlocks;
@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 
 public class SproutClient implements ClientModInitializer {
 

@@ -27,13 +27,16 @@ public class FindWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        findWaterSource();
-        return !elephant.hasWater() && targetPosition != null && !elephant.isDrinking() && targetPosition.getSquaredDistance(elephant.getPos(), true) > 1;
+        if(elephant.getOwner() != null) {
+            findWaterSource();
+            return !elephant.hasWater() && targetPosition != null && !elephant.isDrinking() && targetPosition.getSquaredDistance(elephant.getPos()) > 1;
+        }
+        return false;
     }
 
     @Override
     public boolean shouldContinue() {
-        return targetPosition != null && targetPosition.getSquaredDistance(elephant.getPos(), true) > 1;
+        return targetPosition != null && targetPosition.getSquaredDistance(elephant.getPos()) > 1;
     }
 
     @Override
@@ -59,10 +62,8 @@ public class FindWaterGoal extends Goal {
             waterPos.set(elephant.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
             if (this.elephant.world.isWater(waterPos)){
                 Path path = elephant.getNavigation().findPathTo(waterPos, 1);
-                if (path != null && path.reachesTarget()) {
-                    this.targetPosition = path.getTarget();
-                    return;
-                }
+                this.targetPosition = path == null ? null : path.getTarget();
+                return;
             }
         }
     }

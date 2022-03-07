@@ -4,9 +4,11 @@
   "version": "${version}",
 
   "name": "Sprout",
-  "description": "TBD",
+  "description": "The ultimate garden overhaul mod! Adding new flowers, plants, decor, items and mobs, all while still keeping that vanilla feel!",
   "authors": [
-    "Me!"
+    "Jooosh",
+    "Toad/Frogipher",
+    "CodexAdrian"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",

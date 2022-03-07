@@ -28,7 +28,10 @@ public class DrinkWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        return !elephant.isWatering() && !elephant.hasWater() && elephant.isNearWater() && checkForWater();
+        if(elephant.getOwner() != null) {
+            return !elephant.isWatering() && !elephant.hasWater() && elephant.isNearWater() && checkForWater();
+        }
+        return false;
     }
 
     //noinspection ConstantCondition

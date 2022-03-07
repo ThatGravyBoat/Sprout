@@ -76,7 +76,7 @@ public class WateringCanItem extends Item {
         if (water > 0) {
             if (world instanceof ServerWorld serverWorld) {
                 setWater(stack, water - 1);
-                serverWorld.spawnParticles(ParticleTypes.SPLASH, block.getX(), block.getY(), block.getZ(), 1, 0, 0, 0, 1.4);
+                serverWorld.spawnParticles(ParticleTypes.SPLASH, block.getX() + 0.5F, block.getY() + 0.5F, block.getZ() + 0.5F, 10, 0.7F, 0.5F, 0.7F, 1.4F);
                 BlockPos.stream(blockBox).filter(blockPos -> world.getBlockState(blockPos).getBlock() instanceof Fertilizable).forEach(blockPos -> {
                     if (world.getRandom().nextInt(25) == 0) {
                         BlockState crop = world.getBlockState(blockPos);

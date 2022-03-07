@@ -896,8 +896,8 @@
 				}
 			}
 		},
-		"animation.elephant.eat": {
-			"animation_length": 1.56,
+		"animation.elephant.eating": {
+			"animation_length": 1.5,
 			"bones": {
 				"head": {
 					"rotation": {

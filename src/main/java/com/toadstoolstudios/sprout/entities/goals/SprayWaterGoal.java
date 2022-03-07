@@ -48,7 +48,10 @@ public class SprayWaterGoal extends Goal {
 
     @Override
     public boolean shouldContinue() {
-        return elephant.isNearPlant() && sprayTimer++ <= timerCap;
+        if(elephant.getOwner() != null) {
+            return elephant.isNearPlant() && sprayTimer++ <= timerCap;
+        }
+        return false;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class SprayWaterGoal extends Goal {
         super.tick();
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getPlantPos()));
         if((this.sprayTimer % 40) < 20) return;
-        System.out.println(sprayTimer);
+        //System.out.println(sprayTimer);
         Box blockBox = new Box(plantPos).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;
         sWorld.spawnParticles(ParticleTypes.SPLASH, plantPos.getX(), plantPos.getY(), plantPos.getZ(), 10, 1, 1, 1, 1.4);

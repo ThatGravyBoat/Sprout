@@ -12,7 +12,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 import static com.toadstoolstudios.sprout.registry.SproutBlocks.registerBlocks;
+import static com.toadstoolstudios.sprout.registry.SproutEntities.addSpawnRules;
 import static com.toadstoolstudios.sprout.registry.SproutEntities.registerEntities;
+import static com.toadstoolstudios.sprout.registry.SproutFeatures.registerFeatures;
 import static com.toadstoolstudios.sprout.registry.SproutItems.registerItems;
 import static com.toadstoolstudios.sprout.registry.SproutSounds.registerSounds;
 
@@ -25,9 +27,11 @@ public class Sprout implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		registerEntities();
+		addSpawnRules();
 		registerItems();
 		registerBlocks();
 		registerSounds();
+		registerFeatures();
 		FabricDefaultAttributeRegistry.register(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(SproutEntities.GLOWFLY_ENTITY_TYPE, GlowflyEntity.createGlowflyAttributes());
 	}

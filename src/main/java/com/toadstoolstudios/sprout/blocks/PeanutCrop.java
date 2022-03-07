@@ -74,13 +74,6 @@ public class PeanutCrop extends PlantBlock implements Fertilizable {
         if (!fullyGrown && player.getStackInHand(hand).isOf(Items.BONE_MEAL)) {
             return ActionResult.PASS;
         }
-        if (i > 1) {
-            int randomCount = 1 + world.random.nextInt(2);
-            SweetBerryBushBlock.dropStack(world, pos, new ItemStack(SproutItems.PEANUT, randomCount + (fullyGrown ? 1 : 0)));
-            world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0f, 0.8f + world.random.nextFloat() * 0.4f);
-            world.setBlockState(pos, state.with(AGE, 1), Block.NOTIFY_LISTENERS);
-            return ActionResult.success(world.isClient);
-        }
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
