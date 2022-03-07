@@ -684,7 +684,7 @@
 			}
 		},
 		"animation.elephant.stand": {
-			"animation_length": 1.6,
+			"animation_length": 1.5,
 			"bones": {
 				"body": {
 					"rotation": {

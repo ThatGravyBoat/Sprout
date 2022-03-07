@@ -1,7 +1,9 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
+import com.toadstoolstudios.sprout.entities.ElephantBaseEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.utils.EntityPathingUtils;
+import net.minecraft.block.CropBlock;
 import net.minecraft.block.Fertilizable;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -15,11 +17,11 @@ import java.util.List;
 public class FindPlantGoal extends Goal {
     private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(12);
 
-    private final ElephantEntity elephant;
+    private final ElephantBaseEntity elephant;
     @Nullable
     private BlockPos targetPosition;
 
-    public FindPlantGoal(ElephantEntity elephant) {
+    public FindPlantGoal(ElephantBaseEntity elephant) {
         this.setControls(EnumSet.of(Control.MOVE, Control.TARGET, Control.LOOK));
         this.elephant = elephant;
     }
@@ -42,7 +44,7 @@ public class FindPlantGoal extends Goal {
     @Override
     public void start() {
         super.start();
-        if (targetPosition != null) {
+        if (targetPosition != null && !elephant.getIfEating()) {
             EntityNavigation nav = elephant.getNavigation();
             nav.startMovingTo(targetPosition.getX() + 0.5, targetPosition.getY() + 0.75, targetPosition.getZ() + 0.5, 0.3);
         }
@@ -60,7 +62,7 @@ public class FindPlantGoal extends Goal {
         BlockPos.Mutable plantPos = elephant.getBlockPos().mutableCopy();
         for (BlockPos blockPos : POSITIONAL_OFFSETS) {
             plantPos.set(elephant.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
-            if (elephant.world.getBlockState(plantPos).getBlock() instanceof Fertilizable) {
+            if (elephant.world.getBlockState(plantPos).getBlock() instanceof CropBlock) {
                 Path path = elephant.getNavigation().findPathTo(plantPos, 0);
                 if (path != null && path.reachesTarget()) {
                     this.targetPosition = path.getTarget();

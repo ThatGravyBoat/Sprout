@@ -2,6 +2,7 @@ package com.toadstoolstudios.sprout;
 
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.entities.GlowflyEntity;
+import com.toadstoolstudios.sprout.entities.MammothEntity;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -33,6 +34,7 @@ public class Sprout implements ModInitializer {
 		registerSounds();
 		registerFeatures();
 		FabricDefaultAttributeRegistry.register(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntity.createMobAttributes());
+		FabricDefaultAttributeRegistry.register(SproutEntities.MAMMOTH_ENTITY_TYPE, MammothEntity.createMobAttributes());
 		FabricDefaultAttributeRegistry.register(SproutEntities.GLOWFLY_ENTITY_TYPE, GlowflyEntity.createGlowflyAttributes());
 	}
 }

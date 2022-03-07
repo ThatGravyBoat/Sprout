@@ -2,6 +2,7 @@ package com.toadstoolstudios.sprout.registry;
 
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.entities.GlowflyEntity;
+import com.toadstoolstudios.sprout.entities.MammothEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModification;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -21,10 +22,12 @@ import static com.toadstoolstudios.sprout.Sprout.MODID;
 
 public class SproutEntities {
     public static final EntityType<ElephantEntity> ELEPHANT_ENTITY_TYPE = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, ElephantEntity::new).dimensions(EntityDimensions.changing(0.9F,0.9F)).build();
+    public static final EntityType<MammothEntity> MAMMOTH_ENTITY_TYPE = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, MammothEntity::new).dimensions(EntityDimensions.changing(0.9F,0.9F)).build();
     public static final EntityType<GlowflyEntity> GLOWFLY_ENTITY_TYPE = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, GlowflyEntity::new).dimensions(EntityDimensions.changing(0.5F,0.5F)).build();
 
     public static void registerEntities() {
         Registry.register(Registry.ENTITY_TYPE, new Identifier(MODID, "elephant"), ELEPHANT_ENTITY_TYPE);
+        Registry.register(Registry.ENTITY_TYPE, new Identifier(MODID, "mammoth"), MAMMOTH_ENTITY_TYPE);
         Registry.register(Registry.ENTITY_TYPE, new Identifier(MODID, "glowfly"), GLOWFLY_ENTITY_TYPE);
     }
 
@@ -38,7 +41,7 @@ public class SproutEntities {
             BlockState state = world.getBlockState(pos);
             return pos.getY() > world.getSeaLevel() && (state.getBlock() instanceof FlowerBlock || state.getBlock() instanceof TallFlowerBlock || state.getBlock() instanceof LeavesBlock) && state.getLuminance() < 7;
         });
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SAVANNA), SpawnGroup.AMBIENT, ELEPHANT_ENTITY_TYPE, 25, 1, 1);
-        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.PLAINS), SpawnGroup.AMBIENT, GLOWFLY_ENTITY_TYPE, 50, 8, 12);
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.SAVANNA), SpawnGroup.AMBIENT, ELEPHANT_ENTITY_TYPE, 25, 0, 1);
+        BiomeModifications.addSpawn(BiomeSelectors.categories(Biome.Category.PLAINS), SpawnGroup.AMBIENT, GLOWFLY_ENTITY_TYPE, 25, 8, 12);
     }
 }

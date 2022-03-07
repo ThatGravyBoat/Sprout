@@ -1,5 +1,6 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
+import com.toadstoolstudios.sprout.entities.ElephantBaseEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.registry.SproutItems;
 import net.minecraft.entity.ItemEntity;
@@ -14,13 +15,13 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 public class EatFoodGoal extends Goal {
-    private final ElephantEntity elephant;
+    private final ElephantBaseEntity elephant;
     private ItemEntity foodEntity;
     private ItemStack foodStackCopy;
     private int ticker;
     private final int EAT_TIME = 15;
 
-    public EatFoodGoal(ElephantEntity elephant) {
+    public EatFoodGoal(ElephantBaseEntity elephant) {
         this.elephant = elephant;
     }
 
@@ -85,7 +86,7 @@ public class EatFoodGoal extends Goal {
             if(foodEntity.isAlive()) ticker = 0;
         }
         BlockPos targetPosition = foodEntity.getBlockPos();
-        return ticker < 60 && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 <= 1 && this.isPreocupied();
+        return ticker < EAT_TIME && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 <= 1 && this.isPreocupied();
     }
 
     public boolean isPreocupied() {
