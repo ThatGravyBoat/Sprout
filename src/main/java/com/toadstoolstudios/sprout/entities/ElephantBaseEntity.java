@@ -161,6 +161,7 @@ public abstract class ElephantBaseEntity extends TameableEntity implements IAnim
     }
 
     abstract public Ingredient getFoodItem();
+    abstract public Ingredient isPreocupied();
 
     @Nullable
     public ItemEntity isNearFood() {

@@ -24,10 +24,10 @@ public class SprayWaterGoal extends Goal {
     private final int timerCap;
     private BlockPos plantPos;
 
-    private final ElephantBaseEntity elephant;
+    private final ElephantEntity elephant;
     private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(3);
 
-    public SprayWaterGoal(ElephantBaseEntity elephant, int timeInSeconds) {
+    public SprayWaterGoal(ElephantEntity elephant, int timeInSeconds) {
         this.setControls(EnumSet.of(Control.MOVE, Control.TARGET, Control.LOOK));
         this.elephant = elephant;
         this.timerCap = timeInSeconds * 20;
