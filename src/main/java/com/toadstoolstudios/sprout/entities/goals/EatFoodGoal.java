@@ -32,7 +32,7 @@ public class EatFoodGoal extends Goal {
             this.foodEntity = nearFood;
             this.foodStackCopy = nearFood.getStack().copy();
             BlockPos targetPosition = nearFood.getBlockPos();
-            return Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 <= 1 && this.isPreocupied();
+            return Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 <= 1 && elephant.isPreocupied();
         }
         return false;
     }
@@ -86,10 +86,6 @@ public class EatFoodGoal extends Goal {
             if(foodEntity.isAlive()) ticker = 0;
         }
         BlockPos targetPosition = foodEntity.getBlockPos();
-        return ticker < EAT_TIME && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 <= 1 && this.isPreocupied();
-    }
-
-    public boolean isPreocupied() {
-        return !elephant.isWatering() && !elephant.isDrinking() && !elephant.isSitting();
+        return ticker < EAT_TIME && Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 <= 1;
     }
 }

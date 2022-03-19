@@ -14,6 +14,6 @@ public class ElephantWanderGoal extends WanderAroundFarGoal {
 
     @Override
     public boolean canStart() {
-        return super.canStart() && !elephant.isWatering() && !elephant.isDrinking() && !elephant.isSitting();
+        return super.canStart() && elephant.isPreocupied();
     }
 }

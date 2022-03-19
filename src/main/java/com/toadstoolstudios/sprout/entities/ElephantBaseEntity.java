@@ -2,7 +2,6 @@ package com.toadstoolstudios.sprout.entities;
 
 import com.ibm.icu.util.DateRule;
 import com.toadstoolstudios.sprout.entities.goals.*;
-import com.toadstoolstudios.sprout.registry.SproutItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -77,9 +76,9 @@ public abstract class ElephantBaseEntity extends TameableEntity implements IAnim
         this.goalSelector.add(0, new EscapeDangerGoal(this, 0.3));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new SitGoal(this));
-        this.goalSelector.add(2, new TemptGoal(this, .3, getFoodItem(), false));
+        this.goalSelector.add(2, new TemptGoal(this, .3, this.getFoodItem(), false));
         this.goalSelector.add(3, new EatFoodGoal(this));
-        this.goalSelector.add(4, new FindFoodGoal(this, getFoodItem()));
+        this.goalSelector.add(4, new FindFoodGoal(this, this.getFoodItem()));
         this.goalSelector.add(8, new ElephantWanderGoal(this, 0.3));
         this.goalSelector.add(9, new ElephantLookAtGoal(this, PlayerEntity.class, 6.0F));
         //this.goalSelector.add(10, new LookAroundGoal(this));
@@ -161,7 +160,8 @@ public abstract class ElephantBaseEntity extends TameableEntity implements IAnim
     }
 
     abstract public Ingredient getFoodItem();
-    abstract public Ingredient isPreocupied();
+
+    abstract public boolean isPreocupied();
 
     @Nullable
     public ItemEntity isNearFood() {

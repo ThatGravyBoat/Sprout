@@ -23,7 +23,7 @@ public class FindFoodGoal extends Goal {
         ItemEntity nearFood = elephant.isNearFood();
         if(nearFood != null) {
             this.foodEntity = nearFood;
-            return this.isPreocupied();
+            return elephant.isPreocupied();
         }
         return false;
     }
@@ -38,10 +38,6 @@ public class FindFoodGoal extends Goal {
     @Override
     public boolean shouldContinue() {
         BlockPos targetPosition = foodEntity.getBlockPos();
-        return Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 >= 1 && this.isPreocupied();
-    }
-
-    public boolean isPreocupied() {
-        return !elephant.isWatering() && !elephant.isDrinking() && !elephant.getIfEating() && !elephant.isSitting();
+        return Math.sqrt(targetPosition.getSquaredDistance(elephant.getPos())) - 1 >= 1;
     }
 }

@@ -190,6 +190,11 @@ public class ElephantEntity extends ElephantBaseEntity {
         return PEANUT_TEMPT_ITEM;
     }
 
+    @Override
+    public boolean isPreocupied() {
+        return !this.isWatering() && !this.isDrinking() && !this.getIfEating() && !this.isSitting();
+    }
+
     //region Animation
 
     private <E extends IAnimatable>PlayState actions(AnimationEvent<E> event) {

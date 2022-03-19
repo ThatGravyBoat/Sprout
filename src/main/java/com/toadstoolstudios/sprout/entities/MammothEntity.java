@@ -41,6 +41,8 @@ public class MammothEntity extends ElephantBaseEntity {
         super(entityType, world);
     }
 
+
+
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
@@ -60,6 +62,7 @@ public class MammothEntity extends ElephantBaseEntity {
     @Override
     protected void initGoals() {
         super.initGoals();
+
     }
 
     @Override
@@ -68,8 +71,25 @@ public class MammothEntity extends ElephantBaseEntity {
     }
 
     @Override
+    public boolean isPreocupied() {
+        return true;
+    }
+
+    private <E extends IAnimatable>PlayState actions(AnimationEvent<E> event) {
+        if(!event.isMoving() && !isInSittingPose()) {
+            if (this.getIfEating()) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.eating", true));
+                return PlayState.CONTINUE;
+            }
+        }
+        event.getController().markNeedsReload();
+        return PlayState.STOP;
+    }
+
+    @Override
     public void registerControllers(AnimationData animationData) {
         super.registerControllers(animationData);
+        animationData.addAnimationController(new AnimationController<>(this, "action_controller", 0, this::actions));
     }
 
     @Override

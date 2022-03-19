@@ -16,6 +16,7 @@ public class SproutItems {
     public static final Item WATERING_CAN = new WateringCanItem(genericSettings().maxCount(1));
     public static final Item GLASS_JAR_ITEM = new BlockItem(SproutBlocks.GLASS_JAR, genericSettings());
     public static final Item GLOWFLY_JAR_ITEM = new BlockItem(SproutBlocks.GLOWFLY_JAR, genericSettings());
+    public static final Item BASKET_BLOCK_ITEM = new BlockItem(SproutBlocks.BASKET_BLOCK, genericSettings());
 
     private static FabricItemSettings genericSettings() {
         return new FabricItemSettings().group(Sprout.SPROUT_TAB);
@@ -28,5 +29,6 @@ public class SproutItems {
         Registry.register(Registry.ITEM, new Identifier(MODID, "watering_can"), WATERING_CAN);
         Registry.register(Registry.ITEM, new Identifier(MODID, "glass_jar"), GLASS_JAR_ITEM);
         Registry.register(Registry.ITEM, new Identifier(MODID, "glowfly_jar"), GLOWFLY_JAR_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(MODID, "basket_block"), BASKET_BLOCK_ITEM);
     }
 }

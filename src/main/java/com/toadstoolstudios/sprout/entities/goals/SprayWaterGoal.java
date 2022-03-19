@@ -35,7 +35,7 @@ public class SprayWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        return elephant.isNearPlant() && elephant.hasWater();
+        return elephant.isNearPlant() && elephant.hasWater() && elephant.isPreocupied();
     }
 
     //noinspection ConstantCondition

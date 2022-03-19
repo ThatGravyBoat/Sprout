@@ -1272,7 +1272,7 @@
 				}
 			}
 		},
-		"animation.elephant.watering": {
+		"animation.elephant.water": {
 			"animation_length": 3.76,
 			"bones": {
 				"head": {
@@ -1282,14 +1282,6 @@
 						},
 						"0.2": {
 							"vector": [7.5, 0, 0],
-							"easing": "easeInOutSine"
-						},
-						"0.48": {
-							"vector": [-12.5, 0, 0],
-							"easing": "easeInOutSine"
-						},
-						"0.68": {
-							"vector": [-17.5, 0, 0],
 							"easing": "easeInOutSine"
 						},
 						"0.8": {
@@ -1308,14 +1300,14 @@
 							"vector": [-15, 0, 0],
 							"easing": "easeInOutSine"
 						},
-						"2.76": {
+						"2.68": {
 							"vector": [-7.5, 0, 0],
 							"easing": "easeInOutSine"
 						},
-						"3.2": {
+						"3.12": {
 							"vector": [-0.75, 0, 0]
 						},
-						"3.36": {
+						"3.28": {
 							"vector": [0, 0, 0]
 						}
 					}
@@ -1325,15 +1317,11 @@
 						"0.0": {
 							"vector": [0, 0, 0]
 						},
-						"0.28": {
-							"vector": [-7.5, 0, 0],
+						"0.48": {
+							"vector": [12.5, 0, 0],
 							"easing": "easeInOutSine"
 						},
-						"0.48": {
-							"vector": [0, 0, 0],
-							"easing": "linear"
-						},
-						"0.84": {
+						"0.8": {
 							"vector": [15, 0, 0],
 							"easing": "easeInOutSine"
 						},
@@ -1346,10 +1334,12 @@
 							"easing": "easeInOutSine"
 						},
 						"2.32": {
-							"vector": [17.5, 0, 0]
+							"vector": [17.5, 0, 0],
+							"easing": "easeInOutSine"
 						},
 						"3.04": {
-							"vector": [0, 0, 0]
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
 						}
 					}
 				},
@@ -1384,10 +1374,11 @@
 						"2.36": {
 							"vector": [-101.67, 0, 0]
 						},
-						"3.0": {
-							"vector": [-7.25, 0, 0]
+						"2.92": {
+							"vector": [-7.25, 0, 0],
+							"easing": "easeInOutSine"
 						},
-						"3.16": {
+						"3.08": {
 							"vector": [0, 0, 0]
 						}
 					}
@@ -1437,7 +1428,41 @@
 							"vector": [0, 0, 0]
 						}
 					}
+				},
+				"right_ear": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.48": {
+							"vector": [12.5, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"0.8": {
+							"vector": [15, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"1.16": {
+							"vector": [20, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"1.6": {
+							"vector": [10, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"2.32": {
+							"vector": [17.5, 0, 0],
+							"easing": "easeInOutSine"
+						},
+						"3.04": {
+							"vector": [0, 0, 0],
+							"easing": "easeInOutSine"
+						}
+					}
 				}
+			},
+			"particle_effects": {
+
 			}
 		},
 		"animation.elephant.sitting": {

@@ -11,7 +11,6 @@ public class GlowflyJar extends GlassJar implements BlockEntityProvider {
         super(settings);
     }
 
-
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
