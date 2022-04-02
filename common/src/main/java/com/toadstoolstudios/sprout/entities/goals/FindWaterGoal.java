@@ -25,9 +25,9 @@ public class FindWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        if(elephant.getOwner() != null) {
+        if(elephant.getOwner() != null && !elephant.hasWater()) {
             findWaterSource();
-            return targetPosition != null && elephant.isPreocupied() && targetPosition.getSquaredDistance(elephant.getPos()) > 1;
+            return targetPosition != null && elephant.isNotBusy() && targetPosition.getSquaredDistance(elephant.getPos()) > 1;
         }
         return false;
     }

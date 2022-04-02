@@ -33,7 +33,7 @@ public class SprayWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        return elephant.isNearPlant() && elephant.hasWater() && elephant.isPreocupied();
+        return elephant.isNearPlant() && elephant.hasWater() && elephant.isNotBusy();
     }
 
     //noinspection ConstantCondition
@@ -57,8 +57,8 @@ public class SprayWaterGoal extends Goal {
     @Override
     public void tick() {
         super.tick();
+        if(sprayTimer < 10) return;
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getPlantPos()));
-        if((this.sprayTimer % 40) < 20) return;
         //System.out.println(sprayTimer);
         Box blockBox = new Box(plantPos).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;

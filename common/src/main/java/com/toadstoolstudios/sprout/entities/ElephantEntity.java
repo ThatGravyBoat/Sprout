@@ -1,11 +1,11 @@
 package com.toadstoolstudios.sprout.entities;
 
-import com.ibm.icu.util.DateRule;
 import com.toadstoolstudios.sprout.entities.goals.DrinkWaterGoal;
 import com.toadstoolstudios.sprout.entities.goals.FindPlantGoal;
 import com.toadstoolstudios.sprout.entities.goals.FindWaterGoal;
 import com.toadstoolstudios.sprout.entities.goals.SprayWaterGoal;
 import com.toadstoolstudios.sprout.registry.SproutItems;
+import net.minecraft.block.CropBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -26,14 +26,13 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.Animation;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ElephantEntity extends TameableEntity implements IAnimatable {
+public class ElephantEntity extends TameableEntity implements IAnimatable, Herbivore {
     protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -75,15 +74,15 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new EscapeDangerGoal(this, 0.5));
+        this.goalSelector.add(0, new EscapeDangerGoal(this, 0.3));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new SitGoal(this));
         this.goalSelector.add(2, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
         this.goalSelector.add(3, new FindWaterGoal(this));
         this.goalSelector.add(3, new DrinkWaterGoal(this, 3));
-        this.goalSelector.add(3, new FindPlantGoal(this));
+        this.goalSelector.add(3, new FindPlantGoal<ElephantEntity>(this, block -> block instanceof CropBlock));
         this.goalSelector.add(3, new SprayWaterGoal(this, 6));
-        this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.3));
+        this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.2));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(10, new LookAroundGoal(this));
     }
@@ -144,15 +143,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
     }
 
     public boolean isNearWater() {
-        return isNearBlock(waterPos, 1);
-    }
-
-    public BlockPos getPlantPos() {
-        return plantPos;
-    }
-
-    public void setPlantPos(BlockPos plantPos) {
-        this.plantPos = plantPos;
+        return isNearBlock(getWaterPos(), 1);
     }
 
     public boolean isNearBlock(BlockPos pos, int range) {
@@ -160,7 +151,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
     }
 
     public boolean isNearPlant() {
-        return isNearBlock(plantPos, 3);
+        return isNearBlock(getTargetPlant(), 3);
     }
 
     public void setDrinking(boolean bool) {
@@ -217,7 +208,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "action_controller", 10, this::actions));
         animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
-        animationData.addAnimationController(new AnimationController<>(this, "sit_controller", 10, this::sitStand));
+        animationData.addAnimationController(new AnimationController<>(this, "sit_controller", 2, this::sitStand));
     }
 
     @Override
@@ -225,8 +216,24 @@ public class ElephantEntity extends TameableEntity implements IAnimatable {
         return this.factory;
     }
 
-    public boolean isPreocupied() {
-        return this.isDrinking() || this.isSitting() || this.isWatering();
+    public boolean isNotBusy() {
+        return !(this.isDrinking() || this.isSitting() || this.isWatering());
+    }
+
+
+    @Override
+    public boolean specialPredicate() {
+        return !hasWater();
+    }
+
+    @Override
+    public void setTargetPlant(BlockPos pos) {
+        this.plantPos = pos;
+    }
+
+    @Override
+    public @Nullable BlockPos getTargetPlant() {
+        return plantPos;
     }
 
     //endregion

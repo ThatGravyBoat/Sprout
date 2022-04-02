@@ -2,7 +2,6 @@ package com.toadstoolstudios.sprout;
 
 import com.toadstoolstudios.sprout.client.ElephantEntityRenderer;
 import com.toadstoolstudios.sprout.client.GlowflyBlockEntityRenderer;
-import com.toadstoolstudios.sprout.client.GlowflyEntityRenderer;
 import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import dev.architectury.injectables.annotations.ExpectPlatform;

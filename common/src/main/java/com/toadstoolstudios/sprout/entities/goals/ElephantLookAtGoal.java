@@ -13,6 +13,6 @@ public class ElephantLookAtGoal extends LookAtEntityGoal {
 
     @Override
     public boolean canStart() {
-        return super.canStart() && !elephant.isPreocupied();
+        return super.canStart() && elephant.isNotBusy() && !elephant.isSitting();
     }
 }
