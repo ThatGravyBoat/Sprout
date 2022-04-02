@@ -1,27 +1,25 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "sprout",
   "version": "${version}",
-  "name": "Example Mod",
+  "name": "Sprout",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Toadstool-Studios/Sprout"
   },
   "license": "Insert License Here",
   "icon": "assets/examplemod/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.examplemod.fabric.ExampleModFabric"
+      "com.toadstoolstudios.sprout.SproutFabric"
     ]
   },
   "mixins": [
-    "examplemod.mixins.json",
-    "examplemod-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",

@@ -4,23 +4,23 @@ loaderVersion = "[40,)"
 license = "Insert License Here"
 
 [[mods]]
-modId = "examplemod"
+modId = "sprout"
 version = "${version}"
-displayName = "Example Mod"
+displayName = "Sprout"
 authors = "Me!"
 description = '''
 This is an example description! Tell everyone what your mod is about!
 '''
 #logoFile = ""
 
-[[dependencies.examplemod]]
+[[dependencies.sprout]]
 modId = "forge"
 mandatory = true
 versionRange = "[40,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.examplemod]]
+[[dependencies.sprout]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.18.2,)"
