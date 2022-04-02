@@ -5,7 +5,6 @@ import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,7 +15,7 @@ public class GlowflyJarBlockEntity extends BlockEntity {
     private Entity renderEntity;
 
     public GlowflyJarBlockEntity(BlockPos pos, BlockState state) {
-        super(SproutBlocks.GLOWFLY_JAR_BLOCK_ENTITY_BLOCK_ENTITY_TYPE, pos, state);
+        super(SproutBlocks.GLOWFLY_JAR_BLOCK_ENTITY.get(), pos, state);
     }
 
     public Entity getOrCreateEntity(World world) {

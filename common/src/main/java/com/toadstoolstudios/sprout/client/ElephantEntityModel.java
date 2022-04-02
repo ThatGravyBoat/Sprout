@@ -17,7 +17,7 @@ public class ElephantEntityModel extends AnimatedGeoModel<ElephantEntity> {
 
     @Override
     public Identifier getTextureLocation(ElephantEntity object) {
-        return new Identifier(Sprout.MODID, "textures/entity/elephant.png");
+        return new Identifier(Sprout.MODID, object.isSitting() ? "textures/entity/sleeping_elephant.png" : "textures/entity/elephant.png");
     }
 
     @Override

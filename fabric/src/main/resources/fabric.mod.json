@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "com.toadstoolstudios.sprout.SproutFabric"
+    ],
+    "client": [
+      "com.toadstoolstudios.sprout.SproutFabricClient"
     ]
   },
   "mixins": [

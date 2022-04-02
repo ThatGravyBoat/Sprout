@@ -41,7 +41,6 @@ public class ElephantEntity extends ElephantBaseEntity {
     protected static final TrackedData<Boolean> EATING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected static final TrackedData<Integer> STANDING_TIMER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final Ingredient PEANUT_TEMPT_ITEM = Ingredient.ofItems(SproutItems.PEANUT.get());
 
     @Nullable
@@ -61,7 +60,6 @@ public class ElephantEntity extends ElephantBaseEntity {
         this.dataTracker.startTracking(WATERING, false);
         this.dataTracker.startTracking(HAS_WATER, false);
         this.dataTracker.startTracking(EATING, false);
-        this.dataTracker.startTracking(STANDING_TIMER, 0);
     }
 
     //Getting drinking and water states
@@ -108,15 +106,8 @@ public class ElephantEntity extends ElephantBaseEntity {
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         if(this.isTamed() && this.isOwner(player)) {
-            if(isSitting()) {
-                startStandingTimer();
-                //this.setInSittingPose(false);
-                return ActionResult.success(this.world.isClient());
-            } else {
-                resetStandingTimer();
-                if(!this.world.isClient()) this.setSitting(!this.isSitting());
-                return ActionResult.success(this.world.isClient());
-            }
+            if(!this.world.isClient()) this.setSitting(!this.isSitting());
+            return ActionResult.success(this.world.isClient());
         }
         return super.interactMob(player, hand);
     }
@@ -142,22 +133,6 @@ public class ElephantEntity extends ElephantBaseEntity {
 
     public boolean hasWater() {
         return dataTracker.get(HAS_WATER);
-    }
-
-    public int getStandingTimer() {
-        return dataTracker.get(STANDING_TIMER);
-    }
-
-    public void reduceStandingTimer() {
-        dataTracker.set(STANDING_TIMER, getStandingTimer() - 1);
-    }
-
-    public void startStandingTimer() {
-        dataTracker.set(STANDING_TIMER, 15);
-    }
-
-    public void resetStandingTimer() {
-        dataTracker.set(STANDING_TIMER, 0);
     }
 
     @Nullable
@@ -230,10 +205,7 @@ public class ElephantEntity extends ElephantBaseEntity {
     private <E extends IAnimatable>PlayState sitStand(AnimationEvent<E> event) {
         Animation animation = event.getController().getCurrentAnimation();
         if(isInSittingPose() && getStandingTimer() == 0) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.sit", false).addAnimation("animation.elephant.sitting", true));
-            return PlayState.CONTINUE;
-        } else if(animation != null && animation.animationName.equals("animation.elephant.sitting")) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.stand", false));
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.sleep", false));
             return PlayState.CONTINUE;
         }
         event.getController().markNeedsReload();

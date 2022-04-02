@@ -18,7 +18,7 @@ public class BasketBlockEntity extends BlockEntity implements Inventory {
     DefaultedList<ItemStack> items = DefaultedList.ofSize(5, ItemStack.EMPTY);
 
     public BasketBlockEntity(BlockPos pos, BlockState state) {
-        super(SproutBlocks.BASKET_BLOCK_ENTITY, pos, state);
+        super(SproutBlocks.BASKET_BLOCK_ENTITY.get(), pos, state);
     }
 
 

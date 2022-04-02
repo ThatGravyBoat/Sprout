@@ -28,12 +28,12 @@ public class SproutEntities {
 
     @ExpectPlatform
     public static void addSpawnRules() {
+        throw new AssertionError();
     }
 
-    @NotNull
     @ExpectPlatform
     public static <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, SpawnGroup group, float width, float height) {
-        return null;
+        throw new AssertionError();
     }
 
     public static void registerEntities() {

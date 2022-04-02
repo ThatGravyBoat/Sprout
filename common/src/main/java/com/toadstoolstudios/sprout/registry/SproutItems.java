@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 import static com.toadstoolstudios.sprout.Sprout.MODID;
 
 public class SproutItems {
-    public static final Supplier<Item> ELEPHANT_SPAWN_EGG = registerItem("glowfly_spawn_egg", () -> new SpawnEggItem(SproutEntities.ELEPHANT_ENTITY_TYPE.get(), 0x8198a0,0x52556c, genericSettings()));
+    public static final Supplier<Item> ELEPHANT_SPAWN_EGG = registerItem("elephant_spawn_egg", () -> new SpawnEggItem(SproutEntities.ELEPHANT_ENTITY_TYPE.get(), 0x8198a0,0x52556c, genericSettings()));
     public static final Supplier<Item> GLOWFLY_SPAWN_EGG = registerItem("glowfly_spawn_egg", () -> new SpawnEggItem(SproutEntities.GLOWFLY_ENTITY_TYPE.get(), 0xFCE784,0x52556c, genericSettings()));
     public static final Supplier<Item> PEANUT = registerItem("peanut", () -> new AliasedBlockItem(SproutBlocks.PEANUT_PLANT_BLOCK.get(), genericSettings().food(new FoodComponent.Builder().hunger(4).saturationModifier(0.1f).build())));
     public static final Supplier<Item> WATERING_CAN = registerItem("watering_can", () -> new WateringCanItem(genericSettings().maxCount(1)));
@@ -29,7 +29,7 @@ public class SproutItems {
     @NotNull
     @ExpectPlatform
     public static Supplier<Item> registerItem(String name, Supplier<Item> itemSupplier) {
-        return null;
+        throw new AssertionError();
     }
 
     public static void registerItems() {

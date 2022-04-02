@@ -6,6 +6,7 @@ import com.toadstoolstudios.sprout.entities.MammothEntity;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import software.bernie.geckolib3.GeckoLib;
 
 public class SproutFabric implements ModInitializer {
     @Override

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.GeckoLib;
 
 
 public class Sprout {
@@ -21,6 +22,7 @@ public class Sprout {
 	public static final ItemGroup SPROUT_TAB = FabricItemGroupBuilder.build(new Identifier(MODID, "item_group"), () -> new ItemStack(Items.JUNGLE_SAPLING));
 
 	public static void init() {
+		GeckoLib.initialize();
 		SproutEntities.registerEntities();
 		SproutEntities.addSpawnRules();
 		SproutItems.registerItems();

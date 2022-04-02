@@ -1,0 +1,12 @@
+{
+  "itemGroup.sprout.item_group": "Sprout",
+  "item.sprout.watering_can": "Watering Can",
+  "item.sprout.peanut": "Peanut",
+  "item.sprout.elephant_spawn_egg": "Elephant Spawn Egg",
+  "item.sprout.glowfly_spawn_egg": "Glowfly Spawn Egg",
+  "block.sprout.peanut_plant": "Peanut Plant",
+  "block.sprout.glass_jar": "Glass Jar",
+  "block.sprout.glowfly_jar": "Glowfly Jar",
+  "entity.sprout.elephant": "Elephant",
+  "entity.sprout.glowfly": "Glowfly"
+}

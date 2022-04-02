@@ -23,6 +23,6 @@ public class SproutFeatures {
 
     @ExpectPlatform
     public static void registerFeatures() {
-
+        throw new AssertionError();
     }
 }
