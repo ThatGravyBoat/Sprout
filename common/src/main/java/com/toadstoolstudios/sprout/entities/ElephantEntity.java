@@ -1,11 +1,12 @@
 package com.toadstoolstudios.sprout.entities;
 
 import com.ibm.icu.util.DateRule;
-import com.toadstoolstudios.sprout.entities.goals.*;
+import com.toadstoolstudios.sprout.entities.goals.DrinkWaterGoal;
+import com.toadstoolstudios.sprout.entities.goals.FindPlantGoal;
+import com.toadstoolstudios.sprout.entities.goals.FindWaterGoal;
+import com.toadstoolstudios.sprout.entities.goals.SprayWaterGoal;
 import com.toadstoolstudios.sprout.registry.SproutItems;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -21,7 +22,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -33,12 +33,8 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class ElephantEntity extends ElephantBaseEntity {
+public class ElephantEntity extends TameableEntity implements IAnimatable {
     protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected static final TrackedData<Boolean> EATING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     public static final Ingredient PEANUT_TEMPT_ITEM = Ingredient.ofItems(SproutItems.PEANUT.get());
@@ -59,7 +55,6 @@ public class ElephantEntity extends ElephantBaseEntity {
         this.dataTracker.startTracking(DRINKING, false);
         this.dataTracker.startTracking(WATERING, false);
         this.dataTracker.startTracking(HAS_WATER, false);
-        this.dataTracker.startTracking(EATING, false);
     }
 
     //Getting drinking and water states
@@ -68,7 +63,6 @@ public class ElephantEntity extends ElephantBaseEntity {
         super.readCustomDataFromNbt(nbt);
         dataTracker.set(DRINKING, nbt.getBoolean("Drinking"));
         dataTracker.set(WATERING, nbt.getBoolean("Watering"));
-        dataTracker.set(HAS_WATER, nbt.getBoolean("HasWater"));
     }
     //Setting drinking and water states
     @Override
@@ -81,14 +75,18 @@ public class ElephantEntity extends ElephantBaseEntity {
 
     @Override
     protected void initGoals() {
-        super.initGoals();
-        this.goalSelector.add(5, new FindWaterGoal(this));
-        this.goalSelector.add(5, new DrinkWaterGoal(this, 3));
-        this.goalSelector.add(5, new FindPlantGoal(this));
-        this.goalSelector.add(5, new SprayWaterGoal(this, 6));
+        this.goalSelector.add(0, new EscapeDangerGoal(this, 0.5));
+        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(2, new SitGoal(this));
+        this.goalSelector.add(2, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
+        this.goalSelector.add(3, new FindWaterGoal(this));
+        this.goalSelector.add(3, new DrinkWaterGoal(this, 3));
+        this.goalSelector.add(3, new FindPlantGoal(this));
+        this.goalSelector.add(3, new SprayWaterGoal(this, 6));
+        this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.3));
+        this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.add(10, new LookAroundGoal(this));
     }
-
-
 
     @Nullable
     @Override
@@ -105,22 +103,23 @@ public class ElephantEntity extends ElephantBaseEntity {
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if(this.isTamed() && this.isOwner(player)) {
+        ItemStack stack = player.getStackInHand(hand);
+        if (stack.isOf(SproutItems.PEANUT.get()) && !isTamed()) {
+            if(!player.getAbilities().creativeMode) stack.decrement(1);
+            if(!this.world.isClient()) {
+                if(this.random.nextInt(10) == 0) {
+                    this.setOwner(player);
+                    this.world.sendEntityStatus(this, (byte) 7);
+                } else {
+                    this.world.sendEntityStatus(this, (byte) 6);
+                }
+            }
+            return ActionResult.success(this.world.isClient());
+        } else if(this.isTamed() && this.isOwner(player)) {
             if(!this.world.isClient()) this.setSitting(!this.isSitting());
             return ActionResult.success(this.world.isClient());
         }
         return super.interactMob(player, hand);
-    }
-
-    @Override
-    protected void mobTick() {
-        super.mobTick();
-        if(getStandingTimer() > 0) {
-            reduceStandingTimer();
-        }
-        if(getStandingTimer() == 1) {
-            this.setSitting(false);
-        }
     }
 
     public boolean isDrinking() {
@@ -148,6 +147,22 @@ public class ElephantEntity extends ElephantBaseEntity {
         return isNearBlock(waterPos, 1);
     }
 
+    public BlockPos getPlantPos() {
+        return plantPos;
+    }
+
+    public void setPlantPos(BlockPos plantPos) {
+        this.plantPos = plantPos;
+    }
+
+    public boolean isNearBlock(BlockPos pos, int range) {
+        return pos != null && pos.getSquaredDistance(this.getPos()) < range * range;
+    }
+
+    public boolean isNearPlant() {
+        return isNearBlock(plantPos, 3);
+    }
+
     public void setDrinking(boolean bool) {
         dataTracker.set(DRINKING, bool);
     }
@@ -160,16 +175,6 @@ public class ElephantEntity extends ElephantBaseEntity {
         dataTracker.set(HAS_WATER, bool);
     }
 
-    @Override
-    public Ingredient getFoodItem() {
-        return PEANUT_TEMPT_ITEM;
-    }
-
-    @Override
-    public boolean isPreocupied() {
-        return !this.isWatering() && !this.isDrinking() && !this.getIfEating() && !this.isSitting();
-    }
-
     //region Animation
 
     private <E extends IAnimatable>PlayState actions(AnimationEvent<E> event) {
@@ -180,9 +185,6 @@ public class ElephantEntity extends ElephantBaseEntity {
             } else if (this.isWatering()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.watering", true));
                 return PlayState.CONTINUE;
-            } else if (this.getIfEating()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.eating", true));
-                return PlayState.CONTINUE;
             }
         }
         event.getController().markNeedsReload();
@@ -192,9 +194,9 @@ public class ElephantEntity extends ElephantBaseEntity {
     private <E extends IAnimatable>PlayState walkCycle(AnimationEvent<E> event) {
         if(!isInSittingPose()) {
             if(event.isMoving()) {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.walk", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.walking", true));
             } else {
-                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.idle", true));
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.idling", true));
             }
             return PlayState.CONTINUE;
         }
@@ -203,9 +205,8 @@ public class ElephantEntity extends ElephantBaseEntity {
     }
 
     private <E extends IAnimatable>PlayState sitStand(AnimationEvent<E> event) {
-        Animation animation = event.getController().getCurrentAnimation();
-        if(isInSittingPose() && getStandingTimer() == 0) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.sleep", false));
+        if(isInSittingPose()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.elephant.sleeping", true));
             return PlayState.CONTINUE;
         }
         event.getController().markNeedsReload();
@@ -216,12 +217,16 @@ public class ElephantEntity extends ElephantBaseEntity {
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "action_controller", 10, this::actions));
         animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
-        animationData.addAnimationController(new AnimationController<>(this, "sit_controller", 0, this::sitStand));
+        animationData.addAnimationController(new AnimationController<>(this, "sit_controller", 10, this::sitStand));
     }
 
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
+    }
+
+    public boolean isPreocupied() {
+        return this.isDrinking() || this.isSitting() || this.isWatering();
     }
 
     //endregion

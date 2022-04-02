@@ -1,16 +1,13 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
-import com.toadstoolstudios.sprout.entities.ElephantBaseEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.utils.EntityPathingUtils;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class FindWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        if(elephant.getOwner() != null && !elephant.getIfEating()) {
+        if(elephant.getOwner() != null) {
             findWaterSource();
             return targetPosition != null && elephant.isPreocupied() && targetPosition.getSquaredDistance(elephant.getPos()) > 1;
         }

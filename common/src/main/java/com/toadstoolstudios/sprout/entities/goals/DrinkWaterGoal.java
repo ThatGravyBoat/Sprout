@@ -1,16 +1,11 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
-import com.toadstoolstudios.sprout.entities.ElephantBaseEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.utils.EntityPathingUtils;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -29,7 +24,7 @@ public class DrinkWaterGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        if(elephant.getOwner() != null && !elephant.getIfEating()) {
+        if(elephant.getOwner() != null) {
             return !elephant.isWatering() && !elephant.hasWater() && elephant.isNearWater() && checkForWater();
         }
         return false;

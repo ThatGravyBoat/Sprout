@@ -1,10 +1,8 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
-import com.toadstoolstudios.sprout.entities.ElephantBaseEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.utils.EntityPathingUtils;
 import net.minecraft.block.CropBlock;
-import net.minecraft.block.Fertilizable;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.Path;
@@ -17,11 +15,11 @@ import java.util.List;
 public class FindPlantGoal extends Goal {
     private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(12);
 
-    private final ElephantBaseEntity elephant;
+    private final ElephantEntity elephant;
     @Nullable
     private BlockPos targetPosition;
 
-    public FindPlantGoal(ElephantBaseEntity elephant) {
+    public FindPlantGoal(ElephantEntity elephant) {
         this.setControls(EnumSet.of(Control.MOVE, Control.TARGET, Control.LOOK));
         this.elephant = elephant;
     }
@@ -44,7 +42,7 @@ public class FindPlantGoal extends Goal {
     @Override
     public void start() {
         super.start();
-        if (targetPosition != null && !elephant.getIfEating()) {
+        if (targetPosition != null) {
             EntityNavigation nav = elephant.getNavigation();
             nav.startMovingTo(targetPosition.getX() + 0.5, targetPosition.getY() + 0.75, targetPosition.getZ() + 0.5, 0.3);
         }

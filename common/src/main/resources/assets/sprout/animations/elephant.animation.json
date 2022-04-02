@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.elephant.walk": {
+		"animation.elephant.walking": {
 			"loop": true,
 			"animation_length": 1.16,
 			"start_delay": "0",
@@ -142,7 +142,7 @@
 				}
 			}
 		},
-		"animation.elephant.drink": {
+		"animation.elephant.drinking": {
 			"loop": true,
 			"animation_length": 2.84,
 			"start_delay": "0",
@@ -416,7 +416,7 @@
 				}
 			}
 		},
-		"animation.elephant.idle": {
+		"animation.elephant.idling": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -480,7 +480,7 @@
 				}
 			}
 		},
-		"animation.elephant.sleep": {
+		"animation.elephant.sleeping": {
 			"loop": true,
 			"animation_length": 4,
 			"bones": {

@@ -1,13 +1,11 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
-import com.toadstoolstudios.sprout.entities.ElephantBaseEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.mob.PathAwareEntity;
 
 public class ElephantWanderGoal extends WanderAroundFarGoal {
-    ElephantBaseEntity elephant;
-    public ElephantWanderGoal(ElephantBaseEntity pathAwareEntity, double d) {
+    ElephantEntity elephant;
+    public ElephantWanderGoal(ElephantEntity pathAwareEntity, double d) {
         super(pathAwareEntity, d);
         this.elephant = pathAwareEntity;
     }

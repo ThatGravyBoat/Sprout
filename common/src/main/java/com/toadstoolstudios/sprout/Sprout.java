@@ -1,12 +1,7 @@
 package com.toadstoolstudios.sprout;
 
-import com.toadstoolstudios.sprout.entities.ElephantEntity;
-import com.toadstoolstudios.sprout.entities.GlowflyEntity;
-import com.toadstoolstudios.sprout.entities.MammothEntity;
 import com.toadstoolstudios.sprout.registry.*;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
