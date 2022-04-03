@@ -1,7 +1,5 @@
 package com.toadstoolstudios.sprout.forge;
 
-import com.toadstoolstudios.sprout.client.GlowflyBlockEntityRenderer;
-import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;

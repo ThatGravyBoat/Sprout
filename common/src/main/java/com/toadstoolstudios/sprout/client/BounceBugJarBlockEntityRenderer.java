@@ -1,6 +1,6 @@
 package com.toadstoolstudios.sprout.client;
 
-import com.toadstoolstudios.sprout.blocks.GlowflyJarBlockEntity;
+import com.toadstoolstudios.sprout.blocks.BounceBugBottleBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
@@ -12,11 +12,11 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
-public class GlowflyBlockEntityRenderer implements BlockEntityRenderer<GlowflyJarBlockEntity> {
+public class BounceBugJarBlockEntityRenderer implements BlockEntityRenderer<BounceBugBottleBlockEntity> {
     @Override
-    public void render(GlowflyJarBlockEntity blockEntity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(BounceBugBottleBlockEntity blockEntity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrixStack.push();
-        matrixStack.translate(0.5, 0.120, 0.5);
+        matrixStack.translate(0.5, 0, 0.5);
         World world = blockEntity.getWorld();
         BlockState blockState = world.getBlockState(blockEntity.getPos());
         Direction direction = blockState.contains(HorizontalFacingBlock.FACING) ? blockState.get(HorizontalFacingBlock.FACING) : Direction.SOUTH;
@@ -31,7 +31,7 @@ public class GlowflyBlockEntityRenderer implements BlockEntityRenderer<GlowflyJa
     }
 
     @Override
-    public boolean rendersOutsideBoundingBox(GlowflyJarBlockEntity blockEntity) {
+    public boolean rendersOutsideBoundingBox(BounceBugBottleBlockEntity blockEntity) {
         return true;
     }
 }

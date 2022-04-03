@@ -41,24 +41,21 @@ public class SprayWaterGoal extends Goal {
     public void start() {
         super.start();
         sprayTimer = 0;
-        plantPos = elephant.getPlantPos();
-        elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getPlantPos()));
+        plantPos = elephant.getTargetPlant();
+        elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getTargetPlant()));
         elephant.setWatering(true);
     }
 
     @Override
     public boolean shouldContinue() {
-        if(elephant.getOwner() != null) {
-            return elephant.isNearPlant() && sprayTimer++ <= timerCap;
-        }
-        return false;
+        return elephant.isNearPlant() && sprayTimer++ <= timerCap;
     }
 
     @Override
     public void tick() {
         super.tick();
         if(sprayTimer < 10) return;
-        elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getPlantPos()));
+        elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getTargetPlant()));
         //System.out.println(sprayTimer);
         Box blockBox = new Box(plantPos).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;
@@ -83,7 +80,7 @@ public class SprayWaterGoal extends Goal {
     public void stop() {
         super.stop();
         elephant.setWatering(false);
-        elephant.setPlantPos(null);
+        elephant.setTargetPlant(null);
         elephant.setIfHasWater(false);
     }
 }

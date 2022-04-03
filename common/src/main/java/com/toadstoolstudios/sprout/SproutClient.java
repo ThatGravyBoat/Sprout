@@ -1,7 +1,8 @@
 package com.toadstoolstudios.sprout;
 
+import com.toadstoolstudios.sprout.client.BounceBugEntityRenderer;
 import com.toadstoolstudios.sprout.client.ElephantEntityRenderer;
-import com.toadstoolstudios.sprout.client.GlowflyBlockEntityRenderer;
+import com.toadstoolstudios.sprout.client.BounceBugJarBlockEntityRenderer;
 import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import dev.architectury.injectables.annotations.ExpectPlatform;
@@ -23,11 +24,10 @@ public class SproutClient {
 
     public static void init() {
         renderBlockRenderers(SproutBlocks.PEANUT_PLANT_BLOCK, RenderLayer.getCutout());
-        renderBlockRenderers(SproutBlocks.GLOWFLY_JAR, RenderLayer.getCutout());
-        renderBlockRenderers(SproutBlocks.GLASS_JAR, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.BOUNCE_BUG_BOTTLE, RenderLayer.getCutout());
         registerEntityRenderer(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntityRenderer::new);
-        registerEntityRenderer(SproutEntities.GLOWFLY_ENTITY_TYPE, GlowflyEntityRenderer::new);
-        registerBlockEntityRenderer(SproutBlocks.GLOWFLY_JAR_BLOCK_ENTITY, new GlowflyBlockEntityRenderer());
+        registerEntityRenderer(SproutEntities.BOUNCE_BUG_ENTITY, BounceBugEntityRenderer::new);
+        registerBlockEntityRenderer(SproutBlocks.BOUNCE_BUG_JAR_BLOCK_ENTITY, new BounceBugJarBlockEntityRenderer());
     }
 
     @ExpectPlatform

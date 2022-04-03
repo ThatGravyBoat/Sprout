@@ -4,8 +4,8 @@ import com.toadstoolstudios.sprout.Sprout;
 import net.minecraft.util.Identifier;
 
 public enum BounceBugVariant {
-    WARPED("textures/entity/warped_bounce_bug.png"),
-    CRIMSON("textures/entity/crimson_bounce_bug.png");
+    WARPED("textures/entity/warped_bug.png"),
+    CRIMSON("textures/entity/crimson_bug.png");
 
     public Identifier model, texture;
 

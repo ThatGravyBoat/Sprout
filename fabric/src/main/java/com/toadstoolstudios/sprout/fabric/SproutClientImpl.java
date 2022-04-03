@@ -1,5 +1,7 @@
 package com.toadstoolstudios.sprout.fabric;
 
+import com.toadstoolstudios.sprout.registry.SproutBlocks;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.block.Block;
@@ -20,6 +22,7 @@ public class SproutClientImpl {
     }
 
     public static void renderBlockRenderers(Supplier<Block> blockSupplier, RenderLayer renderLayer) {
+        BlockRenderLayerMap.INSTANCE.putBlock(blockSupplier.get(), renderLayer);
     }
 
     public static <T extends Entity> void registerEntityRenderer(Supplier<EntityType<T>> entityTypeSupplier, EntityRendererFactory<T> renderer) {

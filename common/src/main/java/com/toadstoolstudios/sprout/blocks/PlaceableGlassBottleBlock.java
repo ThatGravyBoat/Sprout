@@ -12,11 +12,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 
-public class GlassJar extends HorizontalFacingBlock implements Waterloggable {
+public class PlaceableGlassBottleBlock extends HorizontalFacingBlock implements Waterloggable {
     public static final BooleanProperty WATERLOGGED;
     protected static final VoxelShape SHAPE = Block.createCuboidShape(4.0, 0.0, 4.0, 12.0, 10.0, 12.0);
 
-    public GlassJar(Settings settings) {
+    public PlaceableGlassBottleBlock(Settings settings) {
         super(settings);
     }
 
