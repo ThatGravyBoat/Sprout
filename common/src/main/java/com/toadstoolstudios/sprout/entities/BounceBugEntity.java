@@ -2,20 +2,29 @@ package com.toadstoolstudios.sprout.entities;
 
 import com.toadstoolstudios.sprout.entities.goals.FindPlantGoal;
 import com.toadstoolstudios.sprout.entities.goals.SpreadShroomOrGrowWartGoal;
+import com.toadstoolstudios.sprout.entities.goals.SproutWanderGoal;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
+import com.toadstoolstudios.sprout.registry.SproutItems;
+import net.minecraft.block.FungusBlock;
 import net.minecraft.block.MushroomPlantBlock;
 import net.minecraft.block.NetherWartBlock;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -33,6 +42,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class BounceBugEntity extends TameableEntity implements IAnimatable, Herbivore {
 
     private static final TrackedData<BounceBugVariant> BOUNCE_BUG_VARIANT = DataTracker.registerData(BounceBugEntity.class, SproutEntities.BOUNCE_BUG_VARIANT);
+    protected static final TrackedData<Boolean> SPREADING_SPORES = DataTracker.registerData(BounceBugEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);
     private BlockPos shroomPos;
     public final boolean isInJar;
@@ -54,15 +64,48 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
     }
 
     @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getStackInHand(hand);
+        if(stack.isOf(Items.GLASS_BOTTLE)) {
+            if(!this.world.isClient()) {
+                this.setOwner(player);
+                this.setIfSpreadingSpores(false);
+                stack.decrement(1);
+                NbtCompound bugNbt = new NbtCompound();
+                this.saveSelfNbt(bugNbt);
+                ItemStack bugBottle = new ItemStack(SproutItems.BOUNCE_BUG_JAR.get());
+                bugBottle.getOrCreateNbt().put("bug", bugNbt);
+                player.getInventory().offerOrDrop(bugBottle);
+                this.discard();
+                return ActionResult.success(this.world.isClient());
+            }
+        } else if(this.getOwner() != null) {
+            if (stack.isOf(this.getBounceBugVariant().shroomChoice) && !this.isSitting()) {
+                if(!world.isClient) this.setSitting(true);
+                this.setIfSpreadingSpores(false);
+                stack.decrement(1);
+                return ActionResult.success(this.world.isClient());
+            } else if (this.isSitting()) {
+                if(!world.isClient) this.setSitting(false);
+                player.getInventory().offerOrDrop(new ItemStack(this.getBounceBugVariant().shroomChoice));
+                return ActionResult.success(this.world.isClient());
+            }
+        }
+        return super.interactMob(player, hand);
+    }
+
+    @Override
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(BOUNCE_BUG_VARIANT, BounceBugVariant.WARPED);
+        this.dataTracker.startTracking(SPREADING_SPORES, false);
     }
 
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putString("bugType", this.getBounceBugVariant().name());
+        nbt.putBoolean("isSpreadingSpores", this.isSpreadingSpores());
     }
 
     @Override
@@ -71,6 +114,9 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         if(nbt.contains("bugType")) {
             this.setBounceBugVariant(BounceBugVariant.valueOf(nbt.getString("bugType")));
         }
+        if(nbt.contains("isSpreadingSpores")) {
+            this.setIfSpreadingSpores(nbt.getBoolean("isSpreadingSpores"));
+        }
     }
 
     @Override
@@ -78,12 +124,21 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         this.goalSelector.add(0, new EscapeDangerGoal(this, 0.3));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new SitGoal(this));
-        this.goalSelector.add(2, new FindPlantGoal<>(this, block -> block instanceof NetherWartBlock || block instanceof MushroomPlantBlock));
+        this.goalSelector.add(2, new FindPlantGoal<>(this, block -> block instanceof NetherWartBlock || block instanceof MushroomPlantBlock || block instanceof FungusBlock));
         this.goalSelector.add(3, new SpreadShroomOrGrowWartGoal(this));
-        this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.2));
+        this.goalSelector.add(8, new SproutWanderGoal<>(this, 0.2));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(10, new LookAroundGoal(this));
     }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if(this.isInvulnerableTo(source)) return false;
+        this.setSitting(false);
+        this.setIfSpreadingSpores(false);
+        return super.damage(source, amount);
+    }
+
 
     public boolean isNearBlock(BlockPos pos, int range) {
         return pos != null && pos.getSquaredDistance(this.getPos()) < range * range;
@@ -101,7 +156,7 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
 
     @Override
     public boolean isNotBusy() {
-        return true;
+        return !isSpreadingSpores();
     }
 
     @Override
@@ -122,10 +177,22 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         return dataTracker.get(BOUNCE_BUG_VARIANT);
     }
 
+    public void setIfSpreadingSpores(boolean isSpreadingSpores) {
+        dataTracker.set(SPREADING_SPORES, isSpreadingSpores);
+    }
 
-    private <E extends IAnimatable> PlayState walkCycle(AnimationEvent<E> event) {
+    public boolean isSpreadingSpores() {
+        return dataTracker.get(SPREADING_SPORES);
+    }
+
+    @Override
+    public boolean specialPredicate() {
+        return !this.isSpreadingSpores();
+    }
+
+    private <E extends IAnimatable>PlayState walkCycle(AnimationEvent<E> event) {
         if(!isInSittingPose()) {
-            if(event.isMoving() || this.isInJar) {
+            if(event.isMoving()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.walking", true));
             } else {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.idling", true));
@@ -136,9 +203,31 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         return PlayState.STOP;
     }
 
+    private <E extends IAnimatable>PlayState sitStand(AnimationEvent<E> event) {
+        if(isInSittingPose()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.sitting", true));
+            return PlayState.CONTINUE;
+        }
+        event.getController().markNeedsReload();
+        return PlayState.STOP;
+    }
+
+    private <E extends IAnimatable>PlayState actions(AnimationEvent<E> event) {
+        if(!event.isMoving() && !isInSittingPose()) {
+            if (this.isSpreadingSpores()) {
+                event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.wiggling", true));
+                return PlayState.CONTINUE;
+            }
+        }
+        event.getController().markNeedsReload();
+        return PlayState.STOP;
+    }
+
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "walk_cycle", 0, this::walkCycle));
+        animationData.addAnimationController(new AnimationController<>(this, "sitting_cycle", 0, this::sitStand));
+        animationData.addAnimationController(new AnimationController<>(this, "action_cycles", 5, this::actions));
     }
 
     @Override

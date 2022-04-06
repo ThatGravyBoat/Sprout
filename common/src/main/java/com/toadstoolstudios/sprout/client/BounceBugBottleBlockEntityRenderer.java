@@ -12,7 +12,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
-public class BounceBugJarBlockEntityRenderer implements BlockEntityRenderer<BounceBugBottleBlockEntity> {
+public class BounceBugBottleBlockEntityRenderer implements BlockEntityRenderer<BounceBugBottleBlockEntity> {
     @Override
     public void render(BounceBugBottleBlockEntity blockEntity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrixStack.push();

@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sprout:item/warped_bounce_bug_bottle"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "sprout:bug_type": 0
+      },
+      "model": "sprout:item/warped_bounce_bug_bottle"
+    },
+    {
+      "predicate": {
+        "sprout:bug_type": 1
+      },
+      "model": "sprout:item/crimson_bounce_bug_bottle"
+    }
+  ]
+}

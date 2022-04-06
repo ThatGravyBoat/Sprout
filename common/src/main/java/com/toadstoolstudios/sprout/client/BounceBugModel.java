@@ -13,7 +13,6 @@ public class BounceBugModel extends AnimatedGeoModel<BounceBugEntity> {
 
     @Override
     public Identifier getTextureLocation(BounceBugEntity object) {
-        //TODO make it change texture based on variant
         return object.getBounceBugVariant().texture;
     }
 

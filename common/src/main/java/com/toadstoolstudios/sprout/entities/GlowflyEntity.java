@@ -1,6 +1,5 @@
 package com.toadstoolstudios.sprout.entities;
 
-import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutItems;
 import com.toadstoolstudios.sprout.registry.SproutSounds;
 import net.minecraft.block.BlockState;
@@ -14,19 +13,15 @@ import net.minecraft.entity.ai.pathing.PathNodeType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathConstants;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -95,7 +90,7 @@ public class GlowflyEntity extends PathAwareEntity implements Flutterer, IAnimat
     @Override
     protected void addFlapEffects() {
         this.field_28640 = this.speed + this.maxWingDeviation / 2.0f;
-        this.playSound(SproutSounds.GLOWFLY_SOUND, 0.15F, 1.0F);
+        this.playSound(SproutSounds.GLOWFLY_SOUND.get(), 0.15F, 1.0F);
     }
 
     @Override
@@ -140,7 +135,7 @@ public class GlowflyEntity extends PathAwareEntity implements Flutterer, IAnimat
         ItemStack stack = player.getStackInHand(hand);
         if(!stack.isOf(Items.GLASS_BOTTLE)) return super.interactMob(player, hand);
         stack.decrement(1);
-        player.giveItemStack(new ItemStack(SproutItems.GLOWFLY_JAR_ITEM.get()));
+        player.giveItemStack(new ItemStack(SproutItems.BOUNCE_BUG_JAR.get()));
         this.discard();
         return ActionResult.PASS;
     }

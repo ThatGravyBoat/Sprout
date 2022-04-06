@@ -1,9 +1,6 @@
 package com.toadstoolstudios.sprout.entities;
 
-import com.toadstoolstudios.sprout.entities.goals.DrinkWaterGoal;
-import com.toadstoolstudios.sprout.entities.goals.FindPlantGoal;
-import com.toadstoolstudios.sprout.entities.goals.FindWaterGoal;
-import com.toadstoolstudios.sprout.entities.goals.SprayWaterGoal;
+import com.toadstoolstudios.sprout.entities.goals.*;
 import com.toadstoolstudios.sprout.registry.SproutItems;
 import net.minecraft.block.CropBlock;
 import net.minecraft.entity.EntityType;
@@ -80,9 +77,9 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
         this.goalSelector.add(2, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
         this.goalSelector.add(3, new FindWaterGoal(this));
         this.goalSelector.add(3, new DrinkWaterGoal(this, 3));
-        this.goalSelector.add(3, new FindPlantGoal<ElephantEntity>(this, block -> block instanceof CropBlock));
+        this.goalSelector.add(3, new FindPlantGoal<>(this, block -> block instanceof CropBlock));
         this.goalSelector.add(3, new SprayWaterGoal(this, 6));
-        this.goalSelector.add(8, new WanderAroundFarGoal(this, 0.2));
+        this.goalSelector.add(8, new SproutWanderGoal<>(this, 0.2));
         this.goalSelector.add(9, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.add(10, new LookAroundGoal(this));
     }
@@ -97,6 +94,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
     public boolean damage(DamageSource source, float amount) {
         if(this.isInvulnerableTo(source)) return false;
         this.setSitting(false);
+        this.setWatering(false);
         return super.damage(source, amount);
     }
 
@@ -115,7 +113,10 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
             }
             return ActionResult.success(this.world.isClient());
         } else if(this.isTamed() && this.isOwner(player)) {
-            if(!this.world.isClient()) this.setSitting(!this.isSitting());
+            if(!this.world.isClient()) {
+                if(!this.isSitting()) this.setWatering(false);
+                this.setSitting(!this.isSitting());
+            }
             return ActionResult.success(this.world.isClient());
         }
         return super.interactMob(player, hand);
@@ -223,7 +224,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
 
     @Override
     public boolean specialPredicate() {
-        return !hasWater();
+        return hasWater();
     }
 
     @Override

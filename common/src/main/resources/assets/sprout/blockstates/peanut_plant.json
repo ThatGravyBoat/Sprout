@@ -4,10 +4,25 @@
       "model": "sprout:block/peanut_plant_stage0"
     },
     "age=1": {
-      "model": "sprout:block/peanut_plant_stage1"
+      "model": "sprout:block/peanut_plant_stage0"
     },
     "age=2": {
+      "model": "sprout:block/peanut_plant_stage1"
+    },
+    "age=3": {
+      "model": "sprout:block/peanut_plant_stage1"
+    },
+    "age=4": {
       "model": "sprout:block/peanut_plant_stage2"
+    },
+    "age=5": {
+      "model": "sprout:block/peanut_plant_stage2"
+    },
+    "age=6": {
+      "model": "sprout:block/peanut_plant_stage2"
+    },
+    "age=7": {
+      "model": "sprout:block/peanut_plant_stage3"
     }
   }
 }

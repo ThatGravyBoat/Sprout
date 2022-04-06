@@ -2,8 +2,6 @@ package com.toadstoolstudios.sprout.registry;
 
 import com.toadstoolstudios.sprout.entities.*;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -27,11 +25,14 @@ public class SproutEntities {
     public static void addSpawnRules() {
         setSpawnRules(ELEPHANT_ENTITY_TYPE.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, (type, world, spawnReason, pos, random) -> pos.getY() > world.getSeaLevel() && world.getBlockState(pos.down()).isIn(BlockTags.DIRT));
         setSpawnRules(BOUNCE_BUG_ENTITY.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, (type, world, spawnReason, pos, random) -> world.getBlockState(pos.down()).isIn(BlockTags.NYLIUM));
+    }
 
+    public static void addSpawns() {
         addEntityToBiome(BiomeKeys.CRIMSON_FOREST, new SpawnData(BOUNCE_BUG_ENTITY.get(), SpawnGroup.AMBIENT, 45, 1, 4));
         addEntityToBiome(BiomeKeys.WARPED_FOREST, new SpawnData(BOUNCE_BUG_ENTITY.get(), SpawnGroup.AMBIENT, 45, 1, 4));
-        addEntityToBiome(BiomeKeys.FLOWER_FOREST, new SpawnData(ELEPHANT_ENTITY_TYPE.get(), SpawnGroup.AMBIENT, 25, 0 , 1));
+        addEntityToBiome(BiomeKeys.MEADOW, new SpawnData(ELEPHANT_ENTITY_TYPE.get(), SpawnGroup.AMBIENT, 25, 0 , 1));
     }
+
 
     @ExpectPlatform
     public static <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, SpawnGroup group, float width, float height) {

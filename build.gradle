@@ -39,6 +39,13 @@ allprojects {
         // See https://docs.gradle.org/current/userguide/declaring_repositories.html
         // for more information about repositories.
         maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+
+        maven {
+            name = 'Shedaniel'
+            url = "https://maven.shedaniel.me"
+        }
+
+        maven { url = "https://dvs1.progwml6.com/files/maven/" }
     }
 
     tasks.withType(JavaCompile) {

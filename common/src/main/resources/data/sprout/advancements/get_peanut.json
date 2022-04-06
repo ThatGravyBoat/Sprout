@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+    "icon": {
+      "item": "sprout:peanut"
+    },
+    "title": {
+      "translate": "advancements.sprout.grab_your_epipen.title"
+    },
+    "description": {
+      "translate": "advancements.sprout.grab_your_epipen.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/husbandry.png"
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sprout:peanut"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "parent": "sprout:get_peanut",
+  "display": {
+    "icon": {
+      "item": "sprout:bounce_bug_jar"
+    },
+    "title": {
+      "translate": "advancements.sprout.bouncebug.title"
+    },
+    "description": {
+      "translate": "advancements.sprout.bouncebug.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 50
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "sprout:bounce_bug"
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  }
+}

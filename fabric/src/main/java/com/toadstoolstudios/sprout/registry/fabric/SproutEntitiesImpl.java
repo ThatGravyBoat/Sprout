@@ -2,12 +2,10 @@ package com.toadstoolstudios.sprout.registry.fabric;
 
 import com.toadstoolstudios.sprout.Sprout;
 import com.toadstoolstudios.sprout.registry.SpawnData;
-import com.toadstoolstudios.sprout.registry.SproutEntities;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
-import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
@@ -16,7 +14,6 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 
-import java.awt.*;
 import java.util.function.Supplier;
 
 public class SproutEntitiesImpl {

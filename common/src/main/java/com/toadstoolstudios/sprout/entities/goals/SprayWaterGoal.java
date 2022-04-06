@@ -12,6 +12,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
@@ -57,11 +58,11 @@ public class SprayWaterGoal extends Goal {
         if(sprayTimer < 10) return;
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getTargetPlant()));
         //System.out.println(sprayTimer);
-        Box blockBox = new Box(plantPos).expand(1, 1, 1);
+        Box blockBox = new Box(plantPos.offset(elephant.getHorizontalFacing())).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;
         sWorld.spawnParticles(ParticleTypes.SPLASH, plantPos.getX(), plantPos.getY(), plantPos.getZ(), 10, 1, 1, 1, 1.4);
         BlockPos.stream(blockBox).filter(blockPos -> elephant.world.getBlockState(blockPos).getBlock() instanceof CropBlock).forEach(blockPos -> {
-            if (elephant.world.getRandom().nextInt(25) == 0) {
+            if (elephant.world.getRandom().nextInt(150) == 1) {
                 BlockState crop = elephant.world.getBlockState(blockPos);
                 Fertilizable fertilizable = ((Fertilizable) crop.getBlock());
                 fertilizable.grow(sWorld, elephant.world.random, blockPos, crop);
@@ -70,7 +71,7 @@ public class SprayWaterGoal extends Goal {
         BlockPos.stream(blockBox).filter(blockPos -> elephant.world.getBlockState(blockPos).getBlock() instanceof FarmlandBlock).forEach(blockPos -> {
             BlockState blockState = sWorld.getBlockState(blockPos);
             int moisture = blockState.get(Properties.MOISTURE);
-            if(elephant.world.getRandom().nextInt(15) == 0 && moisture < 7){
+            if(elephant.world.getRandom().nextInt(15) == 1 && moisture < 7){
                 elephant.world.setBlockState(blockPos, blockState.with(Properties.MOISTURE, 7));
             }
         });

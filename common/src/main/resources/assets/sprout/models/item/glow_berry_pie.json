@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "sprout:item/glowfly_jar"
+    "layer0": "sprout:item/glow_berry_pie"
   }
 }
