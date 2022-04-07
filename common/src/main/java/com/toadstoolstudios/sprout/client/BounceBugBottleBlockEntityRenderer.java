@@ -23,7 +23,7 @@ public class BounceBugBottleBlockEntityRenderer implements BlockEntityRenderer<B
         matrixStack.multiply(direction.getRotationQuaternion());
         matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
         Entity entity = blockEntity.getOrCreateEntity(world);
-        float g = 0.53125f;
+        float g = 0.85F;
         matrixStack.scale(g, g, g);
         //if(MinecraftClient.getInstance().player != null) entity.age = MinecraftClient.getInstance().player.age;
         MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(entity).render(entity, 0.0F, tickDelta, matrixStack, vertexConsumers, light);

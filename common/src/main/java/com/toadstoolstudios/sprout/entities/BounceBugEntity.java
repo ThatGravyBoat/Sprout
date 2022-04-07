@@ -192,7 +192,7 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
 
     private <E extends IAnimatable>PlayState walkCycle(AnimationEvent<E> event) {
         if(!isInSittingPose()) {
-            if(event.isMoving()) {
+            if(event.isMoving() || this.isInJar) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.walking", true));
             } else {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.idling", true));
