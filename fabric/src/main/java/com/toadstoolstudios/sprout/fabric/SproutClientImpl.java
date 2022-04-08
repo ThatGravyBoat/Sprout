@@ -1,20 +1,23 @@
 package com.toadstoolstudios.sprout.fabric;
 
+import com.toadstoolstudios.sprout.SproutClient;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.item.UnclampedModelPredicateProvider;
+import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Supplier;
@@ -35,5 +38,9 @@ public class SproutClientImpl {
 
     public static void registerItemProperty(Supplier<Item> itemSupplier, Identifier name, UnclampedModelPredicateProvider provider) {
         ModelPredicateProviderRegistry.register(itemSupplier.get(), name, provider);
+    }
+
+    public static void registerParticleFactory(Supplier<DefaultParticleType> particle, SproutClient.SpriteAwareFactory<DefaultParticleType> factory) {
+        ParticleFactoryRegistry.getInstance().register(particle.get(), factory::create);
     }
 }

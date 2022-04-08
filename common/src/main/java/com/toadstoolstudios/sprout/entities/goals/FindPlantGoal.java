@@ -64,7 +64,7 @@ public class FindPlantGoal<T extends TameableEntity & Herbivore> extends Goal {
         if (targetPosition != null) return;
         BlockPos.Mutable plantPos = herbivore.getBlockPos().mutableCopy();
         for (BlockPos blockPos : POSITIONAL_OFFSETS) {
-            plantPos.set(herbivore.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
+            plantPos.set(herbivore.getBlockPos(), blockPos);
             if (blockPredicate.test(herbivore.world.getBlockState(plantPos).getBlock())) {
                 Path path = herbivore.getNavigation().findPathTo(plantPos, 0);
                 if (path != null && path.reachesTarget()) {

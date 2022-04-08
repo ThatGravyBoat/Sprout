@@ -1,6 +1,5 @@
 package com.toadstoolstudios.sprout.items;
 
-import com.toadstoolstudios.sprout.Sprout;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
@@ -19,13 +18,12 @@ public class DrinkableFoodItem extends Item {
     private static final int MAX_USE_TIME = 40;
 
     public DrinkableFoodItem() {
-        super(new Settings().group(Sprout.SPROUT_TAB).food(FoodComponents.HONEY_BOTTLE).recipeRemainder(Items.GLASS_BOTTLE));
+        super(new Settings().group(ItemGroup.FOOD).food(FoodComponents.HONEY_BOTTLE).recipeRemainder(Items.GLASS_BOTTLE));
     }
 
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         super.finishUsing(stack, world, user);
-        if (user instanceof ServerPlayerEntity) {
-            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)user;
+        if (user instanceof ServerPlayerEntity serverPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
@@ -37,9 +35,8 @@ public class DrinkableFoodItem extends Item {
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {
-            if (user instanceof PlayerEntity && !((PlayerEntity)user).getAbilities().creativeMode) {
+            if (user instanceof PlayerEntity playerEntity && !((PlayerEntity)user).getAbilities().creativeMode) {
                 ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                PlayerEntity playerEntity = (PlayerEntity)user;
                 if (!playerEntity.getInventory().insertStack(itemStack)) {
                     playerEntity.dropItem(itemStack, false);
                 }

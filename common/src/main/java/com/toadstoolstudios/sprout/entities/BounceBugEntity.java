@@ -5,6 +5,7 @@ import com.toadstoolstudios.sprout.entities.goals.SpreadShroomOrGrowWartGoal;
 import com.toadstoolstudios.sprout.entities.goals.SproutWanderGoal;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import com.toadstoolstudios.sprout.registry.SproutItems;
+import net.minecraft.block.Block;
 import net.minecraft.block.FungusBlock;
 import net.minecraft.block.MushroomPlantBlock;
 import net.minecraft.block.NetherWartBlock;
@@ -23,12 +24,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -38,6 +42,8 @@ import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.Random;
 
 public class BounceBugEntity extends TameableEntity implements IAnimatable, Herbivore {
 
@@ -57,9 +63,17 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         this.isInJar = isInJar;
     }
 
+    public static boolean canSpawn(EntityType<BounceBugEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random) {
+        return world.getBlockState(pos.down()).isIn(BlockTags.NYLIUM);
+    }
+
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        if(world.getBiome(this.getBlockPos()).matchesKey(BiomeKeys.CRIMSON_FOREST)) this.setBounceBugVariant(BounceBugVariant.CRIMSON);
+        RegistryEntry<Biome> biome = world.getBiome(this.getBlockPos());
+        if(biome.matchesKey(BiomeKeys.CRIMSON_FOREST)) this.setBounceBugVariant(BounceBugVariant.CRIMSON);
+        if (SpawnReason.SPAWN_EGG.equals(spawnReason) && !biome.matchesKey(BiomeKeys.WARPED_FOREST)) {
+            this.setBounceBugVariant(BounceBugVariant.random(world.getRandom()));
+        }
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -80,14 +94,22 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
                 return ActionResult.success(this.world.isClient());
             }
         } else if(this.getOwner() != null) {
-            if (stack.isOf(this.getBounceBugVariant().shroomChoice) && !this.isSitting()) {
-                if(!world.isClient) this.setSitting(true);
-                this.setIfSpreadingSpores(false);
-                stack.decrement(1);
-                return ActionResult.success(this.world.isClient());
-            } else if (this.isSitting()) {
+            if (!this.isSitting()) {
+                Block blockFromItem = Block.getBlockFromItem(stack.getItem());
+                boolean isMushroom = blockFromItem instanceof FungusBlock || blockFromItem instanceof MushroomPlantBlock;
+                if (isMushroom) {
+                    if (!world.isClient) this.setSitting(true);
+                    this.setIfSpreadingSpores(false);
+                    ItemStack heldItem = stack.copy();
+                    stack.decrement(1);
+                    heldItem.setCount(1);
+                    this.setStackInHand(Hand.MAIN_HAND, heldItem);
+                    return ActionResult.success(this.world.isClient());
+                }
+            } else {
                 if(!world.isClient) this.setSitting(false);
-                player.getInventory().offerOrDrop(new ItemStack(this.getBounceBugVariant().shroomChoice));
+                player.getInventory().offerOrDrop(this.getStackInHand(Hand.MAIN_HAND).copy());
+                this.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
                 return ActionResult.success(this.world.isClient());
             }
         }
@@ -192,7 +214,7 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
 
     private <E extends IAnimatable>PlayState walkCycle(AnimationEvent<E> event) {
         if(!isInSittingPose()) {
-            if(event.isMoving() || this.isInJar) {
+            if(event.isMoving()) {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.walking", true));
             } else {
                 event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.bounce_bug.idling", true));

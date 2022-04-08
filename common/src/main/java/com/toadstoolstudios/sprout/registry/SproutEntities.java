@@ -23,14 +23,14 @@ public class SproutEntities {
     public static final Supplier<EntityType<BounceBugEntity>> BOUNCE_BUG_ENTITY = registerEntity("bounce_bug", BounceBugEntity::new, SpawnGroup.AMBIENT, 0.5F, 0.5F);
 
     public static void addSpawnRules() {
-        setSpawnRules(ELEPHANT_ENTITY_TYPE.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, (type, world, spawnReason, pos, random) -> pos.getY() > world.getSeaLevel() && world.getBlockState(pos.down()).isIn(BlockTags.DIRT));
-        setSpawnRules(BOUNCE_BUG_ENTITY.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, (type, world, spawnReason, pos, random) -> world.getBlockState(pos.down()).isIn(BlockTags.NYLIUM));
+        setSpawnRules(ELEPHANT_ENTITY_TYPE.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, ElephantEntity::canSpawn);
+        setSpawnRules(BOUNCE_BUG_ENTITY.get(), SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, BounceBugEntity::canSpawn);
     }
 
     public static void addSpawns() {
-        addEntityToBiome(BiomeKeys.CRIMSON_FOREST, new SpawnData(BOUNCE_BUG_ENTITY.get(), SpawnGroup.AMBIENT, 45, 1, 4));
-        addEntityToBiome(BiomeKeys.WARPED_FOREST, new SpawnData(BOUNCE_BUG_ENTITY.get(), SpawnGroup.AMBIENT, 45, 1, 4));
-        addEntityToBiome(BiomeKeys.MEADOW, new SpawnData(ELEPHANT_ENTITY_TYPE.get(), SpawnGroup.AMBIENT, 25, 0 , 1));
+        addEntityToBiome(BiomeKeys.CRIMSON_FOREST, new SpawnData(BOUNCE_BUG_ENTITY.get(), SpawnGroup.AMBIENT, 25, 1, 4));
+        addEntityToBiome(BiomeKeys.WARPED_FOREST, new SpawnData(BOUNCE_BUG_ENTITY.get(), SpawnGroup.AMBIENT, 25, 1, 4));
+        addEntityToBiome(BiomeKeys.MEADOW, new SpawnData(ELEPHANT_ENTITY_TYPE.get(), SpawnGroup.AMBIENT, 1, 0 , 1));
     }
 
 

@@ -17,7 +17,8 @@ import net.minecraft.world.BlockView;
 import java.util.stream.Stream;
 
 public class PlaceableGlassBottleBlock extends HorizontalFacingBlock implements Waterloggable {
-    public static final BooleanProperty WATERLOGGED;
+    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
+
     protected static final VoxelShape SHAPE = Stream.of(
             Block.createCuboidShape(3, 11, 3, 13, 14, 13),
             Block.createCuboidShape(2, 0, 2, 14, 10, 14),
@@ -52,9 +53,5 @@ public class PlaceableGlassBottleBlock extends HorizontalFacingBlock implements 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
-    }
-
-    static {
-        WATERLOGGED = Properties.WATERLOGGED;
     }
 }

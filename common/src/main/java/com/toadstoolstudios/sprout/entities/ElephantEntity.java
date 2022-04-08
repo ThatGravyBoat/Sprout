@@ -2,8 +2,10 @@ package com.toadstoolstudios.sprout.entities;
 
 import com.toadstoolstudios.sprout.entities.goals.*;
 import com.toadstoolstudios.sprout.registry.SproutItems;
+import com.toadstoolstudios.sprout.registry.SproutParticles;
 import net.minecraft.block.CropBlock;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -16,18 +18,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.ParticleKeyFrameEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+
+import java.util.Random;
 
 public class ElephantEntity extends TameableEntity implements IAnimatable, Herbivore {
     protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -43,6 +50,10 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
 
     public ElephantEntity(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    public static boolean canSpawn(EntityType<ElephantEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random) {
+        return pos.getY() > world.getSeaLevel() && world.getBlockState(pos.down()).isIn(BlockTags.DIRT) && world.getRandom().nextInt(10) == 0;
     }
 
     @Override
@@ -205,11 +216,19 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
         return PlayState.STOP;
     }
 
+    private <E extends IAnimatable> void particleInitializer(ParticleKeyFrameEvent<E> event) {
+        if ("sprout:snooze".equals(event.effect)) {
+            this.world.addParticle(SproutParticles.SNOOZE.get(), this.getX(), this.getY() + 0.8, this.getZ(), 0.01, 1, 0.01);
+        }
+    }
+
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "action_controller", 10, this::actions));
         animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
-        animationData.addAnimationController(new AnimationController<>(this, "sit_controller", 2, this::sitStand));
+        var sleepController = new AnimationController<>(this, "sit_controller", 2, this::sitStand);
+        sleepController.registerParticleListener(this::particleInitializer);
+        animationData.addAnimationController(sleepController);
     }
 
     @Override

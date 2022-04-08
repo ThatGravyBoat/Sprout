@@ -1,7 +1,6 @@
 package com.toadstoolstudios.sprout.entities.goals;
 
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
-import com.toadstoolstudios.sprout.utils.EntityPathingUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.FarmlandBlock;
@@ -12,11 +11,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.EnumSet;
-import java.util.List;
 
 public class SprayWaterGoal extends Goal {
     private int sprayTimer;
@@ -24,7 +21,6 @@ public class SprayWaterGoal extends Goal {
     private BlockPos plantPos;
 
     private final ElephantEntity elephant;
-    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(3);
 
     public SprayWaterGoal(ElephantEntity elephant, int timeInSeconds) {
         this.setControls(EnumSet.of(Control.MOVE, Control.TARGET, Control.LOOK));
@@ -43,6 +39,7 @@ public class SprayWaterGoal extends Goal {
         super.start();
         sprayTimer = 0;
         plantPos = elephant.getTargetPlant();
+        //noinspection ConstantConditions
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getTargetPlant()));
         elephant.setWatering(true);
     }
@@ -56,8 +53,8 @@ public class SprayWaterGoal extends Goal {
     public void tick() {
         super.tick();
         if(sprayTimer < 10) return;
+        //noinspection ConstantConditions
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getTargetPlant()));
-        //System.out.println(sprayTimer);
         Box blockBox = new Box(plantPos.offset(elephant.getHorizontalFacing())).expand(1, 1, 1);
         ServerWorld sWorld = (ServerWorld) elephant.world;
         sWorld.spawnParticles(ParticleTypes.SPLASH, plantPos.getX(), plantPos.getY(), plantPos.getZ(), 10, 1, 1, 1, 1.4);

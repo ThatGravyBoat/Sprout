@@ -1,6 +1,5 @@
 {
   "itemGroup.sprout.itemgroup": "Sprout",
-  "item.sprout.watering_can": "Watering Can",
   "item.sprout.peanut": "Peanut",
   "item.sprout.pbj": "PB & J",
   "item.sprout.peanut_butter": "Peanut Butter",
@@ -14,10 +13,8 @@
   "item.sprout.elephant_spawn_egg": "Elephant Spawn Egg",
   "item.sprout.bouncebug_spawn_egg": "Bounce Bug Spawn Egg",
   "block.sprout.peanut_plant": "Peanut Plant",
-  "block.sprout.glass_jar": "Glass Jar",
   "block.sprout.bounce_bug_jar": "Bounce Bug Jar",
   "entity.sprout.elephant": "Elephant",
-  "entity.sprout.glowfly": "Glowfly",
   "advancements.sprout.grab_your_epipen.title": "Grab Your EpiPen!",
   "advancements.sprout.grab_your_epipen.description": "Pickup a peanut",
   "advancements.sprout.pbj.title": "Would you clap them ch-",

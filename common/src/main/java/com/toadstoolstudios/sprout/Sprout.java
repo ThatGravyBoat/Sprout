@@ -15,7 +15,6 @@ public class Sprout {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final String MODID = "sprout";
-	public static final ItemGroup SPROUT_TAB = registerItemGroup(new Identifier(MODID, "itemgroup"), () -> new ItemStack(SproutItems.PEANUT.get()));
 
 	public static void init() {
 		GeckoLib.initialize();
@@ -23,10 +22,6 @@ public class Sprout {
 		SproutItems.registerItems();
 		SproutBlocks.registerBlocks();
 		SproutSounds.registerSounds();
-	}
-
-	@ExpectPlatform
-	public static ItemGroup registerItemGroup(Identifier id, Supplier<ItemStack> icon) {
-		throw new AssertionError();
+		SproutParticles.registerParticles();
 	}
 }

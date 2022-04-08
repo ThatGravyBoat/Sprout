@@ -57,7 +57,7 @@ public class FindWaterGoal extends Goal {
         if(targetPosition != null) return;
         BlockPos.Mutable waterPos = elephant.getBlockPos().mutableCopy();
         for (BlockPos blockPos : POSITIONAL_OFFSETS){
-            waterPos.set(elephant.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
+            waterPos.set(elephant.getBlockPos(), blockPos);
             if (this.elephant.world.isWater(waterPos)){
                 Path path = elephant.getNavigation().findPathTo(waterPos, 1);
                 this.targetPosition = path == null ? null : path.getTarget();

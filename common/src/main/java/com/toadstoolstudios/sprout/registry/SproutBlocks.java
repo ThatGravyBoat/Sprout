@@ -5,13 +5,14 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.function.Supplier;
 
 public class SproutBlocks {
-    public static final Supplier<Block> PEANUT_PLANT_BLOCK = registerBlock( "peanut_plant", () -> new PeanutCrop(AbstractBlock.Settings.copy(Blocks.CARROTS)));
-    public static final Supplier<Block> BOUNCE_BUG_BOTTLE = registerBlock( "bounce_bug_jar", () -> new BounceBugBottle(AbstractBlock.Settings.of(Material.GLASS).luminance(value -> 15).solidBlock((state, world, pos) -> false)));
+    public static final Supplier<Block> PEANUT_PLANT_BLOCK = registerBlock("peanut_plant", () -> new PeanutCrop(AbstractBlock.Settings.copy(Blocks.CARROTS)));
+    public static final Supplier<Block> BOUNCE_BUG_BOTTLE = registerBlock("bounce_bug_jar", () -> new BounceBugBottle(AbstractBlock.Settings.of(Material.GLASS).sounds(BlockSoundGroup.GLASS).strength(1).luminance(value -> 3).solidBlock((state, world, pos) -> false)));
     public static Supplier<BlockEntityType<BounceBugBottleBlockEntity>> BOUNCE_BUG_JAR_BLOCK_ENTITY = registerBlockEntity("bounce_bug_block_entity", () -> createBlockEntityType(BounceBugBottleBlockEntity::new, BOUNCE_BUG_BOTTLE.get()));
 
     public static void registerBlocks() {

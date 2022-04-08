@@ -90,7 +90,7 @@ public class GlowflyEntity extends PathAwareEntity implements Flutterer, IAnimat
     @Override
     protected void addFlapEffects() {
         this.field_28640 = this.speed + this.maxWingDeviation / 2.0f;
-        this.playSound(SproutSounds.GLOWFLY_SOUND.get(), 0.15F, 1.0F);
+        //this.playSound(SproutSounds.GLOWFLY_SOUND.get(), 0.15F, 1.0F);
     }
 
     @Override

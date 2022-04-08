@@ -35,6 +35,7 @@ public class DrinkWaterGoal extends Goal {
     public void start() {
         super.start();
         drinkTimer = 0;
+        //noinspection ConstantConditions
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getWaterPos()));
         elephant.setDrinking(true);
     }
@@ -42,6 +43,7 @@ public class DrinkWaterGoal extends Goal {
     @Override
     public void tick() {
         super.tick();
+        //noinspection ConstantConditions
         elephant.lookAt(elephant.getCommandSource().getEntityAnchor(), Vec3d.ofCenter(elephant.getWaterPos()));
     }
 
@@ -63,7 +65,7 @@ public class DrinkWaterGoal extends Goal {
     public boolean checkForWater() {
         BlockPos.Mutable waterPos = elephant.getBlockPos().mutableCopy();
         for (BlockPos blockPos : POSITIONAL_OFFSETS){
-            waterPos.set(elephant.getBlockPos(), blockPos.getX(), blockPos.getY(), blockPos.getZ());
+            waterPos.set(elephant.getBlockPos(), blockPos);
             if (this.elephant.world.isWater(waterPos)){
                 return true;
             }
