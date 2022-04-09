@@ -3,7 +3,11 @@ package com.toadstoolstudios.sprout.entities;
 import com.toadstoolstudios.sprout.entities.goals.*;
 import com.toadstoolstudios.sprout.registry.SproutItems;
 import com.toadstoolstudios.sprout.registry.SproutParticles;
+import com.toadstoolstudios.sprout.registry.SproutSounds;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.CropBlock;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -18,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -30,6 +35,7 @@ import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.event.ParticleKeyFrameEvent;
+import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
@@ -222,12 +228,22 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
         }
     }
 
+    @Environment(EnvType.CLIENT)
+    private <E extends IAnimatable> void soundInitializer(SoundKeyframeEvent<E> event) {
+        if (!this.world.isClient()) return;
+        if ("sprout:sleep".equals(event.sound)) {
+            this.world.playSoundFromEntity(MinecraftClient.getInstance().player, this, SproutSounds.SLEEP.get(), SoundCategory.AMBIENT, 0.5f, 0.5f);
+        }
+    }
+
     @Override
     public void registerControllers(AnimationData animationData) {
         animationData.addAnimationController(new AnimationController<>(this, "action_controller", 10, this::actions));
         animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
+
         var sleepController = new AnimationController<>(this, "sit_controller", 2, this::sitStand);
         sleepController.registerParticleListener(this::particleInitializer);
+        sleepController.registerSoundListener(this::soundInitializer);
         animationData.addAnimationController(sleepController);
     }
 

@@ -1,28 +1,24 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+license = "All Rights Reserved"
 
 [[mods]]
-modId = "sprout"
-version = "${version}"
-displayName = "Sprout"
-authors = "Me!"
-description = '''
-This is an example description! Tell everyone what your mod is about!
-'''
-#logoFile = ""
+    modId = "sprout"
+    version = "${version}"
+    displayName = "Sprout"
+    authors = "Developer - CodexAdrian\nArtist - Frogipher\nContributor - ThatGravyBoat"
+    description = "A vanilla agriculture farming/gardening mod!"
 
 [[dependencies.sprout]]
-modId = "forge"
-mandatory = true
-versionRange = "[40,)"
-ordering = "NONE"
-side = "BOTH"
+    modId = "forge"
+    mandatory = true
+    versionRange = "[40,)"
+    ordering = "NONE"
+    side = "BOTH"
 
 [[dependencies.sprout]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.18.2,)"
-ordering = "NONE"
-side = "BOTH"
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[1.18.2,)"
+    ordering = "NONE"
+    side = "BOTH"

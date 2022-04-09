@@ -3,16 +3,18 @@
   "id": "sprout",
   "version": "${version}",
   "name": "Sprout",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "A vanilla agriculture farming/gardening mod!",
   "authors": [
-    "Me!"
+    "Developer - CodexAdrian",
+    "Artist - Frogipher",
+    "Contributor - ThatGravyBoat"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/sprout",
     "sources": "https://github.com/Toadstool-Studios/Sprout"
   },
-  "license": "Insert License Here",
-  "icon": "assets/examplemod/icon.png",
+  "license": "All Rights Reserved",
+  "icon": "assets/sprout/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

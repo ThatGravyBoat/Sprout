@@ -15,6 +15,7 @@
   "block.sprout.peanut_plant": "Peanut Plant",
   "block.sprout.bounce_bug_jar": "Bounce Bug Jar",
   "entity.sprout.elephant": "Elephant",
+  "entity.sprout.bounce_bug": "Bounce Bug",
   "advancements.sprout.grab_your_epipen.title": "Grab Your EpiPen!",
   "advancements.sprout.grab_your_epipen.description": "Pickup a peanut",
   "advancements.sprout.pbj.title": "Would you clap them ch-",
@@ -24,5 +25,6 @@
   "advancements.sprout.butterscotch.title": "Just like Grandma used to make!",
   "advancements.sprout.butterscotch.description": "Cook some sugar and make a butterscotch candy",
   "advancements.sprout.bouncebug.title": "Boing!",
-  "advancements.sprout.bouncebug.description": "Tame a bounce bug by capturing it in a glass bottle"
+  "advancements.sprout.bouncebug.description": "Tame a bounce bug by capturing it in a glass bottle",
+  "subtitles.sprout.sleep": "Elephant Snoozing"
 }

@@ -19,8 +19,7 @@ public class BounceBugBottle extends PlaceableGlassBottleBlock implements BlockE
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         super.onPlaced(world, pos, state, placer, itemStack);
-        var blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof BounceBugBottleBlockEntity bugBottleBlock) {
+        if (world.getBlockEntity(pos) instanceof BounceBugBottleBlockEntity bugBottleBlock) {
             var nbt = itemStack.getNbt();
             if (nbt != null && itemStack.hasNbt() && nbt.contains("bug", 10)) {
                 bugBottleBlock.setEntity(nbt.getCompound("bug"));

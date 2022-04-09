@@ -1,0 +1,27 @@
+{
+  "sleep": {
+    "subtitle": "subtitles.sprout.sleep",
+    "sounds": [
+      {
+        "name": "mob/fox/sleep1",
+        "volume": 0.8
+      },
+      {
+        "name": "mob/fox/sleep2",
+        "volume": 0.8
+      },
+      {
+        "name": "mob/fox/sleep3",
+        "volume": 0.8
+      },
+      {
+        "name": "mob/fox/sleep4",
+        "volume": 0.8
+      },
+      {
+        "name": "mob/fox/sleep5",
+        "volume": 0.8
+      }
+    ]
+  }
+}
