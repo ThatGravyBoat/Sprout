@@ -6,7 +6,7 @@ license = "All Rights Reserved"
     modId = "sprout"
     version = "${version}"
     displayName = "Sprout"
-    authors = "Developer - CodexAdrian\nArtist - Frogipher\nContributor - ThatGravyBoat"
+    authors = "Developer - CodexAdrian\\nArtist - Frogipher\\nContributor - ThatGravyBoat"
     description = "A vanilla agriculture farming/gardening mod!"
 
 [[dependencies.sprout]]
