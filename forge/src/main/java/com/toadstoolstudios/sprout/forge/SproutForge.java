@@ -6,6 +6,7 @@ import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.registry.SpawnData;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
 import com.toadstoolstudios.sprout.registry.SproutFeatures;
+import com.toadstoolstudios.sprout.registry.SproutItems;
 import com.toadstoolstudios.sprout.registry.forge.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.SpawnSettings;
@@ -49,6 +50,7 @@ public class SproutForge {
 
     public static void onComplete(FMLLoadCompleteEvent event) {
         SproutEntities.addSpawnRules();
+        SproutItems.onComplete();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

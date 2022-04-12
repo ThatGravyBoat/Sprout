@@ -17,12 +17,11 @@ public class ElephantEntityModel extends AnimatedGeoModel<ElephantEntity> {
 
     @Override
     public Identifier getTextureLocation(ElephantEntity object) {
-        String name;
-        switch (object.getName().getString().toLowerCase()) {
-            case "lumpy" -> name = "lumpy";
-            case "tree trunks" -> name = "tree_trunks";
-            default -> name = "elephant";
-        }
+        String name = switch (object.getName().getString().toLowerCase()) {
+            case "lumpy" -> "lumpy";
+            case "tree trunks" -> "tree_trunks";
+            default -> "elephant";
+        };
         return object.isInSittingPose() ? new Identifier(Sprout.MODID, "textures/entity/sleeping_" + name + ".png") : new Identifier(Sprout.MODID, "textures/entity/" + name + ".png");
     }
 
