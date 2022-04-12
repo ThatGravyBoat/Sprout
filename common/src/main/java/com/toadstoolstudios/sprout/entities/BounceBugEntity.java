@@ -10,6 +10,7 @@ import net.minecraft.block.FungusBlock;
 import net.minecraft.block.MushroomPlantBlock;
 import net.minecraft.block.NetherWartBlock;
 import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -61,6 +62,11 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
     public BounceBugEntity(EntityType<BounceBugEntity> entityType, World world, boolean isInJar) {
         super(entityType, world);
         this.isInJar = isInJar;
+    }
+
+    @Override
+    public EntityGroup getGroup() {
+        return EntityGroup.ARTHROPOD;
     }
 
     public static boolean canSpawn(EntityType<BounceBugEntity> type, ServerWorldAccess world, SpawnReason reason, BlockPos pos, Random random) {
