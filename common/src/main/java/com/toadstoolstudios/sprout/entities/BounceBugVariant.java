@@ -25,7 +25,7 @@ public enum BounceBugVariant {
         this(new Identifier(Sprout.MODID, "geo/bounce_bug.geo.json"), new Identifier(Sprout.MODID, texture), particleEffect);
     }
 
-    public static BounceBugVariant getVarient(String id) {
+    public static BounceBugVariant getVariant(String id) {
         try {
             return BounceBugVariant.valueOf(id.toUpperCase(Locale.ROOT));
         }catch (Exception e) {

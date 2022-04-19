@@ -1,12 +1,17 @@
 package com.toadstoolstudios.sprout.registry;
 
-import com.toadstoolstudios.sprout.entities.*;
+import com.toadstoolstudios.sprout.entities.BounceBugEntity;
+import com.toadstoolstudios.sprout.entities.BounceBugVariant;
+import com.toadstoolstudios.sprout.entities.ElephantEntity;
+import com.toadstoolstudios.sprout.entities.TrackedEnum;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
@@ -33,14 +38,8 @@ public class SproutEntities {
         addEntityToBiome(BiomeKeys.MEADOW, new SpawnData(ELEPHANT_ENTITY_TYPE.get(), SpawnGroup.AMBIENT, 1, 0 , 1));
     }
 
-
     @ExpectPlatform
     public static <T extends Entity> Supplier<EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> factory, SpawnGroup group, float width, float height) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void addEntityToBiome(Biome.Category category, SpawnData data) {
         throw new AssertionError();
     }
 

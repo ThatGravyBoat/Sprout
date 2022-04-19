@@ -43,9 +43,9 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import java.util.Random;
 
 public class ElephantEntity extends TameableEntity implements IAnimatable, Herbivore {
-    protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(TameableEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Boolean> DRINKING = DataTracker.registerData(ElephantEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(ElephantEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(ElephantEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     public static final Ingredient PEANUT_TEMPT_ITEM = Ingredient.ofItems(SproutItems.PEANUT.get());
 
     @Nullable
@@ -76,6 +76,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
         super.readCustomDataFromNbt(nbt);
         dataTracker.set(DRINKING, nbt.getBoolean("Drinking"));
         dataTracker.set(WATERING, nbt.getBoolean("Watering"));
+        dataTracker.set(HAS_WATER, nbt.getBoolean("HasWater"));
     }
     //Setting drinking and water states
     @Override

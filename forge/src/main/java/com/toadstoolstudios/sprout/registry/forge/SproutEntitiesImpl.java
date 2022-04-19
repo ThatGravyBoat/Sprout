@@ -27,10 +27,6 @@ public class SproutEntitiesImpl {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder.create(factory, group).setDimensions(width, height).build(name));
     }
 
-    public static void addEntityToBiome(Biome.Category category, SpawnData data) {
-        //please ignore
-    }
-
     public static void addEntityToBiome(RegistryKey<Biome> biome, SpawnData data) {
         ENTITY_SPAWNS.put(biome.getValue(), data);
     }

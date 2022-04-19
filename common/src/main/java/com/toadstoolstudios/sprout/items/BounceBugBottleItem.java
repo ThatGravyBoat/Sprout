@@ -22,7 +22,7 @@ public class BounceBugBottleItem extends BlockItem {
         NbtCompound nbt = stack.getNbt();
         if (!stack.hasNbt() || nbt == null) return 0f;
         NbtCompound bug = nbt.getCompound("bug");
-        return bug == null ? 0 : BounceBugVariant.getVarient(bug.getString("bugType")).ordinal();
+        return bug == null ? 0 : BounceBugVariant.getVariant(bug.getString("bugType")).ordinal();
     }
 
     @Override
@@ -41,6 +41,7 @@ public class BounceBugBottleItem extends BlockItem {
                     BlockPos blockPos = context.getBlockPos().offset(context.getSide());
                     bug.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.1, blockPos.getZ() + 0.5);
                     bug.setVelocity(0, 0.1, 0);
+                    bug.setOwner(player);
                     world.spawnEntity(bug);
                 }
                 return ActionResult.success(world.isClient());

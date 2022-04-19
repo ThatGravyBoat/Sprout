@@ -23,10 +23,6 @@ public class SproutEntitiesImpl {
         return () -> register;
     }
 
-    public static void addEntityToBiome(Biome.Category category, SpawnData data) {
-        BiomeModifications.addSpawn(BiomeSelectors.categories(category), data.group(), data.entityType(), data.weight(), data.min(), data.max());
-    }
-
     public static void addEntityToBiome(RegistryKey<Biome> category, SpawnData data) {
         BiomeModifications.addSpawn(biomeSelectionContext -> biomeSelectionContext.getBiomeKey().equals(category), data.group(), data.entityType(), data.weight(), data.min(), data.max());
     }

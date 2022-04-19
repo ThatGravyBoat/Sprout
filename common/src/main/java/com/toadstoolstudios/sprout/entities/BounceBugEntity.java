@@ -88,7 +88,6 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         ItemStack stack = player.getStackInHand(hand);
         if(stack.isOf(Items.GLASS_BOTTLE)) {
             if(!this.world.isClient()) {
-                this.setOwner(player);
                 this.setIfSpreadingSpores(false);
                 stack.decrement(1);
                 NbtCompound bugNbt = new NbtCompound();
@@ -102,9 +101,8 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
         } else if(this.getOwner() != null) {
             if (!this.isSitting()) {
                 Block blockFromItem = Block.getBlockFromItem(stack.getItem());
-                boolean isMushroom = blockFromItem instanceof FungusBlock || blockFromItem instanceof MushroomPlantBlock;
-                if (isMushroom) {
-                    if (!world.isClient) this.setSitting(true);
+                if (blockFromItem instanceof FungusBlock || blockFromItem instanceof MushroomPlantBlock) {
+                    if (!world.isClient()) this.setSitting(true);
                     this.setIfSpreadingSpores(false);
                     ItemStack heldItem = stack.copy();
                     stack.decrement(1);
@@ -113,7 +111,7 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
                     return ActionResult.success(this.world.isClient());
                 }
             } else {
-                if(!world.isClient) this.setSitting(false);
+                if(!world.isClient()) this.setSitting(false);
                 player.getInventory().offerOrDrop(this.getStackInHand(Hand.MAIN_HAND).copy());
                 this.setStackInHand(Hand.MAIN_HAND, ItemStack.EMPTY);
                 return ActionResult.success(this.world.isClient());
@@ -140,7 +138,7 @@ public class BounceBugEntity extends TameableEntity implements IAnimatable, Herb
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         if(nbt.contains("bugType")) {
-            this.setBounceBugVariant(BounceBugVariant.valueOf(nbt.getString("bugType")));
+            this.setBounceBugVariant(BounceBugVariant.getVariant(nbt.getString("bugType")));
         }
         if(nbt.contains("isSpreadingSpores")) {
             this.setIfSpreadingSpores(nbt.getBoolean("isSpreadingSpores"));
