@@ -119,17 +119,24 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
-        if (stack.isOf(SproutItems.PEANUT.get()) && !isTamed()) {
-            if(!player.getAbilities().creativeMode) stack.decrement(1);
-            if(!this.world.isClient()) {
-                if(this.random.nextInt(10) == 0) {
-                    this.setOwner(player);
-                    this.world.sendEntityStatus(this, (byte) 7);
-                } else {
-                    this.world.sendEntityStatus(this, (byte) 6);
+        if (stack.isOf(SproutItems.PEANUT.get())) {
+            if (!isTamed()) {
+                if(!player.getAbilities().creativeMode) stack.decrement(1);
+                if (!this.world.isClient()) {
+                    if (this.random.nextInt(10) == 0) {
+                        this.setOwner(player);
+                        this.world.sendEntityStatus(this, (byte) 7);
+                    } else {
+                        this.world.sendEntityStatus(this, (byte) 6);
+                    }
                 }
+                return ActionResult.success(this.world.isClient());
+            } else if (this.getHealth() < this.getMaxHealth()) {
+                if(!player.getAbilities().creativeMode) stack.decrement(1);
+                if (!this.world.isClient) this.heal(2f);
+                return ActionResult.success(this.world.isClient());
             }
-            return ActionResult.success(this.world.isClient());
+            return ActionResult.PASS;
         } else if(this.isTamed() && this.isOwner(player)) {
             if(!this.world.isClient()) {
                 if(!this.isSitting()) this.setWatering(false);
