@@ -1,21 +1,18 @@
 package com.toadstoolstudios.sprout.registry.forge;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.PlacedFeature;
+import com.toadstoolstudios.sprout.Sprout;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class SproutFeaturesImpl {
 
-    public static final ListMultimap<Identifier, FeaturePlacementData> FEATURES = ArrayListMultimap.create();
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Sprout.MODID);
 
-    public static void registerFeature(GenerationStep.Feature feature, RegistryEntry<PlacedFeature> entry, RegistryKey<Biome> biome) {
-        FEATURES.put(biome.getValue(), new FeaturePlacementData(feature, entry));
+    public static <T extends FeatureConfig, F extends Feature<T>> Supplier<F> registerFeature(String id, Supplier<F> feature) {
+        return FEATURES.register(id, feature);
     }
-
-    public static record FeaturePlacementData(GenerationStep.Feature feature, RegistryEntry<PlacedFeature> entry){}
 }

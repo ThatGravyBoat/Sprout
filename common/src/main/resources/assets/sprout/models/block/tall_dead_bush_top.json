@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "sprout:block/tall_dead_bush_top"
+  }
+}

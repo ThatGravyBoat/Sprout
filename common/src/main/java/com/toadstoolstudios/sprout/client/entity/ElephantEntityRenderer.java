@@ -1,4 +1,4 @@
-package com.toadstoolstudios.sprout.client;
+package com.toadstoolstudios.sprout.client.entity;
 
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import net.minecraft.client.render.RenderLayer;

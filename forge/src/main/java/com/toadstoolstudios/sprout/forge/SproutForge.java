@@ -3,10 +3,7 @@ package com.toadstoolstudios.sprout.forge;
 import com.toadstoolstudios.sprout.Sprout;
 import com.toadstoolstudios.sprout.entities.BounceBugEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
-import com.toadstoolstudios.sprout.registry.SpawnData;
-import com.toadstoolstudios.sprout.registry.SproutEntities;
-import com.toadstoolstudios.sprout.registry.SproutFeatures;
-import com.toadstoolstudios.sprout.registry.SproutItems;
+import com.toadstoolstudios.sprout.registry.*;
 import com.toadstoolstudios.sprout.registry.forge.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.SpawnSettings;
@@ -37,6 +34,7 @@ public class SproutForge {
         SproutItemsImpl.ITEMS.register(bus);
         SproutSoundsImpl.SOUNDS.register(bus);
         SproutParticlesImpl.PARTICLES.register(bus);
+        SproutFeaturesImpl.FEATURES.register(bus);
         bus.addListener(SproutForge::commonSetup);
         bus.addListener(SproutForgeClient::clientSetup);
         bus.addListener(SproutForge::onComplete);
@@ -45,7 +43,7 @@ public class SproutForge {
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {
-        SproutFeatures.registerFeatures();
+        SproutConfiguredFeatures.registerFeatures();
     }
 
     public static void onComplete(FMLLoadCompleteEvent event) {
@@ -68,9 +66,15 @@ public class SproutForge {
                 event.getSpawns().spawn(spawnData.group(), new SpawnSettings.SpawnEntry(spawnData.entityType(), spawnData.weight(), spawnData.min(), spawnData.max()));
             }
 
-            List<SproutFeaturesImpl.FeaturePlacementData> features = SproutFeaturesImpl.FEATURES.get(name);
+            List<SproutConfiguredFeaturesImpl.FeaturePlacementData> features = SproutConfiguredFeaturesImpl.FEATURES.get(name);
 
-            for (SproutFeaturesImpl.FeaturePlacementData feature : features) {
+            for (SproutConfiguredFeaturesImpl.FeaturePlacementData feature : features) {
+                event.getGeneration().getFeatures(feature.feature()).add(feature.entry());
+            }
+
+            features = SproutConfiguredFeaturesImpl.CATEGORY_FEATURES.get(event.getCategory());
+
+            for (SproutConfiguredFeaturesImpl.FeaturePlacementData feature : features) {
                 event.getGeneration().getFeatures(feature.feature()).add(feature.entry());
             }
         }

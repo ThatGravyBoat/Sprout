@@ -1,9 +1,10 @@
 package com.toadstoolstudios.sprout;
 
 import com.toadstoolstudios.sprout.client.BounceBugBottleBlockEntityRenderer;
-import com.toadstoolstudios.sprout.client.BounceBugEntityRenderer;
-import com.toadstoolstudios.sprout.client.ElephantEntityRenderer;
+import com.toadstoolstudios.sprout.client.ShootParticle;
 import com.toadstoolstudios.sprout.client.SnoozeParticle;
+import com.toadstoolstudios.sprout.client.entity.BounceBugEntityRenderer;
+import com.toadstoolstudios.sprout.client.entity.ElephantEntityRenderer;
 import com.toadstoolstudios.sprout.items.BounceBugBottleItem;
 import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
@@ -15,6 +16,10 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.color.block.BlockColorProvider;
+import net.minecraft.client.color.item.ItemColorProvider;
+import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.color.world.GrassColors;
 import net.minecraft.client.item.UnclampedModelPredicateProvider;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.SpriteProvider;
@@ -36,14 +41,44 @@ public class SproutClient {
     public static void init() {
         renderBlockRenderers(SproutBlocks.PEANUT_PLANT_BLOCK, RenderLayer.getCutout());
         renderBlockRenderers(SproutBlocks.BOUNCE_BUG_BOTTLE, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.CATTIAL, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.TALL_DEAD_BUSH, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.WATER_LENTIL, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.SPROUTS, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.DUNE_GRASS, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.RED_SHELF_FUNGI, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.BROWN_SHELF_FUNGI, RenderLayer.getCutout());
+        renderBlockRenderers(SproutBlocks.DUNE_GRASS, RenderLayer.getCutout());
         registerEntityRenderer(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntityRenderer::new);
         registerEntityRenderer(SproutEntities.BOUNCE_BUG_ENTITY, BounceBugEntityRenderer::new);
         registerBlockEntityRenderer(SproutBlocks.BOUNCE_BUG_JAR_BLOCK_ENTITY, (ctx) -> new BounceBugBottleBlockEntityRenderer());
         registerItemProperty(SproutItems.BOUNCE_BUG_JAR, new Identifier(Sprout.MODID, "bug_type"), (stack, world, entity, seed) -> BounceBugBottleItem.getTextureId(stack));
     }
 
+    public static void initColors() {
+        registerBlockColor((state, world, pos, tintIndex) -> {
+            if (tintIndex == 1) return -1;
+            if (world == null || pos == null) return GrassColors.getColor(0.5D, 1.0D);
+            return BiomeColors.getGrassColor(world, pos);
+        }, SproutBlocks.CATTIAL.get(), SproutBlocks.WATER_LENTIL.get(), SproutBlocks.SPROUTS.get());
+        registerItemColor((stack, tintIndex) -> GrassColors.getColor(0.5D, 1.0D),
+                SproutItems.WATER_LENTIL.get(), SproutItems.SPROUTS.get());
+
+    }
+
     public static void initParticleFactories() {
         registerParticleFactory(SproutParticles.SNOOZE, SnoozeParticle.Factory::new);
+        registerParticleFactory(SproutParticles.SHOOTS, ShootParticle.Factory::new);
+    }
+
+    @ExpectPlatform
+    public static void registerBlockColor(BlockColorProvider provider, Block... items) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void registerItemColor(ItemColorProvider provider, Item... items) {
+        throw new AssertionError();
     }
 
     @ExpectPlatform

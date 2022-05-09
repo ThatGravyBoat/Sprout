@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 public class SproutParticles {
 
     public static final Supplier<DefaultParticleType> SNOOZE = registerParticle("snooze", () -> new DefaultParticleType(false){});
+    public static final Supplier<DefaultParticleType> SHOOTS = registerParticle("shoots", () -> new DefaultParticleType(false){});
 
     public static void registerParticles() {
         //initialize class

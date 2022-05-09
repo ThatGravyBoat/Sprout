@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:bread"
+    },
+    {
+      "item": "sprout:cattail"
+    }
+  ],
+  "result": {
+    "item": "sprout:water_sausage"
+  }
+}

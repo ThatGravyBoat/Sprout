@@ -2,18 +2,20 @@ package com.toadstoolstudios.sprout;
 
 import com.toadstoolstudios.sprout.registry.*;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import software.bernie.geckolib3.GeckoLib;
 
 import java.util.function.Supplier;
 
 
 public class Sprout {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
+
 	public static final String MODID = "sprout";
 
 	public static void init() {
@@ -23,5 +25,6 @@ public class Sprout {
 		SproutBlocks.registerBlocks();
 		SproutSounds.registerSounds();
 		SproutParticles.registerParticles();
+		SproutFeatures.register();
 	}
 }

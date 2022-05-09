@@ -1,4 +1,4 @@
-package com.toadstoolstudios.sprout.client;
+package com.toadstoolstudios.sprout.client.entity;
 
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.RenderLayer;

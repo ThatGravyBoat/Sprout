@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+    "icon": {
+      "item": "sprout:water_sausage"
+    },
+    "title": {
+      "translate": "advancements.sprout.water_sausage.title"
+    },
+    "description": {
+      "translate": "advancements.sprout.water_sausage.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 50
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sprout:water_sausage"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

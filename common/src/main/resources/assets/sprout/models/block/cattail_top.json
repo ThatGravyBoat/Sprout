@@ -1,0 +1,8 @@
+{
+  "parent": "sprout:block/layered_tinted_cross",
+  "textures": {
+    "layer_1": "sprout:block/cattail_top_colored",
+    "layer_2": "sprout:block/cattail_top",
+    "particle": "sprout:block/cattail_top"
+  }
+}

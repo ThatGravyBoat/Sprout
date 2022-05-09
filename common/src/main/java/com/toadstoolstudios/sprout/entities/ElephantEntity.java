@@ -246,8 +246,8 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
 
     @Override
     public void registerControllers(AnimationData animationData) {
-        animationData.addAnimationController(new AnimationController<>(this, "action_controller", 10, this::actions));
-        animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 10, this::walkCycle));
+        animationData.addAnimationController(new AnimationController<>(this, "action_controller", 5, this::actions));
+        animationData.addAnimationController(new AnimationController<>(this, "walk_controller", 5, this::walkCycle));
 
         var sleepController = new AnimationController<>(this, "sit_controller", 2, this::sitStand);
         sleepController.registerParticleListener(this::particleInitializer);

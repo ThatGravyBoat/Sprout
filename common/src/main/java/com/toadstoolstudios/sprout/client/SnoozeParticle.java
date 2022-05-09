@@ -17,15 +17,12 @@ public class SnoozeParticle extends SpriteBillboardParticle {
         this.setSpriteForAge(spriteProvider);
     }
 
-    public void tick() {
-        super.tick();
-    }
-
     @Override
     public float getSize(float tickDelta) {
         return this.scale * (1f - ((float) this.age / this.maxAge));
     }
 
+    @Override
     public ParticleTextureSheet getType() {
         return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
     }

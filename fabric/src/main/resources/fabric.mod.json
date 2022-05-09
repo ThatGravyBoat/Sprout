@@ -25,6 +25,7 @@
     ]
   },
   "mixins": [
+    "sprout.mixins.json"
   ],
   "depends": {
     "fabric": "*",

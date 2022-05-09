@@ -19,5 +19,6 @@ public class SproutFabricClient implements ClientModInitializer {
         );
         SproutClient.init();
         SproutClient.initParticleFactories();
+        SproutClient.initColors();
     }
 }
