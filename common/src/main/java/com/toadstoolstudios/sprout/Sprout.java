@@ -1,21 +1,14 @@
 package com.toadstoolstudios.sprout;
 
+import com.toadstoolstudios.sprout.config.ConfigLoader;
+import com.toadstoolstudios.sprout.configs.SproutConfig;
 import com.toadstoolstudios.sprout.registry.*;
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import software.bernie.geckolib3.GeckoLib;
-
-import java.util.function.Supplier;
 
 
 public class Sprout {
 
+	public static final SproutConfig CONFIG = new SproutConfig();
 	public static final String MODID = "sprout";
 
 	public static void init() {
@@ -26,5 +19,6 @@ public class Sprout {
 		SproutSounds.registerSounds();
 		SproutParticles.registerParticles();
 		SproutFeatures.register();
+		ConfigLoader.registerConfig(CONFIG);
 	}
 }

@@ -1,10 +1,12 @@
 package com.toadstoolstudios.sprout.registry;
 
+import com.toadstoolstudios.sprout.Sprout;
 import com.toadstoolstudios.sprout.blocks.PeanutCrop;
 import com.toadstoolstudios.sprout.world.FallenTreeFeature;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryEntryList;
 import net.minecraft.util.registry.RegistryKey;
@@ -86,9 +88,10 @@ public class SproutConfiguredFeatures {
             BiomePlacementModifier.of()
     );
 
-    public static final RegistryEntry<ConfiguredFeature<SimpleRandomFeatureConfig, ?>> SPROUTS = ConfiguredFeatures.register(
-            "sprout:sprouts", Feature.SIMPLE_RANDOM_SELECTOR,
-            createSingleBlockConfig(SproutBlocks.SPROUTS.get(), Blocks.GRASS_BLOCK)
+    public static final RegistryEntry<ConfiguredFeature<RandomPatchFeatureConfig, ?>> SPROUTS = ConfiguredFeatures.register(
+            "sprout:sprouts", Feature.RANDOM_PATCH,
+            ConfiguredFeatures.createRandomPatchFeatureConfig(Feature.SIMPLE_BLOCK,
+                    new SimpleBlockFeatureConfig(BlockStateProvider.of(SproutBlocks.SPROUTS.get())), List.of(Blocks.GRASS_BLOCK), Sprout.CONFIG.worldGen.sprouts.frequency)
     );
 
     public static final RegistryEntry<PlacedFeature> PLACED_SPROUTS = PlacedFeatures.register(
@@ -127,12 +130,14 @@ public class SproutConfiguredFeatures {
 
         registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_CATTAILS, Biome.Category.SWAMP);
 
-        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.FOREST);
-        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.SWAMP);
-        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.PLAINS);
-        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.TAIGA);
-        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.SAVANNA);
-        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.JUNGLE);
+        if (Sprout.CONFIG.worldGen.sprouts.enabled) {
+            registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.FOREST);
+            registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.SWAMP);
+            registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.PLAINS);
+            registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.TAIGA);
+            registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.SAVANNA);
+            registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_SPROUTS, Biome.Category.JUNGLE);
+        }
 
         registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_WATER_LENTILS, Biome.Category.SWAMP);
 
@@ -184,6 +189,11 @@ public class SproutConfiguredFeatures {
 
     @ExpectPlatform
     public static void registerFeature(GenerationStep.Feature feature, RegistryEntry<PlacedFeature> entry, RegistryKey<Biome> biome) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void registerFeature(GenerationStep.Feature feature, RegistryEntry<PlacedFeature> entry, Identifier biome) {
         throw new AssertionError();
     }
 

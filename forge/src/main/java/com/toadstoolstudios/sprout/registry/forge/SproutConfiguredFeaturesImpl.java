@@ -22,5 +22,9 @@ public class SproutConfiguredFeaturesImpl {
         CATEGORY_FEATURES.put(category, new SproutConfiguredFeaturesImpl.FeaturePlacementData(feature, entry));
     }
 
+    public static void registerFeature(GenerationStep.Feature feature, RegistryEntry<PlacedFeature> entry, Identifier biome) {
+        FEATURES.put(biome, new SproutConfiguredFeaturesImpl.FeaturePlacementData(feature, entry));
+    }
+
     public static record FeaturePlacementData(GenerationStep.Feature feature, RegistryEntry<PlacedFeature> entry){}
 }
