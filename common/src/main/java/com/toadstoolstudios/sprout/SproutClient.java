@@ -4,7 +4,8 @@ import com.toadstoolstudios.sprout.client.BounceBugBottleBlockEntityRenderer;
 import com.toadstoolstudios.sprout.client.ShootParticle;
 import com.toadstoolstudios.sprout.client.SnoozeParticle;
 import com.toadstoolstudios.sprout.client.entity.BounceBugEntityRenderer;
-import com.toadstoolstudios.sprout.client.entity.ElephantEntityRenderer;
+import com.toadstoolstudios.sprout.client.entity.ElephantEntityModel;
+import com.toadstoolstudios.sprout.client.entity.MobEntityRenderer;
 import com.toadstoolstudios.sprout.items.BounceBugBottleItem;
 import com.toadstoolstudios.sprout.registry.SproutBlocks;
 import com.toadstoolstudios.sprout.registry.SproutEntities;
@@ -49,7 +50,7 @@ public class SproutClient {
         renderBlockRenderers(SproutBlocks.RED_SHELF_FUNGI, RenderLayer.getCutout());
         renderBlockRenderers(SproutBlocks.BROWN_SHELF_FUNGI, RenderLayer.getCutout());
         renderBlockRenderers(SproutBlocks.DUNE_GRASS, RenderLayer.getCutout());
-        registerEntityRenderer(SproutEntities.ELEPHANT_ENTITY_TYPE, ElephantEntityRenderer::new);
+        registerEntityRenderer(SproutEntities.ELEPHANT_ENTITY_TYPE, ctx -> new MobEntityRenderer<>(ctx, new ElephantEntityModel()));
         registerEntityRenderer(SproutEntities.BOUNCE_BUG_ENTITY, BounceBugEntityRenderer::new);
         registerBlockEntityRenderer(SproutBlocks.BOUNCE_BUG_JAR_BLOCK_ENTITY, (ctx) -> new BounceBugBottleBlockEntityRenderer());
         registerItemProperty(SproutItems.BOUNCE_BUG_JAR, new Identifier(Sprout.MODID, "bug_type"), (stack, world, entity, seed) -> BounceBugBottleItem.getTextureId(stack));
@@ -61,9 +62,7 @@ public class SproutClient {
             if (world == null || pos == null) return GrassColors.getColor(0.5D, 1.0D);
             return BiomeColors.getGrassColor(world, pos);
         }, SproutBlocks.CATTIAL.get(), SproutBlocks.WATER_LENTIL.get(), SproutBlocks.SPROUTS.get());
-        registerItemColor((stack, tintIndex) -> GrassColors.getColor(0.5D, 1.0D),
-                SproutItems.WATER_LENTIL.get(), SproutItems.SPROUTS.get());
-
+        registerItemColor((stack, tintIndex) -> GrassColors.getColor(0.5D, 1.0D), SproutItems.WATER_LENTIL.get(), SproutItems.SPROUTS.get());
     }
 
     public static void initParticleFactories() {

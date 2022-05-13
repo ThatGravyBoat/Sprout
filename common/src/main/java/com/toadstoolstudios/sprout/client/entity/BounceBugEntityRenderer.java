@@ -36,9 +36,4 @@ public class BounceBugEntityRenderer extends MobEntityRenderer<BounceBugEntity> 
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
     }
-
-    @Override
-    public RenderLayer getRenderType(BounceBugEntity animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, Identifier textureLocation) {
-        return RenderLayer.getEntityTranslucent(textureLocation);
-    }
 }

@@ -8,6 +8,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
@@ -30,6 +31,11 @@ public class MobEntityRenderer<T extends MobEntity & IAnimatable> extends GeoEnt
         if (holdingEntity != null) {
             this.renderLeash(entity, partialTicks, stack, bufferIn, holdingEntity);
         }
+    }
+
+    @Override
+    public RenderLayer getRenderType(T animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, Identifier textureLocation) {
+        return RenderLayer.getEntityTranslucent(textureLocation);
     }
 
     private <E extends Entity> void renderLeash(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity) {
