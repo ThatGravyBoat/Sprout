@@ -1,6 +1,7 @@
 package com.toadstoolstudios.sprout.forge;
 
 import com.toadstoolstudios.sprout.Sprout;
+import com.toadstoolstudios.sprout.config.forge.ConfigLoaderImpl;
 import com.toadstoolstudios.sprout.entities.BounceBugEntity;
 import com.toadstoolstudios.sprout.entities.ElephantEntity;
 import com.toadstoolstudios.sprout.registry.*;
@@ -27,6 +28,9 @@ public class SproutForge {
 
     public SproutForge() {
         Sprout.init();
+
+        ConfigLoaderImpl.initialize();
+
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         SproutEntitiesImpl.ENTITY_TYPES.register(bus);
         SproutBlocksImpl.BLOCKS.register(bus);
