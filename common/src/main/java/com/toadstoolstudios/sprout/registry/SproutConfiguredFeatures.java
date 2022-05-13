@@ -147,6 +147,7 @@ public class SproutConfiguredFeatures {
 
         registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, BiomeKeys.BIRCH_FOREST);
         registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, BiomeKeys.OLD_GROWTH_BIRCH_FOREST);
+        registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, new Identifier("terralith:birch_taiga"));
 
         registerFeature(GenerationStep.Feature.VEGETAL_DECORATION, PLACED_DARK_OAK_FALLEN_TREE, BiomeKeys.DARK_FOREST);
 
