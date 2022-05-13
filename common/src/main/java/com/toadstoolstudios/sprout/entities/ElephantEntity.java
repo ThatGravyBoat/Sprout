@@ -1,5 +1,6 @@
 package com.toadstoolstudios.sprout.entities;
 
+import com.toadstoolstudios.sprout.Sprout;
 import com.toadstoolstudios.sprout.entities.goals.*;
 import com.toadstoolstudios.sprout.registry.SproutItems;
 import com.toadstoolstudios.sprout.registry.SproutParticles;
@@ -18,15 +19,19 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +52,8 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
     protected static final TrackedData<Boolean> WATERING = DataTracker.registerData(ElephantEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Boolean> HAS_WATER = DataTracker.registerData(ElephantEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     public static final Ingredient PEANUT_TEMPT_ITEM = Ingredient.ofItems(SproutItems.PEANUT.get());
+    public static final TagKey<Item> PEANUT_TAG = TagKey.of(Registry.ITEM_KEY, new Identifier(Sprout.MODID, "peanuts"));
+
 
     @Nullable
     private BlockPos waterPos;
@@ -119,7 +126,7 @@ public class ElephantEntity extends TameableEntity implements IAnimatable, Herbi
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
-        if (stack.isOf(SproutItems.PEANUT.get())) {
+        if (stack.isIn(PEANUT_TAG)) {
             if (!isTamed()) {
                 if(!player.getAbilities().creativeMode) stack.decrement(1);
                 if (!this.world.isClient()) {
