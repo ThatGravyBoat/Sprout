@@ -20,7 +20,6 @@ public class PeanutItem extends AliasedBlockItem {
     }
 
     public boolean canPlaceOn(WorldView world, BlockPos pos) {
-        BlockState floor = world.getBlockState(pos.down());
-        return floor.isOf(Blocks.FARMLAND);
+        return world.getBlockState(pos.down()).isOf(Blocks.FARMLAND);
     }
 }

@@ -28,18 +28,17 @@ public class DrinkableFoodItem extends Item {
             serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
 
-        if (stack.isEmpty()) {
-            return new ItemStack(Items.GLASS_BOTTLE);
-        } else {
-            if (user instanceof PlayerEntity playerEntity && !((PlayerEntity)user).getAbilities().creativeMode) {
-                ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                if (!playerEntity.getInventory().insertStack(itemStack)) {
-                    playerEntity.dropItem(itemStack, false);
-                }
-            }
+        ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
 
-            return stack;
+        if (stack.isEmpty()) return itemStack;
+
+        if (user instanceof PlayerEntity playerEntity && !playerEntity.getAbilities().creativeMode) {
+            if (!playerEntity.getInventory().insertStack(itemStack)) {
+                playerEntity.dropItem(itemStack, false);
+            }
         }
+
+        return stack;
     }
 
     public int getMaxUseTime(ItemStack stack) {

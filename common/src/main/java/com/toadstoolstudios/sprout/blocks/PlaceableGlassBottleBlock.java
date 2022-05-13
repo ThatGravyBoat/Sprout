@@ -46,6 +46,7 @@ public class PlaceableGlassBottleBlock extends HorizontalFacingBlock implements 
         return this.getDefaultState().with(WATERLOGGED, fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8).with(FACING, ctx.getPlayerFacing().getOpposite());
     }
 
+    @Override
     public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }

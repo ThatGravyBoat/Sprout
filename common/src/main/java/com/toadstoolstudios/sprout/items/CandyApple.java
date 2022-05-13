@@ -30,7 +30,7 @@ public class CandyApple extends Item {
 
         if (stack.isEmpty()) return itemStack;
 
-        if (user instanceof PlayerEntity playerEntity && !((PlayerEntity)user).getAbilities().creativeMode) {
+        if (user instanceof PlayerEntity playerEntity && !playerEntity.getAbilities().creativeMode) {
             if (!playerEntity.getInventory().insertStack(itemStack)) {
                 playerEntity.dropItem(itemStack, false);
             }
