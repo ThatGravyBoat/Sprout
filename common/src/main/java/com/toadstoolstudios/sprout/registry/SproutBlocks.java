@@ -15,7 +15,7 @@ public class SproutBlocks {
     public static final Supplier<Block> PEANUT_PLANT_BLOCK = registerBlock("peanut_plant", () -> new PeanutCrop(AbstractBlock.Settings.copy(Blocks.CARROTS)));
     public static final Supplier<Block> CATTIAL = registerBlock("cattail", () -> new TallPlantBlock(AbstractBlock.Settings.copy(Blocks.FERN)));
     public static final Supplier<Block> DUNE_GRASS = registerBlock("dune_grass", () -> new DuneGrass(AbstractBlock.Settings.copy(Blocks.GRASS)){});
-    public static final Supplier<Block> SPROUTS = registerBlock("sprouts", () -> new PlantBlock(AbstractBlock.Settings.copy(Blocks.GRASS)){});
+    public static final Supplier<Block> SPROUTS = registerBlock("sprouts", () -> new BasicGrassBlock(AbstractBlock.Settings.copy(Blocks.GRASS)){});
     public static final Supplier<Block> TALL_DEAD_BUSH = registerBlock("tall_dead_bush", () -> new TallDeadBushBlock(AbstractBlock.Settings.copy(Blocks.DEAD_BUSH)));
     public static final Supplier<Block> WATER_LENTIL = registerBlock("water_lentil", () -> new LilyPadBlock(AbstractBlock.Settings.copy(Blocks.LILY_PAD).noCollision()){});
     public static final Supplier<Block> BOUNCE_BUG_BOTTLE = registerBlock("bounce_bug_jar", () -> new BounceBugBottle(AbstractBlock.Settings.of(Material.GLASS).sounds(BlockSoundGroup.GLASS).strength(1).luminance(value -> 3).solidBlock((state, world, pos) -> false)));
