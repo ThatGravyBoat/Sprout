@@ -1,0 +1,9 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:dark_forest"
+  ],
+  "features" : [
+    "sprout:dark_oak_fallen_tree_common"
+  ]
+}

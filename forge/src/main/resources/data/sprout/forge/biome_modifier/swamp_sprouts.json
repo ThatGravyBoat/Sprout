@@ -1,0 +1,9 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:swamp"
+  ],
+  "features" : [
+    "sprout:sprouts_common"
+  ]
+}

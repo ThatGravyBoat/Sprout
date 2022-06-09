@@ -1,0 +1,9 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:swamp"
+  ],
+  "features" : [
+    "sprout:oak_moss_fallen_tree_common"
+  ]
+}

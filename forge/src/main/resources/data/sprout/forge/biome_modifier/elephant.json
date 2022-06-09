@@ -1,0 +1,10 @@
+{
+  "type": "sprout:spawns",
+  "biomes": ["minecraft:meadow"],
+  "spawns" : {
+    "type": "sprout:elephant",
+    "weight": 1,
+    "minCount": 0,
+    "maxCount": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:meadow"
+  ],
+  "features" : [
+    "sprout:peanut_patch_common"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "type": "sprout:features",
+  "biomes": "#minecraft:is_jungle",
+  "features" : [
+    "sprout:sprouts_common"
+  ]
+}

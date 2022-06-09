@@ -1,0 +1,10 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:forest",
+    "minecraft:flower_forest"
+  ],
+  "features" : [
+    "sprout:oak_fallen_tree_common"
+  ]
+}

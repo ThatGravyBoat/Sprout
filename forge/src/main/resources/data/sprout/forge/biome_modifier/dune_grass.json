@@ -1,0 +1,9 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:desert"
+  ],
+  "features" : [
+    "sprout:dune_grass_common"
+  ]
+}

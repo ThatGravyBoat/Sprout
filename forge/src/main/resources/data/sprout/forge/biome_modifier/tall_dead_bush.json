@@ -1,0 +1,11 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:badlands",
+    "minecraft:eroded_badlands",
+    "minecraft:wooded_badlands"
+  ],
+  "features" : [
+    "sprout:tall_dead_bush_common"
+  ]
+}

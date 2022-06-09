@@ -1,0 +1,10 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:swamp",
+    "minecraft:mangrove_swamp"
+  ],
+  "features" : [
+    "sprout:cattails_common"
+  ]
+}

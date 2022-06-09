@@ -1,0 +1,9 @@
+{
+  "type": "sprout:features",
+  "biomes": [
+    "minecraft:taiga"
+  ],
+  "features" : [
+    "sprout:sprouts_common"
+  ]
+}

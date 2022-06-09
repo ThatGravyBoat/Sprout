@@ -5,23 +5,23 @@
   "name": "Sprout",
   "description": "A vanilla agriculture farming/gardening mod!",
   "authors": [
-    "Developer - CodexAdrian",
+    "Developer - ThatGravyBoat",
     "Artist - Frogipher",
-    "Contributor - ThatGravyBoat"
+    "Former Author - CodexAdrian"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/sprout",
-    "sources": "https://github.com/Toadstool-Studios/Sprout"
+    "sources": "https://github.com/ThatGravyBoat/Sprout"
   },
   "license": "All Rights Reserved",
   "icon": "assets/sprout/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.toadstoolstudios.sprout.SproutFabric"
+      "tech.thatgravyboat.sprout.SproutFabric"
     ],
     "client": [
-      "com.toadstoolstudios.sprout.SproutFabricClient"
+      "tech.thatgravyboat.sprout.SproutFabricClient"
     ]
   },
   "mixins": [
@@ -29,7 +29,7 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.18.2",
+    "minecraft": ">=1.19",
     "geckolib3": "*"
   }
 }

@@ -1,0 +1,7 @@
+{
+  "type": "sprout:features",
+  "biomes": "#forge:is_plains",
+  "features" : [
+    "sprout:sprouts_common"
+  ]
+}
