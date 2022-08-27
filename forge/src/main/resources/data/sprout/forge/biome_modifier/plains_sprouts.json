@@ -1,7 +1,10 @@
 {
   "type": "forge:add_features",
   "step": "vegetal_decoration",
-  "biomes": "#forge:is_plains",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:sunflower_plains"
+  ],
   "features" : [
     "sprout:sprouts_common"
   ]

@@ -1,7 +1,13 @@
 {
   "type": "forge:add_features",
   "step": "vegetal_decoration",
-  "biomes": "#minecraft:is_forest",
+  "biomes": [
+    "minecraft:forest",
+    "minecraft:birch_forest",
+    "minecraft:dark_forest",
+    "minecraft:flower_forest",
+    "minecraft:old_growth_birch_forest"
+  ],
   "features" : [
     "sprout:sprouts_common"
   ]

@@ -1,7 +1,11 @@
 {
   "type": "forge:add_features",
   "step": "vegetal_decoration",
-  "biomes": "#minecraft:is_jungle",
+  "biomes": [
+    "minecraft:jungle",
+    "minecraft:bamboo_jungle",
+    "minecraft:sparse_jungle"
+  ],
   "features" : [
     "sprout:sprouts_common"
   ]
