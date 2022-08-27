@@ -1,7 +1,7 @@
 package tech.thatgravyboat.sprout.client.entity;
 
 import tech.thatgravyboat.sprout.Sprout;
-import tech.thatgravyboat.sprout.entities.BounceBugEntity;
+import tech.thatgravyboat.sprout.common.entities.BounceBugEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 

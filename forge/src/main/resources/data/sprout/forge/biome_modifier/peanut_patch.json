@@ -1,5 +1,6 @@
 {
-  "type": "sprout:features",
+  "type": "forge:add_features",
+  "step": "vegetal_decoration",
   "biomes": [
     "minecraft:meadow"
   ],

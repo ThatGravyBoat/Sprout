@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "sprout:item/crimson_bounce_bug_bottle"
-  }
-}

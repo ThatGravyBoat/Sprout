@@ -2,16 +2,16 @@ package tech.thatgravyboat.sprout;
 
 import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.sprout.client.BounceBugBottleBlockEntityRenderer;
+import tech.thatgravyboat.sprout.client.FlowerBoxBlockEntityRenderer;
 import tech.thatgravyboat.sprout.client.ShootParticle;
 import tech.thatgravyboat.sprout.client.SnoozeParticle;
 import tech.thatgravyboat.sprout.client.entity.BounceBugEntityRenderer;
 import tech.thatgravyboat.sprout.client.entity.ElephantEntityModel;
 import tech.thatgravyboat.sprout.client.entity.MobEntityRenderer;
-import tech.thatgravyboat.sprout.items.BounceBugBottleItem;
-import tech.thatgravyboat.sprout.registry.SproutBlocks;
-import tech.thatgravyboat.sprout.registry.SproutEntities;
-import tech.thatgravyboat.sprout.registry.SproutItems;
-import tech.thatgravyboat.sprout.registry.SproutParticles;
+import tech.thatgravyboat.sprout.common.flowers.FlowerColor;
+import tech.thatgravyboat.sprout.common.flowers.FlowerType;
+import tech.thatgravyboat.sprout.common.items.BounceBugBottleItem;
+import tech.thatgravyboat.sprout.common.registry.*;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
@@ -51,18 +52,31 @@ public class SproutClient {
         renderBlockRenderers(SproutBlocks.RED_SHELF_FUNGI, RenderType.cutout());
         renderBlockRenderers(SproutBlocks.BROWN_SHELF_FUNGI, RenderType.cutout());
         renderBlockRenderers(SproutBlocks.DUNE_GRASS, RenderType.cutout());
+
+        for (var entry : SproutFlowers.FLOWERS.entrySet()) {
+            for (var flower : entry.getValue().entrySet()) {
+                if (entry.getKey().bannedTypes.contains(flower.getKey())) continue;
+                renderBlockRenderers(flower.getValue(), RenderType.cutout());
+            }
+        }
+
+        SproutFlowers.POTTED_FLOWERS.forEach((value) -> renderBlockRenderers(value, RenderType.cutout()));
+
         registerEntityRenderer(SproutEntities.ELEPHANT_ENTITY_TYPE, ctx -> new MobEntityRenderer<>(ctx, new ElephantEntityModel()));
         registerEntityRenderer(SproutEntities.BOUNCE_BUG_ENTITY, BounceBugEntityRenderer::new);
         registerBlockEntityRenderer(SproutBlocks.BOUNCE_BUG_JAR_BLOCK_ENTITY, (ctx) -> new BounceBugBottleBlockEntityRenderer());
-        registerItemProperty(SproutItems.BOUNCE_BUG_JAR, new ResourceLocation(Sprout.MODID, "bug_type"), (stack, world, entity, seed) -> BounceBugBottleItem.getTextureId(stack));
+        registerBlockEntityRenderer(SproutBlocks.FLOWER_BOX_ENTITY, (ctx) -> new FlowerBoxBlockEntityRenderer());
     }
 
-    public static void initColors() {
+    public static void initBlockColors() {
         registerBlockColor((state, world, pos, tintIndex) -> {
             if (tintIndex == 1) return -1;
             if (world == null || pos == null) return GrassColor.get(0.5D, 1.0D);
             return BiomeColors.getAverageGrassColor(world, pos);
         }, SproutBlocks.CATTIAL.get(), SproutBlocks.WATER_LENTIL.get(), SproutBlocks.SPROUTS.get());
+    }
+
+    public static void initItemColors() {
         registerItemColor((stack, tintIndex) -> GrassColor.get(0.5D, 1.0D), SproutItems.WATER_LENTIL.get(), SproutItems.SPROUTS.get());
     }
 

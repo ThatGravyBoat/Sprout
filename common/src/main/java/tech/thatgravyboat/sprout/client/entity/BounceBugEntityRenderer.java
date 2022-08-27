@@ -3,7 +3,7 @@ package tech.thatgravyboat.sprout.client.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import org.jetbrains.annotations.NotNull;
-import tech.thatgravyboat.sprout.entities.BounceBugEntity;
+import tech.thatgravyboat.sprout.common.entities.BounceBugEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -13,11 +13,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 public class BounceBugEntityRenderer extends MobEntityRenderer<BounceBugEntity> {
-    private final ItemRenderer shroomRenderer;
+    private final ItemRenderer itemRenderer;
 
     public BounceBugEntityRenderer(EntityRendererProvider.Context ctx) {
         super(ctx, new BounceBugModel());
-        this.shroomRenderer = ctx.getItemRenderer();
+        this.itemRenderer = ctx.getItemRenderer();
         this.addLayer(new BounceBugGlowLayer(this));
     }
 
@@ -29,7 +29,7 @@ public class BounceBugEntityRenderer extends MobEntityRenderer<BounceBugEntity> 
             stack.mulPose(Vector3f.YN.rotationDegrees(entity.yBodyRot));
             stack.mulPose(Vector3f.XN.rotationDegrees(90));
             stack.translate(-0.05, 0.1, 0.35);
-            shroomRenderer.renderStatic(shroom, ItemTransforms.TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, stack, bufferIn, entity.getId());
+            itemRenderer.renderStatic(shroom, ItemTransforms.TransformType.FIXED, packedLightIn, OverlayTexture.NO_OVERLAY, stack, bufferIn, entity.getId());
             stack.popPose();
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);

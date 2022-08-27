@@ -38,6 +38,7 @@ public class SproutClientImpl {
     }
 
     public static void renderBlockRenderers(Supplier<Block> blockSupplier, RenderType renderLayer) {
+        //TODO Move to model json.
         ItemBlockRenderTypes.setRenderLayer(blockSupplier.get(), renderLayer);
     }
 

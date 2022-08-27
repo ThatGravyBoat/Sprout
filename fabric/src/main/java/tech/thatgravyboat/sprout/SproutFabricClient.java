@@ -1,6 +1,6 @@
 package tech.thatgravyboat.sprout;
 
-import tech.thatgravyboat.sprout.registry.fabric.SproutParticlesImpl;
+import tech.thatgravyboat.sprout.common.registry.fabric.SproutParticlesImpl;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +19,7 @@ public class SproutFabricClient implements ClientModInitializer {
         );
         SproutClient.init();
         SproutClient.initParticleFactories();
-        SproutClient.initColors();
+        SproutClient.initItemColors();
+        SproutClient.initBlockColors();
     }
 }

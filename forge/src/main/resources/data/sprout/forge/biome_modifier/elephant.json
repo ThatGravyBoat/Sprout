@@ -1,7 +1,7 @@
 {
-  "type": "sprout:spawns",
+  "type": "forge:add_spawns",
   "biomes": ["minecraft:meadow"],
-  "spawns" : {
+  "spawners" : {
     "type": "sprout:elephant",
     "weight": 1,
     "minCount": 0,

@@ -1,5 +1,6 @@
 {
-  "type": "sprout:features",
+  "type": "forge:add_features",
+  "step": "vegetal_decoration",
   "biomes": [
     "minecraft:old_growth_spruce_taiga",
     "minecraft:old_growth_pine_taiga"

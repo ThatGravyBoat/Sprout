@@ -1,11 +1,11 @@
 package tech.thatgravyboat.sprout;
 
-import tech.thatgravyboat.sprout.config.fabric.ConfigLoaderImpl;
-import tech.thatgravyboat.sprout.entities.BounceBugEntity;
-import tech.thatgravyboat.sprout.entities.ElephantEntity;
-import tech.thatgravyboat.sprout.registry.SproutConfiguredFeatures;
-import tech.thatgravyboat.sprout.registry.SproutEntities;
-import tech.thatgravyboat.sprout.registry.SproutItems;
+import tech.thatgravyboat.sprout.common.config.fabric.ConfigLoaderImpl;
+import tech.thatgravyboat.sprout.common.entities.BounceBugEntity;
+import tech.thatgravyboat.sprout.common.entities.ElephantEntity;
+import tech.thatgravyboat.sprout.common.registry.SproutConfiguredFeatures;
+import tech.thatgravyboat.sprout.common.registry.SproutEntities;
+import tech.thatgravyboat.sprout.common.registry.SproutItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 

@@ -1,32 +1,23 @@
 package tech.thatgravyboat.sprout.forge;
 
-import com.mojang.serialization.Codec;
 import tech.thatgravyboat.sprout.Sprout;
-import tech.thatgravyboat.sprout.config.forge.ConfigLoaderImpl;
-import tech.thatgravyboat.sprout.entities.BounceBugEntity;
-import tech.thatgravyboat.sprout.entities.ElephantEntity;
-import tech.thatgravyboat.sprout.registry.SproutConfiguredFeatures;
-import tech.thatgravyboat.sprout.registry.SproutEntities;
-import tech.thatgravyboat.sprout.registry.SproutItems;
+import tech.thatgravyboat.sprout.common.config.forge.ConfigLoaderImpl;
+import tech.thatgravyboat.sprout.common.entities.BounceBugEntity;
+import tech.thatgravyboat.sprout.common.entities.ElephantEntity;
+import tech.thatgravyboat.sprout.common.registry.SproutConfiguredFeatures;
+import tech.thatgravyboat.sprout.common.registry.SproutEntities;
+import tech.thatgravyboat.sprout.common.registry.SproutItems;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import tech.thatgravyboat.sprout.registry.forge.*;
+import tech.thatgravyboat.sprout.common.registry.forge.*;
 
 @Mod(Sprout.MODID)
 public class SproutForge {
-
-    public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Sprout.MODID);
-    public static final RegistryObject<Codec<SpawnsBiomeModifier>> SPAWN_MODIFIER = BIOME_MODIFIERS.register("spawns", SpawnsBiomeModifier::makeCodec);
-    public static final RegistryObject<Codec<FeatureBiomeModifier>> FEATURE_MODIFIER = BIOME_MODIFIERS.register("features", FeatureBiomeModifier::makeCodec);
 
     public SproutForge() {
         Sprout.init();
@@ -41,7 +32,6 @@ public class SproutForge {
         SproutSoundsImpl.SOUNDS.register(bus);
         SproutParticlesImpl.PARTICLES.register(bus);
         SproutFeaturesImpl.FEATURES.register(bus);
-        BIOME_MODIFIERS.register(bus);
         bus.addListener(SproutForge::commonSetup);
         bus.addListener(SproutForgeClient::clientSetup);
         bus.addListener(SproutForge::onComplete);

@@ -3,7 +3,7 @@ package tech.thatgravyboat.sprout.client.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import tech.thatgravyboat.sprout.Sprout;
-import tech.thatgravyboat.sprout.entities.BounceBugEntity;
+import tech.thatgravyboat.sprout.common.entities.BounceBugEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;

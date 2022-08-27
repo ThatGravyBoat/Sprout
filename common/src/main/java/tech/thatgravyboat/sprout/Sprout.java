@@ -1,9 +1,10 @@
 package tech.thatgravyboat.sprout;
 
-import tech.thatgravyboat.sprout.config.ConfigLoader;
-import tech.thatgravyboat.sprout.configs.SproutConfig;
+import dev.architectury.injectables.targets.ArchitecturyTarget;
 import software.bernie.geckolib3.GeckoLib;
-import tech.thatgravyboat.sprout.registry.*;
+import tech.thatgravyboat.sprout.common.config.ConfigLoader;
+import tech.thatgravyboat.sprout.common.configs.SproutConfig;
+import tech.thatgravyboat.sprout.common.registry.*;
 
 
 public class Sprout {
@@ -14,11 +15,13 @@ public class Sprout {
 	public static void init() {
 		GeckoLib.initialize();
 		SproutEntities.registerEntities();
-		SproutItems.registerItems();
 		SproutBlocks.registerBlocks();
+		SproutItems.registerItems();
 		SproutSounds.registerSounds();
 		SproutParticles.registerParticles();
 		SproutFeatures.register();
-		ConfigLoader.registerConfig(CONFIG);
+		if ("fabric".equals(ArchitecturyTarget.getCurrentTarget())) {
+			ConfigLoader.registerConfig(CONFIG);
+		}
 	}
 }

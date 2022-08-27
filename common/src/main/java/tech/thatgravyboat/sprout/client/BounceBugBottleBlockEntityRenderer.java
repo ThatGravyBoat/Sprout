@@ -2,7 +2,7 @@ package tech.thatgravyboat.sprout.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import tech.thatgravyboat.sprout.blocks.BounceBugBottleBlockEntity;
+import tech.thatgravyboat.sprout.common.blocks.BounceBugBottleBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
