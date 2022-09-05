@@ -1,0 +1,28 @@
+{
+  "type": "forge:add_features",
+  "step": "vegetal_decoration",
+  "biomes": [
+    "minecraft:forest",
+    "minecraft:birch_forest",
+    "minecraft:dark_forest",
+    "minecraft:flower_forest",
+    "minecraft:old_growth_birch_forest",
+
+    "minecraft:jungle",
+    "minecraft:bamboo_jungle",
+    "minecraft:sparse_jungle",
+
+    "minecraft:plains",
+    "minecraft:sunflower_plains",
+
+    "minecraft:savanna",
+    "minecraft:savanna_plateau",
+
+    "minecraft:taiga",
+
+    "minecraft:swamp"
+  ],
+  "features" : [
+    "sprout:sprouts_common"
+  ]
+}

@@ -1,8 +1,0 @@
-{
-  "type": "forge:add_features",
-  "step": "vegetal_decoration",
-  "biomes": "#minecraft:is_savanna",
-  "features" : [
-    "sprout:sprouts_common"
-  ]
-}

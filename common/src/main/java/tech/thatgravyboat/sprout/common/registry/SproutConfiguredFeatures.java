@@ -10,7 +10,6 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -130,36 +129,32 @@ public class SproutConfiguredFeatures {
     public static void registerFeatures() {
         registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_PEANUT_PATCH, Biomes.MEADOW);
 
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_TALL_DEAD_BUSH, BiomeTags.HAS_MINESHAFT_MESA);
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_DUNE_GRASS, BiomeTags.HAS_DESERT_PYRAMID);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_TALL_DEAD_BUSH, Biomes.BADLANDS, Biomes.ERODED_BADLANDS, Biomes.WOODED_BADLANDS);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_DUNE_GRASS, Biomes.DESERT);
 
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_CATTAILS, BiomeTags.HAS_RUINED_PORTAL_SWAMP);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_CATTAILS, Biomes.SWAMP);
 
         if (Sprout.CONFIG.worldGen.sprouts.enabled) {
-            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS, BiomeTags.IS_FOREST);
-            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS, BiomeTags.HAS_RUINED_PORTAL_SWAMP);
-            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS, BiomeTags.HAS_VILLAGE_PLAINS);
-            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS, BiomeTags.HAS_VILLAGE_TAIGA);
-            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS, BiomeTags.IS_SAVANNA);
-            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS, BiomeTags.IS_JUNGLE);
+            registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS,
+                    Biomes.FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.FLOWER_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
+                    Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE, Biomes.SPARSE_JUNGLE,
+                    Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
+                    Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU,
+                    Biomes.TAIGA,
+                    Biomes.SWAMP
+            );
         }
 
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_WATER_LENTILS, BiomeTags.HAS_RUINED_PORTAL_SWAMP);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_WATER_LENTILS, Biomes.SWAMP, Biomes.MANGROVE_SWAMP);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_OAK_FALLEN_TREE, Biomes.FOREST, Biomes.FLOWER_FOREST);
 
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_OAK_FALLEN_TREE, Biomes.FOREST);
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_OAK_FALLEN_TREE, Biomes.FLOWER_FOREST);
-
-
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, Biomes.BIRCH_FOREST);
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, Biomes.OLD_GROWTH_BIRCH_FOREST);
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, new ResourceLocation("terralith:birch_taiga"));
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_BIRCH_FALLEN_TREE, Biomes.BIRCH_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST);
 
         registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_DARK_OAK_FALLEN_TREE, Biomes.DARK_FOREST);
 
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPRUCE_FALLEN_TREE, Biomes.OLD_GROWTH_SPRUCE_TAIGA);
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPRUCE_FALLEN_TREE, Biomes.OLD_GROWTH_PINE_TAIGA);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPRUCE_FALLEN_TREE, Biomes.OLD_GROWTH_SPRUCE_TAIGA, Biomes.OLD_GROWTH_PINE_TAIGA);
 
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_OAK_MOSS_FALLEN_TREE, BiomeTags.HAS_RUINED_PORTAL_SWAMP);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_OAK_MOSS_FALLEN_TREE, Biomes.SWAMP);
     }
 
     private static Holder<PlacedFeature> createFallenTree(Block log, float moss, float red, float brown, String id) {
@@ -193,8 +188,9 @@ public class SproutConfiguredFeatures {
         return FeatureUtils.simpleRandomPatchConfiguration(5, PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(block)));
     }
 
+    @SafeVarargs
     @ExpectPlatform
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome> biome) {
+    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome>... biome) {
         throw new AssertionError();
     }
 

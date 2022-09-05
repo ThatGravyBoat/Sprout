@@ -9,7 +9,8 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class SproutConfiguredFeaturesImpl {
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome> biome) {
+    @SafeVarargs
+    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome>... biome) {
     }
 
     public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, TagKey<Biome> category) {

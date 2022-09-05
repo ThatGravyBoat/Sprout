@@ -12,7 +12,8 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class SproutConfiguredFeaturesImpl {
 
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome> biome) {
+    @SafeVarargs
+    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome>... biome) {
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(biome), feature, entry.unwrapKey().orElseThrow());
     }
 
