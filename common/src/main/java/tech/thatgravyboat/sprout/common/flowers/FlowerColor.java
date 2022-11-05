@@ -45,4 +45,43 @@ public enum FlowerColor {
     public static Stream<FlowerColor> stream() {
         return Arrays.stream(values());
     }
+
+    public FlowerColor combined(FlowerColor color) {
+        return switch (this) {
+            case RED -> {
+                if (color == YELLOW) yield ORANGE;
+                if (color == BLUE) yield PURPLE;
+                yield null;
+            }
+            case WHITE -> {
+                if (color == GREEN) yield LIME;
+                if (color == BLUE) yield LIGHT_BLUE;
+                if (color == GRAY) yield LIGHT_GRAY;
+                if (color == BLACK) yield GRAY;
+                yield null;
+            }
+            case GREEN -> {
+                if (color == WHITE) yield LIME;
+                if (color == BLUE) yield CYAN;
+                yield null;
+            }
+            case BLUE -> {
+                if (color == WHITE) yield LIGHT_BLUE;
+                if (color == GREEN) yield CYAN;
+                if (color == RED) yield PURPLE;
+                if (color == YELLOW) yield GREEN;
+                yield null;
+            }
+            case YELLOW -> {
+                if (color == RED) yield ORANGE;
+                if (color == WHITE) yield LIME;
+                yield null;
+            }
+            case BLACK -> {
+                if (color == WHITE) yield GRAY;
+                yield null;
+            }
+            default -> null;
+        };
+    }
 }

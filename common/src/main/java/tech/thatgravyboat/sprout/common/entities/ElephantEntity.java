@@ -144,14 +144,17 @@ public class ElephantEntity extends TamableAnimal implements IAnimatable, Herbiv
                 return InteractionResult.sidedSuccess(this.level.isClientSide());
             }
             return InteractionResult.PASS;
-        } else if(this.isTame() && this.isOwnedBy(player)) {
-            if(!this.level.isClientSide()) {
-                if(!this.isOrderedToSit()) this.setWatering(false);
-                this.setOrderedToSit(!this.isOrderedToSit());
+        } else {
+            InteractionResult result = super.mobInteract(player, hand);
+            if(!result.consumesAction() && this.isTame() && this.isOwnedBy(player)) {
+                if(!this.level.isClientSide()) {
+                    if(!this.isOrderedToSit()) this.setWatering(false);
+                    this.setOrderedToSit(!this.isOrderedToSit());
+                }
+                return InteractionResult.sidedSuccess(this.level.isClientSide());
             }
-            return InteractionResult.sidedSuccess(this.level.isClientSide());
+            return result;
         }
-        return super.mobInteract(player, hand);
     }
 
     public boolean isDrinking() {

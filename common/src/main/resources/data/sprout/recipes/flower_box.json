@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "minecraft:dirt"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "W#W",
+    "WWW"
+  ],
+  "result": {
+    "item": "sprout:flower_box"
+  }
+}

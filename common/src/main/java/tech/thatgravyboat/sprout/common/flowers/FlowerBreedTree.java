@@ -62,6 +62,12 @@ public class FlowerBreedTree {
         builder.add(block2, normal);
         builder.add(flower1Type.get(flower2.getFirst()), special);
         builder.add(flower2Type.get(flower1.getFirst()), special);
+        FlowerColor combined = flower1.getSecond().combined(flower2.getSecond());
+        if (combined != null) {
+            var cominbedType = SproutFlowers.FLOWERS.get(combined);
+            builder.add(cominbedType.get(flower2.getFirst()), normal / 2);
+            builder.add(cominbedType.get(flower1.getFirst()), normal / 2);
+        }
         register(builder);
     }
 

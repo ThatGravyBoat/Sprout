@@ -18,13 +18,6 @@ public class BounceBugBottleItem extends BlockItem {
         super(SproutBlocks.BOUNCE_BUG_BOTTLE.get(), settings);
     }
 
-    public static float getTextureId(ItemStack stack) {
-        CompoundTag nbt = stack.getTag();
-        if (!stack.hasTag() || nbt == null) return 0f;
-        CompoundTag bug = nbt.getCompound("bug");
-        return bug == null ? 0 : BounceBugVariant.getVariant(bug.getString("bugType")).ordinal();
-    }
-
     @Override
     public InteractionResult useOn(UseOnContext context) {
         var player = context.getPlayer();

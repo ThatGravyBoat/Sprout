@@ -38,10 +38,6 @@ public class SproutClientImpl {
         EntityRendererRegistry.register(entityTypeSupplier.get(), renderer);
     }
 
-    public static void registerItemProperty(Supplier<Item> itemSupplier, ResourceLocation name, ClampedItemPropertyFunction provider) {
-        ItemProperties.register(itemSupplier.get(), name, provider);
-    }
-
     public static void registerParticleFactory(Supplier<SimpleParticleType> particle, SproutClient.SpriteAwareFactory<SimpleParticleType> factory) {
         ParticleFactoryRegistry.getInstance().register(particle.get(), factory::create);
     }

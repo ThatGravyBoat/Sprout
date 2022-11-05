@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 public class SproutFlowers {
 
+    public static final List<Supplier<Item>> FLOWER_ITEMS = new ArrayList<>();
     public static final Map<FlowerColor, Map<FlowerType, Supplier<Block>>> FLOWERS = Util.make(new HashMap<>(), map -> {
         map.compute(FlowerColor.WHITE, make(flowers -> flowers.put(FlowerType.TULIP, () -> Blocks.WHITE_TULIP)));
         map.compute(FlowerColor.WHITE, make(flowers -> flowers.put(FlowerType.LILY_OF_THE_VALLEY, () -> Blocks.LILY_OF_THE_VALLEY)));
@@ -42,7 +43,7 @@ public class SproutFlowers {
             for (FlowerType type : FlowerType.values()) {
                 if (!color.bannedTypes.contains(type)) {
                     String id = color.name().toLowerCase(Locale.ROOT) + "_" + type.name().toLowerCase(Locale.ROOT);
-                    Supplier<Block> block = SproutBlocks.registerBlock(id, () -> new FlowerBlock(MobEffects.ABSORPTION, 4, BlockBehaviour.Properties.copy(Blocks.POPPY)));
+                    Supplier<Block> block = SproutBlocks.registerBlock(id, () -> new FlowerBlock(type.stewEffect.get(), 6, BlockBehaviour.Properties.copy(Blocks.POPPY)));
                     FLOWERS.compute(color, make(flowers -> flowers.put(type, block)));
                     POTTED_FLOWERS.add(registerFlowerPot("potted_" + id, block));
                 }
@@ -56,7 +57,7 @@ public class SproutFlowers {
             for (var flowers : color.getValue().entrySet()) {
                 if (flowerColor.bannedTypes.contains(flowers.getKey())) continue;
                 String id = flowerColor.name().toLowerCase(Locale.ROOT) + "_" + flowers.getKey().name().toLowerCase(Locale.ROOT);
-                SproutItems.registerItem(id, () -> new BlockItem(flowers.getValue().get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));
+                FLOWER_ITEMS.add(SproutItems.registerItem(id, () -> new BlockItem(flowers.getValue().get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))));
             }
         }
     }

@@ -69,11 +69,9 @@ public class SproutClient {
     }
 
     public static void initBlockColors() {
-        registerBlockColor((state, world, pos, tintIndex) -> {
-            if (tintIndex == 1) return -1;
-            if (world == null || pos == null) return GrassColor.get(0.5D, 1.0D);
-            return BiomeColors.getAverageGrassColor(world, pos);
-        }, SproutBlocks.CATTIAL.get(), SproutBlocks.WATER_LENTIL.get(), SproutBlocks.SPROUTS.get());
+        registerBlockColor((state, world, pos, tintIndex) ->
+                tintIndex == 1 ? -1 : world == null || pos == null ? GrassColor.get(0.5D, 1.0D) : BiomeColors.getAverageGrassColor(world, pos),
+                SproutBlocks.CATTIAL.get(), SproutBlocks.WATER_LENTIL.get(), SproutBlocks.SPROUTS.get());
     }
 
     public static void initItemColors() {
@@ -107,11 +105,6 @@ public class SproutClient {
 
     @ExpectPlatform
     public static <T extends BlockEntity> void registerBlockEntityRenderer(Supplier<BlockEntityType<T>> blockEntity, BlockEntityRendererProvider<T> blockEntityRenderer) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void registerItemProperty(Supplier<Item> itemSupplier, ResourceLocation name, ClampedItemPropertyFunction provider) {
         throw new AssertionError();
     }
 

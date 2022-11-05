@@ -31,9 +31,12 @@ public class SproutConfiguredFeatures {
     public static final Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> PEANUT_PATCH = FeatureUtils.register(
             "sprout:patch_peanut", Feature.RANDOM_PATCH,
             FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                    new SimpleBlockConfiguration(
-                            BlockStateProvider.simple(SproutBlocks.PEANUT_PLANT_BLOCK.get().defaultBlockState().setValue(PeanutCrop.AGE, 2))
-                    ), List.of(Blocks.GRASS_BLOCK), 32)
+                new SimpleBlockConfiguration(
+                    BlockStateProvider.simple(SproutBlocks.PEANUT_PLANT_BLOCK.get().defaultBlockState().setValue(PeanutCrop.AGE, 2))
+                ),
+                List.of(Blocks.GRASS_BLOCK),
+                32
+            )
     );
 
     public static final Holder<PlacedFeature> PLACED_PEANUT_PATCH = PlacementUtils.register(
@@ -47,13 +50,13 @@ public class SproutConfiguredFeatures {
     public static final Holder<ConfiguredFeature<SimpleRandomFeatureConfiguration, ?>> TALL_DEAD_BUSH = FeatureUtils.register(
             "sprout:tall_dead_bush", Feature.SIMPLE_RANDOM_SELECTOR,
             new SimpleRandomFeatureConfiguration(
-                    HolderSet.direct(
-                            PlacementUtils.onlyWhenEmpty(
-                                    Feature.RANDOM_PATCH,
-                                    FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                                            new SimpleBlockConfiguration(BlockStateProvider.simple(SproutBlocks.TALL_DEAD_BUSH.get())), List.of(Blocks.TERRACOTTA, Blocks.SAND, Blocks.RED_SAND), 30)
-                            )
+                HolderSet.direct(
+                    PlacementUtils.onlyWhenEmpty(
+                        Feature.RANDOM_PATCH,
+                        FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                            new SimpleBlockConfiguration(BlockStateProvider.simple(SproutBlocks.TALL_DEAD_BUSH.get())), List.of(Blocks.TERRACOTTA, Blocks.SAND, Blocks.RED_SAND), 30)
                     )
+                )
             )
     );
 
@@ -136,12 +139,12 @@ public class SproutConfiguredFeatures {
 
         if (Sprout.CONFIG.worldGen.sprouts.enabled) {
             registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS,
-                    Biomes.FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.FLOWER_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
-                    Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE, Biomes.SPARSE_JUNGLE,
-                    Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
-                    Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU,
-                    Biomes.TAIGA,
-                    Biomes.SWAMP
+                Biomes.FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.FLOWER_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
+                Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE, Biomes.SPARSE_JUNGLE,
+                Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
+                Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU,
+                Biomes.TAIGA,
+                Biomes.SWAMP
             );
         }
 
@@ -191,16 +194,6 @@ public class SproutConfiguredFeatures {
     @SafeVarargs
     @ExpectPlatform
     public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome>... biome) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceLocation biome) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, TagKey<Biome> category) {
         throw new AssertionError();
     }
 }

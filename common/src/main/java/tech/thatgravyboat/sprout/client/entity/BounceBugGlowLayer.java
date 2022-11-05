@@ -2,6 +2,7 @@ package tech.thatgravyboat.sprout.client.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import tech.thatgravyboat.sprout.Sprout;
 import tech.thatgravyboat.sprout.common.entities.BounceBugEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -27,7 +28,7 @@ public class BounceBugGlowLayer extends GeoLayerRenderer<BounceBugEntity> {
         VertexConsumer consumer = buffer.getBuffer(RenderType.eyes(EYES));
         getRenderer().render(model, entity, partialTicks,
                 null, stack, null, consumer,
-                packedLightIn, GeoEntityRenderer.getPackedOverlay(entity, 0),
+                packedLightIn, OverlayTexture.pack(OverlayTexture.u(0), entity.hurtTime > 0 || entity.deathTime > 0),
                 1f, 1f, 1f, 1f);
     }
 }

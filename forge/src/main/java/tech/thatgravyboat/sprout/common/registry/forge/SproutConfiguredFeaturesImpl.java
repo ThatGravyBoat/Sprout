@@ -12,10 +12,4 @@ public class SproutConfiguredFeaturesImpl {
     @SafeVarargs
     public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome>... biome) {
     }
-
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, TagKey<Biome> category) {
-    }
-
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceLocation biome) {
-    }
 }

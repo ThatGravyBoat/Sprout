@@ -35,6 +35,7 @@ public class SproutItems {
         Object2FloatMap<ItemLike> compostMap = ComposterBlock.COMPOSTABLES;
         compostMap.put(PEANUT.get(), 0.3f);
         compostMap.put(WATER_SAUSAGE.get(), 1f);
+        SproutFlowers.FLOWER_ITEMS.forEach(flower -> compostMap.put(flower.get(), 0.65f));
     }
 
     private static Item.Properties groupSettings(CreativeModeTab group) {

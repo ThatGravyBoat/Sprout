@@ -16,12 +16,4 @@ public class SproutConfiguredFeaturesImpl {
     public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceKey<Biome>... biome) {
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(biome), feature, entry.unwrapKey().orElseThrow());
     }
-
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, TagKey<Biome> category) {
-        BiomeModifications.addFeature(BiomeSelectors.tag(category), feature, entry.unwrapKey().orElseThrow());
-    }
-
-    public static void registerFeature(GenerationStep.Decoration feature, Holder<PlacedFeature> entry, ResourceLocation biome) {
-        BiomeModifications.addFeature(ctx -> ctx.getBiomeKey().location().equals(biome), feature, entry.unwrapKey().orElseThrow());
-    }
 }
