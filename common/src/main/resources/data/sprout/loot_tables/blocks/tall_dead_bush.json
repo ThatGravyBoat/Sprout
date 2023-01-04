@@ -51,7 +51,7 @@
       "conditions": [
         {
           "condition": "minecraft:block_state_property",
-          "block": "sprout:cattail",
+          "block": "sprout:tall_dead_bush",
           "properties": {
             "half": "lower"
           }
@@ -61,7 +61,7 @@
           "predicate": {
             "block": {
               "blocks": [
-                "sprout:cattail"
+                "sprout:tall_dead_bush"
               ],
               "state": {
                 "half": "upper"
@@ -98,7 +98,7 @@
                   "add": false
                 }
               ],
-              "name": "sprout:cattail"
+              "name": "sprout:tall_dead_bush"
             },
             {
               "type": "minecraft:item",
