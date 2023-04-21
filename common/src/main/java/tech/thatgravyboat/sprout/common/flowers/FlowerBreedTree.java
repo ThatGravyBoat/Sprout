@@ -38,10 +38,10 @@ public class FlowerBreedTree {
         for (var flower2 : combinedFlowers) {
             Block block2 = SproutFlowers.FLOWERS.get(flower2.getSecond()).get(flower2.getFirst()).get();
             Builder builder = new Builder(Blocks.WITHER_ROSE, block2);
-            builder.add(Blocks.WITHER_ROSE, 49.95);
-            builder.add(block2, 49.95);
-            builder.add(SproutFlowers.FLOWERS.get(FlowerColor.BLACK).get(flower2.getFirst()), 0.05);
-            builder.add(SproutFlowers.FLOWERS.get(FlowerColor.BROWN).get(flower2.getFirst()), 0.05);
+            builder.add(Blocks.WITHER_ROSE, 49.5);
+            builder.add(block2, 49.5);
+            builder.add(SproutFlowers.FLOWERS.get(FlowerColor.BLACK).get(flower2.getFirst()), 0.5);
+            builder.add(SproutFlowers.FLOWERS.get(FlowerColor.BROWN).get(flower2.getFirst()), 0.5);
             register(builder);
         }
 
