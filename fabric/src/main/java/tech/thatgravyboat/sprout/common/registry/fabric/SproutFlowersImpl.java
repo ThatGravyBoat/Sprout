@@ -10,6 +10,6 @@ import java.util.function.Supplier;
 
 public class SproutFlowersImpl {
     public static Supplier<Block> registerFlowerPot(String id, Supplier<Block> block) {
-        return SproutBlocksImpl.registerBlock(id, () -> new FlowerPotBlock(block.get(), BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
+        return SproutBlocks.BLOCKS.register(id, () -> new FlowerPotBlock(block.get(), BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY)));
     }
 }

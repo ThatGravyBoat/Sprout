@@ -1,12 +1,11 @@
 package tech.thatgravyboat.sprout.common.configs;
 
-import tech.thatgravyboat.sprout.common.config.PropertyType;
-import tech.thatgravyboat.sprout.common.config.annotations.Config;
-import tech.thatgravyboat.sprout.common.config.annotations.Property;
+import com.teamresourceful.resourcefulconfig.common.annotations.Config;
+import com.teamresourceful.resourcefulconfig.common.annotations.InlineCategory;
 
 @Config("sprout")
-public class SproutConfig {
+public final class SproutConfig {
 
-    @Property(type = PropertyType.CATEGORY, description = "World Generation Configurations.")
-    public WorldGenConfig worldGen = new WorldGenConfig();
+    @InlineCategory
+    public static WorldGenConfig worldGen;
 }

@@ -46,24 +46,17 @@ public class BounceBugEntity extends TamableAnimal implements IAnimatable, Herbi
     protected static final EntityDataAccessor<Boolean> SPREADING_SPORES = SynchedEntityData.defineId(BounceBugEntity.class, EntityDataSerializers.BOOLEAN);
     private final AnimationFactory factory = new AnimationFactory(this);
     private BlockPos shroomPos;
-    public final boolean isInJar;
-
 
     public BounceBugEntity(EntityType<BounceBugEntity> entityType, Level world) {
-        this(entityType, world, false);
-    }
-
-    public BounceBugEntity(EntityType<BounceBugEntity> entityType, Level world, boolean isInJar) {
         super(entityType, world);
-        this.isInJar = isInJar;
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.ARTHROPOD;
     }
 
-    public static boolean canSpawn(EntityType<BounceBugEntity> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    public static boolean canSpawn(EntityType<BounceBugEntity> ignoredType, ServerLevelAccessor world, MobSpawnType ignoredReason, BlockPos pos, RandomSource ignoredRandom) {
         return world.getBlockState(pos.below()).is(BlockTags.NYLIUM);
     }
 
@@ -78,7 +71,7 @@ public class BounceBugEntity extends TamableAnimal implements IAnimatable, Herbi
     }
 
     @Override
-    public InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if(stack.is(Items.GLASS_BOTTLE)) {
             if(!this.level.isClientSide()) {
@@ -145,7 +138,10 @@ public class BounceBugEntity extends TamableAnimal implements IAnimatable, Herbi
         this.goalSelector.addGoal(0, new PanicGoal(this, 0.3));
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(2, new FindPlantGoal<>(this, block -> block instanceof NetherWartBlock || block instanceof MushroomBlock || block instanceof FungusBlock));
+        this.goalSelector.addGoal(2, new FindPlantGoal<>(this, (level, pos) -> {
+            Block block = level.getBlockState(pos).getBlock();
+            return block instanceof NetherWartBlock || block instanceof MushroomBlock || block instanceof FungusBlock;
+        }));
         this.goalSelector.addGoal(3, new SpreadShroomOrGrowWartGoal(this));
         this.goalSelector.addGoal(8, new SproutWanderGoal<>(this, 0.2));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));

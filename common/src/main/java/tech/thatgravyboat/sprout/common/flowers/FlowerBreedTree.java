@@ -1,18 +1,19 @@
 package tech.thatgravyboat.sprout.common.flowers;
 
 import com.mojang.datafixers.util.Pair;
+import com.teamresourceful.resourcefullib.common.collections.WeightedCollection;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import tech.thatgravyboat.sprout.common.registry.SproutFlowers;
-import tech.thatgravyboat.sprout.common.utils.RandomCollection;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class FlowerBreedTree {
 
-    public static final Map<FlowerBreed, RandomCollection<Block>> BREEDS = new HashMap<>();
+    public static final Map<FlowerBreed, WeightedCollection<Block>> BREEDS = new HashMap<>();
 
     static {
         var normalFlowers = FlowerColor.stream().filter(FlowerColor::isNormal)
@@ -37,11 +38,11 @@ public class FlowerBreedTree {
 
         for (var flower2 : combinedFlowers) {
             Block block2 = SproutFlowers.FLOWERS.get(flower2.getSecond()).get(flower2.getFirst()).get();
-            Builder builder = new Builder(Blocks.WITHER_ROSE, block2);
-            builder.add(Blocks.WITHER_ROSE, 49.95);
-            builder.add(block2, 49.95);
-            builder.add(SproutFlowers.FLOWERS.get(FlowerColor.BLACK).get(flower2.getFirst()), 0.05);
-            builder.add(SproutFlowers.FLOWERS.get(FlowerColor.BROWN).get(flower2.getFirst()), 0.05);
+            Builder builder = new Builder(Blocks.WITHER_ROSE, block2)
+                .add(Blocks.WITHER_ROSE, 49.80)
+                .add(block2, 49.85)
+                .add(SproutFlowers.FLOWERS.get(FlowerColor.BLACK).get(flower2.getFirst()), 0.20)
+                .add(SproutFlowers.FLOWERS.get(FlowerColor.BROWN).get(flower2.getFirst()), 0.15);
             register(builder);
         }
 
@@ -57,11 +58,11 @@ public class FlowerBreedTree {
             register(new Builder(block1, block2).add(block1, 1));
             return;
         }
-        Builder builder = new Builder(block1, block2);
-        builder.add(block1, normal);
-        builder.add(block2, normal);
-        builder.add(flower1Type.get(flower2.getFirst()), special);
-        builder.add(flower2Type.get(flower1.getFirst()), special);
+        Builder builder = new Builder(block1, block2)
+            .add(block1, normal)
+            .add(block2, normal)
+            .add(flower1Type.get(flower2.getFirst()), special)
+            .add(flower2Type.get(flower1.getFirst()), special);
         FlowerColor combined = flower1.getSecond().combined(flower2.getSecond());
         if (combined != null) {
             var cominbedType = SproutFlowers.FLOWERS.get(combined);
@@ -78,7 +79,7 @@ public class FlowerBreedTree {
     private static class Builder {
 
         private final FlowerBreed breed;
-        private final RandomCollection<Block> flowers = new RandomCollection<>();
+        private final WeightedCollection<Block> flowers = new WeightedCollection<>();
 
         public Builder(Block flower1, Block flower2) {
             this.breed = FlowerBreed.of(flower1, flower2);

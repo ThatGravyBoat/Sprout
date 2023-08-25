@@ -1,27 +1,24 @@
 package tech.thatgravyboat.sprout;
 
-import dev.architectury.injectables.targets.ArchitecturyTarget;
+import com.teamresourceful.resourcefulconfig.common.config.Configurator;
 import software.bernie.geckolib3.GeckoLib;
-import tech.thatgravyboat.sprout.common.config.ConfigLoader;
 import tech.thatgravyboat.sprout.common.configs.SproutConfig;
 import tech.thatgravyboat.sprout.common.registry.*;
 
-
 public class Sprout {
 
-	public static final SproutConfig CONFIG = new SproutConfig();
+	public static final Configurator CONFIGURATOR = new Configurator(true);
+
 	public static final String MODID = "sprout";
 
 	public static void init() {
+		CONFIGURATOR.registerConfig(SproutConfig.class);
 		GeckoLib.initialize();
-		SproutEntities.registerEntities();
+		SproutEntities.ENTITIES.init();
 		SproutBlocks.registerBlocks();
 		SproutItems.registerItems();
-		SproutSounds.registerSounds();
-		SproutParticles.registerParticles();
-		SproutFeatures.register();
-		if ("fabric".equals(ArchitecturyTarget.getCurrentTarget())) {
-			ConfigLoader.registerConfig(CONFIG);
-		}
+		SproutSounds.SOUNDS.init();
+		SproutParticles.PARTICLES.init();
+		SproutFeatures.FEATURES.init();
 	}
 }

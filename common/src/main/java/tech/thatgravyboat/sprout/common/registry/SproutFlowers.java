@@ -2,7 +2,6 @@ package tech.thatgravyboat.sprout.common.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.Util;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -43,7 +42,7 @@ public class SproutFlowers {
             for (FlowerType type : FlowerType.values()) {
                 if (!color.bannedTypes.contains(type)) {
                     String id = color.name().toLowerCase(Locale.ROOT) + "_" + type.name().toLowerCase(Locale.ROOT);
-                    Supplier<Block> block = SproutBlocks.registerBlock(id, () -> new FlowerBlock(type.stewEffect.get(), 6, BlockBehaviour.Properties.copy(Blocks.POPPY)));
+                    Supplier<Block> block = SproutBlocks.BLOCKS.register(id, () -> new FlowerBlock(type.stewEffect.get(), 6, BlockBehaviour.Properties.copy(Blocks.POPPY)));
                     FLOWERS.compute(color, make(flowers -> flowers.put(type, block)));
                     POTTED_FLOWERS.add(registerFlowerPot("potted_" + id, block));
                 }
@@ -57,7 +56,7 @@ public class SproutFlowers {
             for (var flowers : color.getValue().entrySet()) {
                 if (flowerColor.bannedTypes.contains(flowers.getKey())) continue;
                 String id = flowerColor.name().toLowerCase(Locale.ROOT) + "_" + flowers.getKey().name().toLowerCase(Locale.ROOT);
-                FLOWER_ITEMS.add(SproutItems.registerItem(id, () -> new BlockItem(flowers.getValue().get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))));
+                FLOWER_ITEMS.add(SproutItems.ITEMS.register(id, () -> new BlockItem(flowers.getValue().get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))));
             }
         }
     }

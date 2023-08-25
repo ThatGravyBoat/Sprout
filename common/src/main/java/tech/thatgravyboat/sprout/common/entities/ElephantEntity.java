@@ -1,10 +1,5 @@
 package tech.thatgravyboat.sprout.common.entities;
 
-import tech.thatgravyboat.sprout.Sprout;
-import tech.thatgravyboat.sprout.common.entities.goals.*;
-import tech.thatgravyboat.sprout.common.registry.SproutItems;
-import tech.thatgravyboat.sprout.common.registry.SproutParticles;
-import tech.thatgravyboat.sprout.common.registry.SproutSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -34,7 +29,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.CropBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -46,6 +40,12 @@ import software.bernie.geckolib3.core.event.SoundKeyframeEvent;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import tech.thatgravyboat.sprout.Sprout;
+import tech.thatgravyboat.sprout.common.entities.goals.*;
+import tech.thatgravyboat.sprout.common.registry.SproutItems;
+import tech.thatgravyboat.sprout.common.registry.SproutParticles;
+import tech.thatgravyboat.sprout.common.registry.SproutSounds;
+import tech.thatgravyboat.sprout.common.utils.EntityUtils;
 
 public class ElephantEntity extends TamableAnimal implements IAnimatable, Herbivore {
     protected static final EntityDataAccessor<Boolean> DRINKING = SynchedEntityData.defineId(ElephantEntity.class, EntityDataSerializers.BOOLEAN);
@@ -65,7 +65,7 @@ public class ElephantEntity extends TamableAnimal implements IAnimatable, Herbiv
         super(entityType, world);
     }
 
-    public static boolean canSpawn(EntityType<ElephantEntity> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    public static boolean canSpawn(EntityType<ElephantEntity> ignoredType, ServerLevelAccessor world, MobSpawnType ignoredReason, BlockPos pos, RandomSource ignoredRandom) {
         return pos.getY() > world.getSeaLevel() && world.getBlockState(pos.below()).is(BlockTags.DIRT) && world.getRandom().nextInt(10) == 0;
     }
 
@@ -102,7 +102,7 @@ public class ElephantEntity extends TamableAnimal implements IAnimatable, Herbiv
         this.goalSelector.addGoal(2, new TemptGoal(this, .5, PEANUT_TEMPT_ITEM, false));
         this.goalSelector.addGoal(3, new FindWaterGoal(this));
         this.goalSelector.addGoal(3, new DrinkWaterGoal(this, 3));
-        this.goalSelector.addGoal(3, new FindPlantGoal<>(this, block -> block instanceof CropBlock));
+        this.goalSelector.addGoal(3, new FindPlantGoal<>(this, EntityUtils::validBoneMealTarget));
         this.goalSelector.addGoal(3, new SprayWaterGoal(this, 6));
         this.goalSelector.addGoal(8, new SproutWanderGoal<>(this, 0.2));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 6.0F));
@@ -124,7 +124,7 @@ public class ElephantEntity extends TamableAnimal implements IAnimatable, Herbiv
     }
 
     @Override
-    public InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (stack.is(PEANUT_TAG)) {
             if (!isTame()) {

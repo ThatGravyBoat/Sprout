@@ -1,13 +1,18 @@
 package tech.thatgravyboat.sprout.forge;
 
+import com.teamresourceful.resourcefulconfig.client.ConfigScreen;
+import com.teamresourceful.resourcefulconfig.common.config.ResourcefulConfig;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import tech.thatgravyboat.sprout.Sprout;
 import tech.thatgravyboat.sprout.SproutClient;
+import tech.thatgravyboat.sprout.common.configs.SproutConfig;
 
 
 @Mod.EventBusSubscriber(modid=Sprout.MODID, value=Dist.CLIENT, bus= Mod.EventBusSubscriber.Bus.MOD)
@@ -15,6 +20,16 @@ public class SproutForgeClient {
 
     public static void clientSetup(FMLClientSetupEvent event) {
         SproutClient.init();
+
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
+                () -> new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> {
+                    ResourcefulConfig config = Sprout.CONFIGURATOR.getConfig(SproutConfig.class);
+                    if (config == null) {
+                        return null;
+                    }
+                    return new ConfigScreen(null, config);
+                })
+        );
     }
 
     @SubscribeEvent

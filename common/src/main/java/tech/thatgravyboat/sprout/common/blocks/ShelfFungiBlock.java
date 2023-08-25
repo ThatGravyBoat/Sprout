@@ -18,6 +18,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("deprecation")
 public class ShelfFungiBlock extends BushBlock {
 
     private static final VoxelShape EAST_SHAPE = Block.box(1, 1, 0, 8, 15, 15);
@@ -52,12 +53,12 @@ public class ShelfFungiBlock extends BushBlock {
     }
 
     @Override
-    public BlockState rotate(BlockState state, Rotation rotation) {
+    public @NotNull BlockState rotate(BlockState state, Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public BlockState mirror(BlockState state, Mirror mirror) {
+    public @NotNull BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
@@ -72,7 +73,7 @@ public class ShelfFungiBlock extends BushBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return switch (state.getValue(HorizontalDirectionalBlock.FACING)) {
             case EAST -> EAST_SHAPE;
             case WEST -> WEST_SHAPE;
@@ -82,12 +83,18 @@ public class ShelfFungiBlock extends BushBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(@NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public @NotNull ItemStack getCloneItemStack(@NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull BlockState state) {
         if (this.asBlock() == SproutBlocks.RED_SHELF_FUNGI.get()) {
             return new ItemStack(Items.RED_MUSHROOM);
         }
         if (this.asBlock() == SproutBlocks.BROWN_SHELF_FUNGI.get()) {
             return new ItemStack(Items.BROWN_MUSHROOM);
+        }
+        if (this.asBlock() == SproutBlocks.CRIMSON_SHELF_FUNGI.get()) {
+            return new ItemStack(Items.CRIMSON_FUNGUS);
+        }
+        if (this.asBlock() == SproutBlocks.WARPED_SHELF_FUNGI.get()) {
+            return new ItemStack(Items.WARPED_FUNGUS);
         }
         return ItemStack.EMPTY;
     }

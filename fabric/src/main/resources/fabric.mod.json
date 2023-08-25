@@ -22,6 +22,9 @@
     ],
     "client": [
       "tech.thatgravyboat.sprout.SproutFabricClient"
+    ],
+    "modmenu": [
+      "tech.thatgravyboat.sprout.fabric.ModMenuConfig"
     ]
   },
   "mixins": [

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "sprout:peanut_block"
+        }
+    ],
+    "result": {
+        "item": "sprout:peanut",
+        "count": 9
+    }
+}

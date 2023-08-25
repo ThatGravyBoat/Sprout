@@ -1,0 +1,12 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:flower_forest"
+  ],
+  "spawners" : {
+    "type": "sprout:butterfly",
+    "weight": 2,
+    "minCount": 0,
+    "maxCount": 1
+  }
+}

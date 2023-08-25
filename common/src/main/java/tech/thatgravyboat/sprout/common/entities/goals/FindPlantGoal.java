@@ -1,28 +1,28 @@
 package tech.thatgravyboat.sprout.common.entities.goals;
 
-import tech.thatgravyboat.sprout.common.entities.Herbivore;
-import tech.thatgravyboat.sprout.common.utils.EntityPathingUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import org.jetbrains.annotations.Nullable;
+import tech.thatgravyboat.sprout.common.entities.Herbivore;
+import tech.thatgravyboat.sprout.common.utils.EntityUtils;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 public class FindPlantGoal<T extends TamableAnimal & Herbivore> extends Goal {
-    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(12);
+    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityUtils.getPositionalOffsets(12);
 
     private final T herbivore;
-    public final Predicate<Block> blockPredicate;
+    public final BiPredicate<Level, BlockPos> blockPredicate;
     @Nullable
     private BlockPos targetPosition;
 
-    public FindPlantGoal(T herbivore, Predicate<Block> blockPredicate) {
+    public FindPlantGoal(T herbivore, BiPredicate<Level, BlockPos> blockPredicate) {
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.TARGET, Flag.LOOK));
         this.herbivore = herbivore;
         this.blockPredicate = blockPredicate;
@@ -63,7 +63,7 @@ public class FindPlantGoal<T extends TamableAnimal & Herbivore> extends Goal {
         BlockPos.MutableBlockPos plantPos = herbivore.blockPosition().mutable();
         for (BlockPos blockPos : POSITIONAL_OFFSETS) {
             plantPos.setWithOffset(herbivore.blockPosition(), blockPos);
-            if (blockPredicate.test(herbivore.level.getBlockState(plantPos).getBlock())) {
+            if (blockPredicate.test(herbivore.level, plantPos)) {
                 Path path = herbivore.getNavigation().createPath(plantPos, 0);
                 if (path != null && path.canReach()) {
                     this.targetPosition = path.getTarget();

@@ -2,7 +2,6 @@ package tech.thatgravyboat.sprout.common.world;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import tech.thatgravyboat.sprout.common.registry.SproutBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -63,21 +62,19 @@ public class FallenTreeFeature extends Feature<FallenTreeFeature.FallenTreeConfi
     }
 
     private static void place(RandomSource random, BlockPos pos, Direction.Axis axis, WorldGenLevel level, FallenTreeConfig config) {
-        float red = config.redMushroom();
-        float brown = config.brownMushroom();
+        boolean placedMoss = false;
         if (random.nextFloat() < config.moss() && level.isEmptyBlock(pos.above())) {
             level.setBlock(pos.above(), Blocks.MOSS_CARPET.defaultBlockState(), 3);
-            red /= 2f;
-            brown /= 2f;
+            placedMoss = true;
         }
-        boolean placeRed = true;
-        if (random.nextFloat() < brown) {
-            if (place(random, pos, axis, level, SproutBlocks.BROWN_SHELF_FUNGI.get().defaultBlockState())) {
-                placeRed = false;
+
+        for (FungiConfig fungus : config.fungus) {
+            float chance = fungus.chance();
+            if (placedMoss) chance /= 2;
+            if (random.nextFloat() < chance) {
+                place(random, pos, axis, level, fungus.fungi().defaultBlockState());
+                break;
             }
-        }
-        if (placeRed && random.nextFloat() < red) {
-            place(random, pos, axis, level, SproutBlocks.RED_SHELF_FUNGI.get().defaultBlockState());
         }
     }
 
@@ -85,24 +82,29 @@ public class FallenTreeFeature extends Feature<FallenTreeFeature.FallenTreeConfi
         return axis == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X;
     }
 
-    private static boolean place(RandomSource random, BlockPos pos, Direction.Axis axis, WorldGenLevel level, BlockState state) {
+    private static void place(RandomSource random, BlockPos pos, Direction.Axis axis, WorldGenLevel level, BlockState state) {
         for (int i : (random.nextBoolean() ? DIR_REVERSED : DIR)) {
             if (state.hasProperty(HorizontalDirectionalBlock.FACING)) {
                 state = state.setValue(HorizontalDirectionalBlock.FACING, Direction.fromAxisAndDirection(axis, i > 0 ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE));
             }
             if (level.getBlockState(pos.relative(axis, i)).getMaterial().isReplaceable() && level.setBlock(pos.relative(axis, i), state, 3)) {
-                return true;
+                return;
             }
         }
-        return false;
     }
 
-    public record FallenTreeConfig(Block log, float moss, float redMushroom, float brownMushroom) implements FeatureConfiguration {
+    public record FallenTreeConfig(Block log, float moss, List<FungiConfig> fungus) implements FeatureConfiguration {
         public static final Codec<FallenTreeConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Registry.BLOCK.byNameCodec().fieldOf("log").forGetter(FallenTreeConfig::log),
                 Codec.floatRange(0f, 1f).fieldOf("moss").orElse(0f).forGetter(FallenTreeConfig::moss),
-                Codec.floatRange(0f, 1f).fieldOf("redMushroom").orElse(0f).forGetter(FallenTreeConfig::redMushroom),
-                Codec.floatRange(0f, 1f).fieldOf("brownMushroom").orElse(0f).forGetter(FallenTreeConfig::brownMushroom)
+                FungiConfig.CODEC.listOf().fieldOf("fungus").orElse(new ArrayList<>()).forGetter(FallenTreeConfig::fungus)
         ).apply(instance, FallenTreeConfig::new));
+    }
+
+    public record FungiConfig(Block fungi, float chance) implements FeatureConfiguration {
+        public static final Codec<FungiConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Registry.BLOCK.byNameCodec().fieldOf("fungi").forGetter(FungiConfig::fungi),
+                Codec.floatRange(0f, 1f).fieldOf("chance").orElse(0f).forGetter(FungiConfig::chance)
+        ).apply(instance, FungiConfig::new));
     }
 }

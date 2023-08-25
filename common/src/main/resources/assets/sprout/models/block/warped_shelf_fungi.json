@@ -1,0 +1,6 @@
+{
+  "parent": "sprout:block/shelf_fungi",
+  "textures": {
+    "fungi": "sprout:block/warped_shelf_fungi"
+  }
+}

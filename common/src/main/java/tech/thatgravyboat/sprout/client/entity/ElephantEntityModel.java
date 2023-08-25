@@ -22,7 +22,7 @@ public class ElephantEntityModel extends AnimatedGeoModel<ElephantEntity> {
     @Override
     public ResourceLocation getTextureResource(ElephantEntity object) {
         var closedEyes = object.isInSittingPose() || object.isWatering();
-        return switch (object.getName().getString().toLowerCase()) {
+        return switch (object.getName().getString().toLowerCase().replace(" ", "_")) {
             case "lumpy" -> closedEyes ? LUMPY_SLEEPING : LUMPY;
             case "tree_trunks" -> closedEyes ? TREE_TRUNKS_SLEEPING : TREE_TRUNKS;
             default -> closedEyes ? NORMAL_SLEEPING : NORMAL;

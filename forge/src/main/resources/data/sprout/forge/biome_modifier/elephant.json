@@ -1,6 +1,6 @@
 {
   "type": "forge:add_spawns",
-  "biomes": ["minecraft:meadow"],
+  "biomes": ["minecraft:flower_forest"],
   "spawners" : {
     "type": "sprout:elephant",
     "weight": 1,

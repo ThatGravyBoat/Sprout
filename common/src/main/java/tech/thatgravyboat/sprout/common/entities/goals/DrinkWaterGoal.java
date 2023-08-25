@@ -1,7 +1,7 @@
 package tech.thatgravyboat.sprout.common.entities.goals;
 
 import tech.thatgravyboat.sprout.common.entities.ElephantEntity;
-import tech.thatgravyboat.sprout.common.utils.EntityPathingUtils;
+import tech.thatgravyboat.sprout.common.utils.EntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
@@ -14,7 +14,7 @@ public class DrinkWaterGoal extends Goal {
     private final int timerCap;
 
     private final ElephantEntity elephant;
-    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(1);
+    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityUtils.getPositionalOffsets(1);
 
     public DrinkWaterGoal(ElephantEntity elephant, int timeInSeconds) {
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.TARGET, Flag.LOOK));

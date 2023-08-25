@@ -1,16 +1,11 @@
 package tech.thatgravyboat.sprout.common.registry;
 
-import tech.thatgravyboat.sprout.Sprout;
-import tech.thatgravyboat.sprout.common.blocks.PeanutCrop;
-import tech.thatgravyboat.sprout.common.world.FallenTreeFeature;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +18,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConf
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleRandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
+import tech.thatgravyboat.sprout.common.blocks.PeanutCrop;
+import tech.thatgravyboat.sprout.common.configs.worldgen.Sprouts;
+import tech.thatgravyboat.sprout.common.world.FallenTreeFeature;
 
 import java.util.List;
 
@@ -98,7 +96,7 @@ public class SproutConfiguredFeatures {
     public static final Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> SPROUTS = FeatureUtils.register(
             "sprout:sprouts", Feature.RANDOM_PATCH,
             FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                    new SimpleBlockConfiguration(BlockStateProvider.simple(SproutBlocks.SPROUTS.get())), List.of(Blocks.GRASS_BLOCK), Sprout.CONFIG.worldGen.sprouts.frequency)
+                    new SimpleBlockConfiguration(BlockStateProvider.simple(SproutBlocks.SPROUTS.get())), List.of(Blocks.GRASS_BLOCK), Sprouts.frequency)
     );
 
     public static final Holder<PlacedFeature> PLACED_SPROUTS = PlacementUtils.register(
@@ -130,14 +128,14 @@ public class SproutConfiguredFeatures {
 
 
     public static void registerFeatures() {
-        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_PEANUT_PATCH, Biomes.MEADOW);
+        registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_PEANUT_PATCH, Biomes.FLOWER_FOREST);
 
         registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_TALL_DEAD_BUSH, Biomes.BADLANDS, Biomes.ERODED_BADLANDS, Biomes.WOODED_BADLANDS);
         registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_DUNE_GRASS, Biomes.DESERT);
 
         registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_CATTAILS, Biomes.SWAMP);
 
-        if (Sprout.CONFIG.worldGen.sprouts.enabled) {
+        if (Sprouts.enabled) {
             registerFeature(GenerationStep.Decoration.VEGETAL_DECORATION, PLACED_SPROUTS,
                 Biomes.FOREST, Biomes.BIRCH_FOREST, Biomes.DARK_FOREST, Biomes.FLOWER_FOREST, Biomes.OLD_GROWTH_BIRCH_FOREST,
                 Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE, Biomes.SPARSE_JUNGLE,
@@ -163,7 +161,10 @@ public class SproutConfiguredFeatures {
     private static Holder<PlacedFeature> createFallenTree(Block log, float moss, float red, float brown, String id) {
         Holder<ConfiguredFeature<FallenTreeFeature.FallenTreeConfig, ?>> tree = FeatureUtils.register(
                 "sprout:"+id+"_fallen_tree", SproutFeatures.FALLEN_TREE.get(),
-                new FallenTreeFeature.FallenTreeConfig(log, moss, red, brown)
+                new FallenTreeFeature.FallenTreeConfig(log, moss, List.of(
+                        new FallenTreeFeature.FungiConfig(SproutBlocks.RED_SHELF_FUNGI.get(), red),
+                        new FallenTreeFeature.FungiConfig(SproutBlocks.BROWN_SHELF_FUNGI.get(), brown)
+                ))
         );
 
         return PlacementUtils.register(

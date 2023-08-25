@@ -1,21 +1,18 @@
 package tech.thatgravyboat.sprout.common.registry;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistries;
+import com.teamresourceful.resourcefullib.common.registry.ResourcefulRegistry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import tech.thatgravyboat.sprout.Sprout;
 
 import java.util.function.Supplier;
 
 public class SproutParticles {
 
-    public static final Supplier<SimpleParticleType> SNOOZE = registerParticle("snooze", () -> new SimpleParticleType(false){});
-    public static final Supplier<SimpleParticleType> SHOOTS = registerParticle("shoots", () -> new SimpleParticleType(false){});
+    public static final ResourcefulRegistry<ParticleType<?>> PARTICLES = ResourcefulRegistries.create(Registry.PARTICLE_TYPE, Sprout.MODID);
 
-    public static void registerParticles() {
-        //initialize class
-    }
-
-    @ExpectPlatform
-    public static Supplier<SimpleParticleType> registerParticle(String name, Supplier<SimpleParticleType> particleSupplier) {
-        throw new AssertionError();
-    }
+    public static final Supplier<SimpleParticleType> SNOOZE = PARTICLES.register("snooze", () -> new SimpleParticleType(false){});
+    public static final Supplier<SimpleParticleType> SHOOTS = PARTICLES.register("shoots", () -> new SimpleParticleType(false){});
 }

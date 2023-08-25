@@ -3,7 +3,6 @@ package tech.thatgravyboat.sprout.common.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -29,7 +28,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.sprout.common.flowers.FlowerBreed;
 import tech.thatgravyboat.sprout.common.flowers.FlowerBreedTree;
+import tech.thatgravyboat.sprout.mixin.FlowerPotBlockAccessor;
 
+@SuppressWarnings("deprecation")
 public class FlowerBoxBlock extends BaseEntityBlock implements BonemealableBlock {
 
     public static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16, 8, 16);
@@ -61,6 +62,15 @@ public class FlowerBoxBlock extends BaseEntityBlock implements BonemealableBlock
                 case EAST -> state = state.setValue(EAST, true);
                 case WEST -> state = state.setValue(WEST, true);
             }
+            BlockState oppositeState = level.getBlockState(context.getClickedPos().relative(direction.getOpposite()));
+            if (oppositeState.is(this) && (getAxis(oppositeState) == null || getAxis(oppositeState) == direction.getAxis())) {
+                switch (direction.getOpposite()) {
+                    case SOUTH -> state = state.setValue(SOUTH, true);
+                    case NORTH -> state = state.setValue(NORTH, true);
+                    case EAST -> state = state.setValue(EAST, true);
+                    case WEST -> state = state.setValue(WEST, true);
+                }
+            }
             return state;
         }
         return super.getStateForPlacement(context);
@@ -75,10 +85,10 @@ public class FlowerBoxBlock extends BaseEntityBlock implements BonemealableBlock
             if (direction.getAxis() != axis && axis != null) return;
             boolean connected = level.getBlockState(pos2).getBlock() instanceof FlowerBoxBlock;
             switch (direction) {
-                case NORTH -> level.setBlockAndUpdate(pos, state.setValue(NORTH, connected));
-                case SOUTH -> level.setBlockAndUpdate(pos, state.setValue(SOUTH, connected));
-                case EAST -> level.setBlockAndUpdate(pos, state.setValue(EAST, connected));
-                case WEST -> level.setBlockAndUpdate(pos, state.setValue(WEST, connected));
+                case NORTH -> level.setBlock(pos, state.setValue(NORTH, connected), Block.UPDATE_CLIENTS);
+                case SOUTH -> level.setBlock(pos, state.setValue(SOUTH, connected), Block.UPDATE_CLIENTS);
+                case EAST -> level.setBlock(pos, state.setValue(EAST, connected), Block.UPDATE_CLIENTS);
+                case WEST -> level.setBlock(pos, state.setValue(WEST, connected), Block.UPDATE_CLIENTS);
             }
             return;
         }
@@ -91,11 +101,11 @@ public class FlowerBoxBlock extends BaseEntityBlock implements BonemealableBlock
     }
 
     @Override
-    public InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
         ItemStack item = player.getItemInHand(hand);
 
         if (level.getBlockEntity(pos) instanceof FlowerBoxBlockEntity flowerBox) {
-            if (flowerBox.getFlower() == null && item.getItem() instanceof BlockItem block && block.getBlock().builtInRegistryHolder().is(BlockTags.SMALL_FLOWERS)) {
+            if (flowerBox.getFlower() == null && item.getItem() instanceof BlockItem block && FlowerPotBlockAccessor.getFlowerPotMap().containsKey(block.getBlock())) {
                 flowerBox.setFlower(block.getBlock());
                 if (!player.getAbilities().instabuild) item.shrink(1);
                 return InteractionResult.sidedSuccess(level.isClientSide);
@@ -115,7 +125,7 @@ public class FlowerBoxBlock extends BaseEntityBlock implements BonemealableBlock
     }
 
     @Override
-    public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
@@ -158,7 +168,7 @@ public class FlowerBoxBlock extends BaseEntityBlock implements BonemealableBlock
     }
 
     @Override
-    public RenderShape getRenderShape(@NotNull BlockState state) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
 

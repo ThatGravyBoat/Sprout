@@ -1,0 +1,9 @@
+{
+    "parent": "minecraft:block/orientable_with_bottom",
+    "textures": {
+        "bottom": "sprout:block/peanut_block_bottom",
+        "front": "sprout:block/peanut_block_side",
+        "side": "sprout:block/peanut_block_side",
+        "top": "sprout:block/peanut_block_top"
+    }
+}

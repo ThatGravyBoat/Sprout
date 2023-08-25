@@ -1,7 +1,7 @@
 package tech.thatgravyboat.sprout.common.entities.goals;
 
 import tech.thatgravyboat.sprout.common.entities.ElephantEntity;
-import tech.thatgravyboat.sprout.common.utils.EntityPathingUtils;
+import tech.thatgravyboat.sprout.common.utils.EntityUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -12,7 +12,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class FindWaterGoal extends Goal {
-    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityPathingUtils.getPositionalOffsets(12);
+    private static final List<BlockPos> POSITIONAL_OFFSETS = EntityUtils.getPositionalOffsets(12);
 
     private final ElephantEntity elephant;
     @Nullable

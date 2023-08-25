@@ -2,7 +2,7 @@
   "type": "forge:add_features",
   "step": "vegetal_decoration",
   "biomes": [
-    "minecraft:meadow"
+    "minecraft:flower_forest"
   ],
   "features" : [
     "sprout:peanut_patch_common"
